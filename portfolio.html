@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shehab — Mechatronics Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f4f0;
+      --grey: #8a8a8a;
+      --light: #ececea;
+      --accent: #c8a96e;
+      --card-bg: #141414;
+      --border: rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 60px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(10,10,10,0.7);
+      border-bottom: 1px solid var(--border);
+      transition: padding 0.3s;
+    }
+    .nav-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.01em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      color: var(--grey);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 60px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(200,169,110,0.08) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 50% at 20% 80%, rgba(255,255,255,0.03) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero h1 {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(3.5rem, 8vw, 7.5rem);
+      line-height: 1.0;
+      font-weight: 400;
+      max-width: 900px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 1rem;
+      color: var(--grey);
+      max-width: 480px;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.6s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 44px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.8s forwards;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--white);
+      color: var(--black);
+      border: 1px solid var(--white);
+    }
+    .btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--black); }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.3); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 80px; right: 60px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--grey);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeIn 1s 1.2s forwards;
+    }
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: var(--grey);
+    }
+
+    /* ── SKILLS TICKER ── */
+    .ticker-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      background: rgba(255,255,255,0.02);
+    }
+    .ticker {
+      display: flex;
+      gap: 0;
+      animation: ticker 25s linear infinite;
+      width: max-content;
+    }
+    .ticker-item {
+      padding: 0 40px;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grey);
+      white-space: nowrap;
+      border-right: 1px solid var(--border);
+    }
+    .ticker-item span { color: var(--accent); margin-right: 10px; }
+
+    /* ── SECTION ── */
+    section { padding: 100px 60px; }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1.15;
+      margin-bottom: 60px;
+    }
+
+    /* ── PROJECTS GRID ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 2px;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s, border-color 0.3s;
+      position: relative;
+    }
+    .project-card:hover { transform: translateY(-4px); border-color: rgba(200,169,110,0.3); }
+    .project-card:hover .card-arrow { transform: translate(3px, -3px); }
+
+    .card-media {
+      aspect-ratio: 16/10;
+      background: #1a1a1a;
+      overflow: hidden;
+      position: relative;
+    }
+    .card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+      display: block;
+    }
+    .project-card:hover .card-media img { transform: scale(1.04); }
+    .card-media-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-media-placeholder svg { opacity: 0.12; }
+
+    .card-body { padding: 28px 28px 24px; }
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      color: var(--grey);
+      border-radius: 2px;
+    }
+    .card-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--grey);
+      line-height: 1.65;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      border-top: 1px solid var(--border);
+    }
+    .card-date { font-size: 0.75rem; color: var(--grey); letter-spacing: 0.06em; }
+    .card-arrow {
+      font-size: 1.1rem;
+      color: var(--accent);
+      transition: transform 0.2s;
+    }
+
+    /* ── ADD PROJECT CARD ── */
+    .add-card {
+      background: transparent;
+      border: 1px dashed rgba(200,169,110,0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: unset;
+      min-height: 320px;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+      gap: 16px;
+      color: var(--grey);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .add-card:hover { border-color: var(--accent); background: rgba(200,169,110,0.03); color: var(--accent); }
+    .add-icon {
+      width: 48px; height: 48px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    /* ── MODAL ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      background: #111;
+      border: 1px solid var(--border);
+      max-width: 820px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      border-radius: 6px;
+      animation: fadeUp 0.3s forwards;
+    }
+    .modal-hero { position: relative; }
+    .modal-img {
+      width: 100%;
+      aspect-ratio: 16/7;
+      object-fit: cover;
+      display: block;
+    }
+    .modal-img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/7;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      background: rgba(10,10,10,0.8);
+      border: 1px solid var(--border);
+      color: var(--white);
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: var(--card-bg); }
+    .modal-body { padding: 40px; }
+    .modal-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .modal-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+      line-height: 1.15;
+    }
+    .modal-desc { color: var(--grey); line-height: 1.75; font-size: 0.95rem; margin-bottom: 32px; }
+    .modal-files h4 {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .file-list { display: flex; flex-direction: column; gap: 8px; }
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-decoration: none;
+      color: var(--white);
+      font-size: 0.88rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .file-item:hover { border-color: rgba(200,169,110,0.4); background: rgba(200,169,110,0.05); }
+    .file-icon { font-size: 1rem; opacity: 0.7; }
+    .file-name { flex: 1; }
+    .file-size { color: var(--grey); font-size: 0.75rem; }
+
+    /* ── ABOUT ── */
+    #about { border-top: 1px solid var(--border); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--grey);
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+    }
+    .about-text p strong { color: var(--white); font-weight: 500; }
+    .skills-list { display: flex; flex-direction: column; gap: 16px; }
+    .skill-row { display: flex; flex-direction: column; gap: 6px; }
+    .skill-row-top { display: flex; justify-content: space-between; font-size: 0.8rem; }
+    .skill-name { color: var(--white); letter-spacing: 0.04em; }
+    .skill-pct { color: var(--grey); }
+    .skill-bar { height: 2px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden; }
+    .skill-fill { height: 100%; background: var(--accent); border-radius: 2px; width: 0; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+
+    /* ── CONTACT ── */
+    #contact { border-top: 1px solid var(--border); }
+    .contact-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 60px;
+    }
+    .contact-big {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      font-weight: 400;
+      line-height: 1.1;
+    }
+    .contact-big em { font-style: italic; color: var(--accent); }
+    .contact-links { display: flex; flex-direction: column; gap: 14px; align-items: flex-end; }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--grey);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .contact-link:hover { color: var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--grey);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 18px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 0 24px 60px; }
+      section { padding: 70px 24px; }
+      .about-grid { grid-template-columns: 1fr; gap: 50px; }
+      .contact-inner { flex-direction: column; align-items: flex-start; }
+      .contact-links { align-items: flex-start; }
+      footer { padding: 24px; flex-direction: column; gap: 10px; text-align: center; }
+      .hero-scroll { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Shehab.</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="cv.pdf" download class="btn btn-outline" style="padding:8px 18px;font-size:0.72rem;">Download CV</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-tag">Mechatronics Engineer · University of Birmingham</div>
+  <h1>Building things<br>that <em>move,</em><br>think & work.</h1>
+  <p class="hero-sub">
+    MEng Mechatronics student with hands-on experience in embedded systems,
+    control engineering, and hardware-software integration.
+  </p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn btn-primary">View My Work</a>
+    <a href="cv.pdf" download class="btn btn-outline">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
+      Download CV
+    </a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker" id="ticker"></div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">Selected Work</div>
+  <div class="section-title">Projects &amp; Builds</div>
+  <div class="projects-grid" id="projectsGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">About Me</div>
+  <div class="section-title">Engineer by training,<br><em style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--accent)">builder</em> by nature.</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a <strong>Mechatronics MEng student</strong> at the University of Birmingham — a discipline that sits at the intersection of mechanical engineering, electronics, and software. I care deeply about understanding the <em>why</em> behind systems, not just making them work.</p>
+      <p>I've worked in <strong>IT support at Talaat Moustafa Group</strong> and I'm actively building hands-on experience across embedded systems, motor control, sensors, and prototyping. I enjoy the challenge of making things that bridge the physical and digital world.</p>
+      <p>When I'm not in the lab, I'm watching video essays, thinking about F1 aero, or reading about biology. I believe the best engineers are curious about everything.</p>
+    </div>
+    <div>
+      <div class="skills-list" id="skillsList"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="contact-big">
+      Let's work<br><em>together.</em>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:shehab@email.com" class="contact-link">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        shehab@email.com
+      </a>
+      <a href="https://linkedin.com/in/shehab" target="_blank" class="contact-link">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a href="https://github.com/shehab" target="_blank" class="contact-link">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+        GitHub
+      </a>
+      <a href="cv.pdf" download class="btn btn-primary" style="margin-top:8px;">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
+        Download CV
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2026 Shehab. All rights reserved.</span>
+  <span>Mechatronics MEng · University of Birmingham</span>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modalBackdrop" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-hero">
+      <div id="modalMedia"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tags" id="modalTags"></div>
+      <div class="modal-title" id="modalTitle"></div>
+      <div class="modal-desc" id="modalDesc"></div>
+      <div class="modal-files" id="modalFiles"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── DATA ── Edit this to add/update your projects!
+const projects = [
+  {
+    id: 1,
+    title: "STM32 Motor Controller",
+    date: "2025",
+    tags: ["Embedded Systems", "C/C++", "STM32", "Mbed"],
+    description: "ADC-based motor speed control system built on an STM32 Nucleo board using Mbed OS. Implemented PWM output, serial communication, and real-time ADC sampling to drive a DC motor with closed-loop feedback.",
+    image: "", // Add image path e.g. "projects/motor-controller/cover.jpg"
+    files: [
+      { name: "main.cpp", type: "code", size: "4.2 KB", path: "projects/motor-controller/main.cpp" },
+      { name: "Lab Report.pdf", type: "pdf", size: "1.1 MB", path: "projects/motor-controller/report.pdf" },
+      { name: "Circuit Diagram.png", type: "image", size: "340 KB", path: "projects/motor-controller/circuit.png" },
+    ]
+  },
+  {
+    id: 2,
+    title: "RC Circuit & Capacitance Lab",
+    date: "2025",
+    tags: ["Physics", "Data Analysis", "Excel", "Circuits"],
+    description: "Experimental investigation of RC time constants and capacitance using electrometers. Derived dielectric permittivity values, plotted charge vs. voltage curves, and analysed results with Excel.",
+    image: "",
+    files: [
+      { name: "Pre-Lab Calculations.pdf", type: "pdf", size: "520 KB", path: "projects/rc-lab/prelab.pdf" },
+      { name: "Data & Analysis.xlsx", type: "data", size: "88 KB", path: "projects/rc-lab/data.xlsx" },
+    ]
+  }
+];
+
+const skills = [
+  { name: "Embedded Systems (STM32 / Mbed)", pct: 72 },
+  { name: "C / C++", pct: 68 },
+  { name: "Circuit Design & PCB", pct: 60 },
+  { name: "MATLAB / Simulink", pct: 55 },
+  { name: "Python", pct: 50 },
+  { name: "CAD (SolidWorks)", pct: 45 },
+];
+
+const tickerItems = [
+  "Embedded Systems", "Motor Control", "STM32 / Mbed",
+  "Circuit Design", "MATLAB", "Python", "CAD",
+  "Mechatronics", "Signal Processing", "Control Theory",
+  "Robotics", "Sensors & Actuators"
+];
+
+// ── RENDER TICKER ──
+const ticker = document.getElementById('ticker');
+const allItems = [...tickerItems, ...tickerItems]; // duplicate for seamless loop
+allItems.forEach(t => {
+  const el = document.createElement('div');
+  el.className = 'ticker-item';
+  el.innerHTML = `<span>✦</span>${t}`;
+  ticker.appendChild(el);
+});
+
+// ── RENDER PROJECTS ──
+const grid = document.getElementById('projectsGrid');
+
+projects.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'project-card';
+  card.onclick = () => openModal(p);
+
+  const mediaHTML = p.image
+    ? `<img src="${p.image}" alt="${p.title}">`
+    : `<div class="card-media-placeholder">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="1.5">
+          <rect x="8" y="12" width="48" height="36" rx="3"/>
+          <circle cx="23" cy="26" r="5"/>
+          <path d="M8 38l14-10 12 8 8-6 14 10"/>
+        </svg>
+       </div>`;
+
+  card.innerHTML = `
+    <div class="card-media">${mediaHTML}</div>
+    <div class="card-body">
+      <div class="card-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      <div class="card-title">${p.title}</div>
+      <div class="card-desc">${p.description.substring(0, 120)}…</div>
+    </div>
+    <div class="card-footer">
+      <span class="card-date">${p.date}</span>
+      <span class="card-arrow">↗</span>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+
+// Add Project button
+const addCard = document.createElement('div');
+addCard.className = 'project-card add-card';
+addCard.innerHTML = `<div class="add-icon">+</div><span>Add New Project</span>`;
+addCard.onclick = () => alert('To add a project, open index.html and add an entry to the "projects" array at the top of the <script> tag.');
+grid.appendChild(addCard);
+
+// ── RENDER SKILLS ──
+const skillsList = document.getElementById('skillsList');
+skills.forEach(s => {
+  const el = document.createElement('div');
+  el.className = 'skill-row';
+  el.innerHTML = `
+    <div class="skill-row-top">
+      <span class="skill-name">${s.name}</span>
+      <span class="skill-pct">${s.pct}%</span>
+    </div>
+    <div class="skill-bar"><div class="skill-fill" data-pct="${s.pct}"></div></div>
+  `;
+  skillsList.appendChild(el);
+});
+
+// Animate skill bars on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.skill-fill').forEach(bar => {
+        bar.style.width = bar.dataset.pct + '%';
+      });
+    }
+  });
+}, { threshold: 0.3 });
+observer.observe(document.getElementById('about'));
+
+// ── MODAL ──
+const fileIcons = { pdf: '📄', code: '💻', image: '🖼️', data: '📊' };
+
+function openModal(p) {
+  document.getElementById('modalMedia').innerHTML = p.image
+    ? `<img class="modal-img" src="${p.image}" alt="${p.title}">`
+    : `<div class="modal-img-placeholder">
+        <svg width="80" height="80" viewBox="0 0 64 64" fill="none" stroke="white" stroke-width="1" opacity="0.15">
+          <rect x="8" y="12" width="48" height="36" rx="3"/>
+          <circle cx="23" cy="26" r="5"/>
+          <path d="M8 38l14-10 12 8 8-6 14 10"/>
+        </svg>
+       </div>`;
+  document.getElementById('modalTags').innerHTML = p.tags.map(t => `<span class="tag">${t}</span>`).join('');
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalDesc').textContent = p.description;
+
+  const filesEl = document.getElementById('modalFiles');
+  if (p.files && p.files.length) {
+    filesEl.innerHTML = `<h4>Project Files</h4>
+      <div class="file-list">
+        ${p.files.map(f => `
+          <a href="${f.path}" download class="file-item">
+            <span class="file-icon">${fileIcons[f.type] || '📎'}</span>
+            <span class="file-name">${f.name}</span>
+            <span class="file-size">${f.size}</span>
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 15V3m0 12l-4-4m4 4l4-4M2 17l.621 2.485A2 2 0 004.561 21h14.878a2 2 0 001.94-1.515L22 17"/></svg>
+          </a>`).join('')}
+      </div>`;
+  } else {
+    filesEl.innerHTML = '';
+  }
+  document.getElementById('modalBackdrop').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalBackdrop') || e.target.closest('.modal-close')) {
+    document.getElementById('modalBackdrop').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
