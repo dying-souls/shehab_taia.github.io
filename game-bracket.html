@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Tournament</title>
+<title>Bracket Tournament</title>
 
 <style>
   @import url('https://fonts.bunny.net/css?family=bebas-neue:400|dm-sans:300,400,500,600&display=swap');
@@ -204,14 +204,14 @@
 <div id="setup-screen">
   <div class="setup-card">
     <div class="logo">BRACKET</div>
-    <div class="tagline">Find your favourite game — one match at a time</div>
+    <div class="tagline">Find your favourite — one match at a time</div>
     <div class="label">
-      Your Games
-      <span class="game-count" id="count-badge">0 games</span>
+      Your List
+      <span class="game-count" id="count-badge">0 items</span>
     </div>
-    <textarea id="game-input" placeholder="Hollow Knight&#10;Celeste&#10;Hades&#10;Dark Souls III&#10;Disco Elysium&#10;...one game per line"></textarea>
+    <textarea id="game-input" placeholder="Hollow Knight&#10;The Dark Knight&#10;Bohemian Rhapsody&#10;Breaking Bad&#10;...one item per line"></textarea>
     <div class="hint">Paste your full list — duplicates and blank lines are removed automatically.</div>
-    <div class="error-msg" id="error-msg">Please enter at least 2 games to start.</div>
+    <div class="error-msg" id="error-msg">Please enter at least 2 items to start.</div>
     <button class="start-btn" onclick="startTournament()">START TOURNAMENT</button>
   </div>
 </div>
@@ -235,13 +235,13 @@
     <div class="game-card" id="card-a" onclick="pick(0)">
       <div class="card-number">OPTION A</div>
       <div class="game-name" id="name-a">—</div>
-      <div class="pick-hint">Click to choose this game</div>
+      <div class="pick-hint">Click to choose</div>
     </div>
     <div class="vs-label">VS</div>
     <div class="game-card" id="card-b" onclick="pick(1)">
       <div class="card-number">OPTION B</div>
       <div class="game-name" id="name-b">—</div>
-      <div class="pick-hint">Click to choose this game</div>
+      <div class="pick-hint">Click to choose</div>
     </div>
     <button class="skip-btn" onclick="skip()">⏭ Can't decide — skip this one</button>
   </div>
@@ -311,7 +311,7 @@ function buildRoundNames(n) {
 
 document.getElementById('game-input').addEventListener('input', function () {
   const g = parseGames(this.value);
-  document.getElementById('count-badge').textContent = g.length + ' game' + (g.length !== 1 ? 's' : '');
+  document.getElementById('count-badge').textContent = g.length + ' item' + (g.length !== 1 ? 's' : '');
 });
 
 // ── Start ──────────────────────────────────────
@@ -422,7 +422,7 @@ function showResults(champion) {
   document.getElementById('battle-screen').style.display = 'none';
   document.getElementById('results-screen').style.display = 'flex';
   document.getElementById('results-subtitle').textContent =
-    `${totalGames} games · ${currentRound + 1} rounds played`;
+    `${totalGames} items · ${currentRound + 1} rounds played`;
 
   // Group eliminated by round (descending = best losers first)
   const byRound = {};
@@ -441,7 +441,7 @@ function showResults(champion) {
   // Champion
   const champGroup = document.createElement('div');
   champGroup.className = 'tier-group tier-champion';
-  champGroup.innerHTML = `<div class="tier-label"><span class="tier-badge">CHAMPION</span>Your favourite game</div>`;
+  champGroup.innerHTML = `<div class="tier-label"><span class="tier-badge">CHAMPION</span>Your favourite</div>`;
   champGroup.appendChild(makeRow(rank++, champion, '🥇', 'Winner', 'row-champion', 0));
   container.appendChild(champGroup);
 
@@ -514,7 +514,7 @@ function restart() {
   document.getElementById('results-screen').style.display = 'none';
   document.getElementById('setup-screen').style.display = 'flex';
   document.getElementById('game-input').value = '';
-  document.getElementById('count-badge').textContent = '0 games';
+  document.getElementById('count-badge').textContent = '0 items';
 }
 </script>
 
