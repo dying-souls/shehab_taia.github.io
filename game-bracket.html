@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Tournament</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–bg: #0a0a0f;
+–surface: #13131a;
+–surface2: #1c1c28;
+–border: #2a2a3a;
+–accent: #e8c44a;
+–accent2: #c084fc;
+–text: #f0f0f0;
+–muted: #6b6b80;
+–win: #4ade80;
+}
+
+body {
+font-family: ‘DM Sans’, sans-serif;
+background: var(–bg);
+color: var(–text);
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+.bg-grid {
+position: fixed; inset: 0;
+background-image:
+linear-gradient(rgba(232,196,74,0.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(232,196,74,0.03) 1px, transparent 1px);
+background-size: 60px 60px;
+pointer-events: none; z-index: 0;
+}
+.bg-glow {
+position: fixed; width: 600px; height: 600px;
+background: radial-gradient(circle, rgba(192,132,252,0.07) 0%, transparent 70%);
+top: -100px; right: -100px; pointer-events: none; z-index: 0;
+}
+
+/* ── SETUP ─────────────────────────────── */
+#setup-screen {
+min-height: 100vh; display: flex; flex-direction: column;
+align-items: center; justify-content: center; padding: 40px 20px; position: relative; z-index: 1;
+}
+.setup-card {
+background: var(–surface); border: 1px solid var(–border);
+border-radius: 20px; padding: 48px; width: 100%; max-width: 640px;
+}
+.logo {
+font-family: ‘Bebas Neue’, sans-serif; font-size: 52px;
+letter-spacing: 4px; line-height: 1; margin-bottom: 6px;
+background: linear-gradient(135deg, var(–accent), var(–accent2));
+-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.tagline { color: var(–muted); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 36px; }
+.label {
+font-size: 12px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+color: var(–muted); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
+}
+.game-count { background: var(–accent); color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+textarea {
+width: 100%; height: 260px; background: var(–surface2); border: 1px solid var(–border);
+border-radius: 12px; color: var(–text); font-family: ‘DM Sans’, sans-serif;
+font-size: 14px; line-height: 1.7; padding: 16px; resize: vertical; outline: none; transition: border-color 0.2s;
+}
+textarea:focus { border-color: var(–accent); }
+textarea::placeholder { color: var(–muted); }
+.hint { font-size: 12px; color: var(–muted); margin-top: 8px; }
+.error-msg { color: #f87171; font-size: 13px; margin-top: 10px; display: none; }
+.start-btn {
+margin-top: 28px; width: 100%; padding: 18px; background: var(–accent); color: #000;
+font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; letter-spacing: 3px;
+border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s;
+}
+.start-btn:hover { background: #f0d060; transform: translateY(-1px); }
+.start-btn:active { transform: translateY(0); }
+
+/* ── BATTLE ─────────────────────────────── */
+#battle-screen {
+display: none; min-height: 100vh; flex-direction: column;
+align-items: center; padding: 30px 20px 60px; position: relative; z-index: 1;
+}
+.top-bar {
+width: 100%; max-width: 720px; display: flex; align-items: center;
+justify-content: space-between; margin-bottom: 32px; flex-wrap: wrap; gap: 12px;
+}
+.round-label { font-family: ‘Bebas Neue’, sans-serif; font-size: 28px; letter-spacing: 3px; color: var(–accent); }
+.progress-wrap { flex: 1; max-width: 300px; margin: 0 16px; }
+.progress-text { font-size: 12px; color: var(–muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+.progress-bar { height: 4px; background: var(–surface2); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(–accent), var(–accent2)); border-radius: 2px; transition: width 0.4s ease; }
+.match-counter { font-size: 13px; color: var(–muted); white-space: nowrap; }
+
+.vs-arena { width: 100%; max-width: 720px; position: relative; z-index: 1; }
+.vs-label {
+text-align: center; font-family: ‘Bebas Neue’, sans-serif; font-size: 64px;
+letter-spacing: 8px; color: var(–border); margin: -10px 0; line-height: 1;
+}
+.game-card {
+background: var(–surface); border: 2px solid var(–border); border-radius: 20px;
+padding: 36px 40px; cursor: pointer; transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+position: relative; overflow: hidden; text-align: center; user-select: none;
+}
+.game-card::before { content: ‘’; position: absolute; inset: 0; opacity: 0; transition: opacity 0.2s; }
+.game-card:first-child::before { background: linear-gradient(135deg, rgba(232,196,74,0.07), transparent); }
+.game-card:last-child::before  { background: linear-gradient(135deg, rgba(192,132,252,0.07), transparent); }
+.game-card:hover { border-color: var(–accent); transform: translateY(-4px) scale(1.01); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.game-card:hover::before { opacity: 1; }
+.game-card:last-child:hover { border-color: var(–accent2); }
+.game-card.chosen { border-color: var(–win); background: rgba(74,222,128,0.06); transform: scale(1.02); }
+.game-card.lost { opacity: 0.3; transform: scale(0.97); pointer-events: none; }
+.card-number { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(–muted); margin-bottom: 12px; }
+.game-name { font-family: ‘Bebas Neue’, sans-serif; font-size: 36px; letter-spacing: 2px; line-height: 1.1; word-break: break-word; }
+.pick-hint { font-size: 12px; color: var(–muted); margin-top: 10px; }
+.skip-btn {
+margin: 28px auto 0; display: block; background: transparent; border: 1px solid var(–border);
+color: var(–muted); padding: 10px 24px; border-radius: 8px; cursor: pointer;
+font-family: ‘DM Sans’, sans-serif; font-size: 13px; transition: all 0.2s;
+}
+.skip-btn:hover { border-color: var(–muted); color: var(–text); }
+
+/* ── RESULTS ─────────────────────────────── */
+#results-screen {
+display: none; min-height: 100vh; flex-direction: column;
+align-items: center; padding: 40px 20px 80px; position: relative; z-index: 1;
+}
+.results-header { text-align: center; margin-bottom: 48px; }
+.results-eyebrow { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(–muted); margin-bottom: 8px; }
+.results-title {
+font-family: ‘Bebas Neue’, sans-serif; font-size: 64px; letter-spacing: 4px; line-height: 1;
+background: linear-gradient(135deg, var(–accent), var(–accent2));
+-webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.results-subtitle { color: var(–muted); font-size: 14px; margin-top: 8px; }
+
+.results-list { width: 100%; max-width: 680px; }
+
+.tier-group { margin-bottom: 32px; }
+.tier-label {
+font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+color: var(–muted); margin-bottom: 12px; padding-bottom: 8px;
+border-bottom: 1px solid var(–border);
+display: flex; align-items: center; gap: 10px;
+}
+.tier-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 700; letter-spacing: 1px; }
+.tier-champion .tier-badge { background: var(–accent); color: #000; }
+.tier-finalist .tier-badge { background: #9ca3af; color: #000; }
+.tier-semifinal .tier-badge { background: #cd7f32; color: #000; }
+.tier-other .tier-badge { background: var(–surface2); color: var(–muted); border: 1px solid var(–border); }
+
+.result-row {
+display: flex; align-items: center; gap: 16px;
+background: var(–surface); border: 1px solid var(–border);
+border-radius: 12px; padding: 14px 20px; margin-bottom: 8px;
+animation: fadeUp 0.35s ease both;
+}
+.result-row:hover { background: var(–surface2); }
+
+.result-rank { font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; color: var(–muted); min-width: 36px; text-align: right; }
+.result-medal { font-size: 20px; min-width: 26px; text-align: center; }
+.result-name { font-size: 15px; font-weight: 500; flex: 1; }
+.result-round { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(–muted); text-align: right; white-space: nowrap; }
+
+.row-champion { border-color: rgba(232,196,74,0.4); background: rgba(232,196,74,0.05); }
+.row-champion .result-rank { color: var(–accent); }
+.row-finalist { border-color: rgba(156,163,175,0.25); }
+.row-semifinal { border-color: rgba(205,127,50,0.2); }
+
+.results-actions { margin-top: 40px; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.btn-primary {
+padding: 14px 36px; background: var(–accent); color: #000;
+font-family: ‘Bebas Neue’, sans-serif; font-size: 18px; letter-spacing: 2px;
+border: none; border-radius: 10px; cursor: pointer; transition: all 0.2s;
+}
+.btn-primary:hover { background: #f0d060; transform: translateY(-1px); }
+.btn-secondary {
+padding: 14px 36px; background: transparent; border: 2px solid var(–border); color: var(–muted);
+font-family: ‘Bebas Neue’, sans-serif; font-size: 18px; letter-spacing: 2px;
+border-radius: 10px; cursor: pointer; transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(–muted); color: var(–text); }
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(12px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+</head>
+<body>
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- SETUP -->
+
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="logo">BRACKET</div>
+    <div class="tagline">Find your favourite game — one match at a time</div>
+    <div class="label">
+      Your Games
+      <span class="game-count" id="count-badge">0 games</span>
+    </div>
+    <textarea id="game-input" placeholder="Hollow Knight&#10;Celeste&#10;Hades&#10;Dark Souls III&#10;Disco Elysium&#10;...one game per line"></textarea>
+    <div class="hint">Paste your full list — duplicates and blank lines are removed automatically.</div>
+    <div class="error-msg" id="error-msg">Please enter at least 2 games to start.</div>
+    <button class="start-btn" onclick="startTournament()">START TOURNAMENT</button>
+  </div>
+</div>
+
+<!-- BATTLE -->
+
+<div id="battle-screen">
+  <div class="top-bar">
+    <div class="round-label" id="round-label">ROUND 1</div>
+    <div class="progress-wrap">
+      <div class="progress-text">
+        <span>Progress</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+    <div class="match-counter" id="match-counter"></div>
+  </div>
+
+  <div class="vs-arena">
+    <div class="game-card" id="card-a" onclick="pick(0)">
+      <div class="card-number">OPTION A</div>
+      <div class="game-name" id="name-a">—</div>
+      <div class="pick-hint">Click to choose this game</div>
+    </div>
+    <div class="vs-label">VS</div>
+    <div class="game-card" id="card-b" onclick="pick(1)">
+      <div class="card-number">OPTION B</div>
+      <div class="game-name" id="name-b">—</div>
+      <div class="pick-hint">Click to choose this game</div>
+    </div>
+    <button class="skip-btn" onclick="skip()">⏭ Can't decide — skip this one</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+
+<div id="results-screen">
+  <div class="results-header">
+    <div class="results-eyebrow">Tournament Complete</div>
+    <div class="results-title">YOUR TIER LIST</div>
+    <div class="results-subtitle" id="results-subtitle"></div>
+  </div>
+  <div class="results-list" id="results-list"></div>
+  <div class="results-actions">
+    <button class="btn-primary" onclick="restart()">PLAY AGAIN</button>
+    <button class="btn-secondary" onclick="copyResults()">COPY LIST</button>
+  </div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────
+let pool = [];
+let nextPool = [];
+let eliminated = [];   // { game, round (0-indexed), roundName }
+let currentRound = 0;
+let matchIndex = 0;
+let totalGames = 0;
+let totalMatches = 0;
+let completedMatches = 0;
+let roundNames = [];
+
+// ── Helpers ────────────────────────────────────
+function parseGames(text) {
+  return [...new Set(text.split('\n').map(s => s.trim()).filter(Boolean))];
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function estimateMatches(n) {
+  let t = 0, p = n;
+  while (p > 1) { t += Math.floor(p / 2); p = Math.ceil(p / 2); }
+  return t;
+}
+
+function buildRoundNames(n) {
+  // Build round names from the start, indexed by round number (0-based)
+  // We don't know total rounds upfront precisely, so we generate lazily
+  const names = [];
+  let p = n, r = 0;
+  while (p > 1) {
+    if (Math.ceil(p / 2) <= 1)      names.push('FINAL');
+    else if (Math.ceil(p / 2) <= 2) names.push('SEMI-FINAL');
+    else if (Math.ceil(p / 2) <= 4) names.push('QUARTER-FINAL');
+    else                             names.push(`ROUND ${r + 1}`);
+    p = Math.ceil(p / 2); r++;
+  }
+  return names;
+}
+
+document.getElementById('game-input').addEventListener('input', function () {
+  const g = parseGames(this.value);
+  document.getElementById('count-badge').textContent = g.length + ' game' + (g.length !== 1 ? 's' : '');
+});
+
+// ── Start ──────────────────────────────────────
+function startTournament() {
+  const games = parseGames(document.getElementById('game-input').value);
+  if (games.length < 2) { document.getElementById('error-msg').style.display = 'block'; return; }
+  document.getElementById('error-msg').style.display = 'none';
+
+  pool = shuffle(games);
+  nextPool = [];
+  eliminated = [];
+  currentRound = 0;
+  matchIndex = 0;
+  totalGames = games.length;
+  totalMatches = estimateMatches(games.length);
+  completedMatches = 0;
+  roundNames = buildRoundNames(games.length);
+
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('battle-screen').style.display = 'flex';
+  renderMatch();
+}
+
+// ── Battle ─────────────────────────────────────
+function getRoundName() {
+  return roundNames[currentRound] || `ROUND ${currentRound + 1}`;
+}
+
+function renderMatch() {
+  if (matchIndex * 2 >= pool.length) {
+    endRound();
+    return;
+  }
+
+  const gameA = pool[matchIndex * 2];
+  const gameB = pool[matchIndex * 2 + 1];
+
+  if (gameB === undefined) {
+    // Bye
+    nextPool.push(gameA);
+    matchIndex++;
+    renderMatch();
+    return;
+  }
+
+  document.getElementById('name-a').textContent = gameA;
+  document.getElementById('name-b').textContent = gameB;
+  document.getElementById('round-label').textContent = getRoundName();
+
+  const matchInRound = matchIndex + 1;
+  const totalInRound = Math.floor(pool.length / 2);
+  document.getElementById('match-counter').textContent = `Match ${matchInRound} / ${totalInRound} this round`;
+
+  const pct = Math.round((completedMatches / totalMatches) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+
+  ['card-a', 'card-b'].forEach(id => {
+    document.getElementById(id).classList.remove('chosen', 'lost');
+  });
+}
+
+function pick(idx) {
+  const gameA = pool[matchIndex * 2];
+  const gameB = pool[matchIndex * 2 + 1];
+  const winner = idx === 0 ? gameA : gameB;
+  const loser  = idx === 0 ? gameB : gameA;
+
+  document.getElementById(idx === 0 ? 'card-a' : 'card-b').classList.add('chosen');
+  document.getElementById(idx === 0 ? 'card-b' : 'card-a').classList.add('lost');
+
+  nextPool.push(winner);
+  eliminated.push({ game: loser, round: currentRound, roundName: getRoundName() });
+
+  completedMatches++;
+  matchIndex++;
+  setTimeout(renderMatch, 380);
+}
+
+function skip() {
+  const gameA = pool[matchIndex * 2];
+  const gameB = pool[matchIndex * 2 + 1];
+  const winner = Math.random() < 0.5 ? gameA : gameB;
+  const loser  = winner === gameA ? gameB : gameA;
+
+  nextPool.push(winner);
+  eliminated.push({ game: loser, round: currentRound, roundName: getRoundName() });
+
+  completedMatches++;
+  matchIndex++;
+  renderMatch();
+}
+
+function endRound() {
+  if (nextPool.length <= 1) {
+    showResults(nextPool[0] || pool[0]);
+    return;
+  }
+  pool = shuffle(nextPool);
+  nextPool = [];
+  matchIndex = 0;
+  currentRound++;
+  renderMatch();
+}
+
+// ── Results ────────────────────────────────────
+function showResults(champion) {
+  document.getElementById('battle-screen').style.display = 'none';
+  document.getElementById('results-screen').style.display = 'flex';
+  document.getElementById('results-subtitle').textContent =
+    `${totalGames} games · ${currentRound + 1} rounds played`;
+
+  // Group eliminated by round (descending = best losers first)
+  const byRound = {};
+  eliminated.forEach(e => {
+    if (!byRound[e.round]) byRound[e.round] = { roundName: e.roundName, games: [] };
+    byRound[e.round].games.push(e.game);
+  });
+
+  const sortedRounds = Object.keys(byRound).map(Number).sort((a, b) => b - a);
+  const finalRound = currentRound; // the round where champion won
+
+  const container = document.getElementById('results-list');
+  container.innerHTML = '';
+  let rank = 1;
+
+  // Champion
+  const champGroup = document.createElement('div');
+  champGroup.className = 'tier-group tier-champion';
+  champGroup.innerHTML = `<div class="tier-label"><span class="tier-badge">CHAMPION</span>Your favourite game</div>`;
+  champGroup.appendChild(makeRow(rank++, champion, '🥇', 'Winner', 'row-champion', 0));
+  container.appendChild(champGroup);
+
+  // Each elimination tier
+  sortedRounds.forEach(roundKey => {
+    const { roundName, games } = byRound[roundKey];
+    const gamesFromFinal = finalRound - roundKey;
+
+    let tierClass = 'tier-other';
+    let tierTitle = `Eliminated in ${roundName}`;
+    let medalFn = () => '';
+    let rowClass = '';
+
+    if (gamesFromFinal === 1) {
+      // Lost to champion in the final
+      tierClass = 'tier-finalist';
+      tierTitle = 'Runner-Up — lost in the Final';
+      medalFn = () => '🥈';
+      rowClass = 'row-finalist';
+    } else if (gamesFromFinal === 2) {
+      tierClass = 'tier-semifinal';
+      tierTitle = 'Semi-Finalists';
+      medalFn = () => '🥉';
+      rowClass = 'row-semifinal';
+    }
+
+    const group = document.createElement('div');
+    group.className = `tier-group ${tierClass}`;
+    group.innerHTML = `<div class="tier-label"><span class="tier-badge">${roundName}</span>${tierTitle}</div>`;
+
+    games.forEach(g => {
+      group.appendChild(makeRow(rank++, g, medalFn(), roundName, rowClass, rank * 0.03));
+    });
+
+    container.appendChild(group);
+  });
+}
+
+function makeRow(rank, name, medal, roundName, extraClass, delay) {
+  const row = document.createElement('div');
+  row.className = `result-row ${extraClass || ''}`;
+  row.style.animationDelay = `${Math.min(delay || 0, 1.5)}s`;
+  row.style.opacity = '0';
+  // Trigger reflow then animate
+  requestAnimationFrame(() => { row.style.opacity = ''; });
+  row.innerHTML = `
+    <div class="result-rank">${rank}</div>
+    <div class="result-medal">${medal}</div>
+    <div class="result-name">${name}</div>
+    <div class="result-round">Out: ${roundName}</div>
+  `;
+  return row;
+}
+
+function copyResults() {
+  const rows = document.querySelectorAll('.result-row');
+  const lines = [...rows].map(r => {
+    const rank = r.querySelector('.result-rank').textContent.trim();
+    const name = r.querySelector('.result-name').textContent.trim();
+    return `${rank}. ${name}`;
+  });
+  navigator.clipboard.writeText(lines.join('\n')).then(() => {
+    const btn = document.querySelector('.btn-secondary');
+    btn.textContent = 'COPIED!';
+    setTimeout(() => btn.textContent = 'COPY LIST', 2000);
+  });
+}
+
+function restart() {
+  document.getElementById('results-screen').style.display = 'none';
+  document.getElementById('setup-screen').style.display = 'flex';
+  document.getElementById('game-input').value = '';
+  document.getElementById('count-badge').textContent = '0 games';
+}
+</script>
+
+</body>
+</html>
