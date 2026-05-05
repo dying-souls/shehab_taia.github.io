@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exam Study Plan — May 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #e8e4dc;
+    --muted: #666;
+    --micro: #4fa3e0;
+    --micro-bg: rgba(79,163,224,0.08);
+    --micro-border: rgba(79,163,224,0.2);
+    --ctrl: #a78bfa;
+    --ctrl-bg: rgba(167,139,250,0.08);
+    --ctrl-border: rgba(167,139,250,0.2);
+    --em: #6ee7b7;
+    --em-bg: rgba(110,231,183,0.08);
+    --em-border: rgba(110,231,183,0.2);
+    --paper: #fbbf24;
+    --paper-bg: rgba(251,191,36,0.08);
+    --paper-border: rgba(251,191,36,0.2);
+    --admin: #9ca3af;
+    --admin-bg: rgba(156,163,175,0.08);
+    --admin-border: rgba(156,163,175,0.2);
+    --exam: #f87171;
+    --exam-bg: rgba(248,113,113,0.1);
+    --exam-border: rgba(248,113,113,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  header {
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+
+  h1 span {
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  .progress-wrap {
+    min-width: 160px;
+    text-align: right;
+  }
+
+  .progress-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--micro), var(--ctrl));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-count {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 5px;
+    text-align: right;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .legend-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .day {
+    margin-bottom: 2.5rem;
+  }
+
+  .day-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .day-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .day-date {
+    font-size: 0.75rem;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+  }
+
+  .day-badge {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-left: auto;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin: 1rem 0 0.5rem;
+  }
+
+  .tasks { display: flex; flex-direction: column; gap: 5px; }
+
+  .task {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+  }
+
+  .task:hover { filter: brightness(1.15); }
+
+  .task.micro { background: var(--micro-bg); border-color: var(--micro-border); }
+  .task.ctrl  { background: var(--ctrl-bg);  border-color: var(--ctrl-border);  }
+  .task.em    { background: var(--em-bg);    border-color: var(--em-border);    }
+  .task.paper { background: var(--paper-bg); border-color: var(--paper-border); }
+  .task.admin { background: var(--admin-bg); border-color: var(--admin-border); }
+
+  .task.done {
+    opacity: 0.4;
+  }
+
+  .task.done .task-text {
+    text-decoration: line-through;
+  }
+
+  .checkbox {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    background: transparent;
+  }
+
+  .task.micro .checkbox { border-color: var(--micro); }
+  .task.ctrl  .checkbox { border-color: var(--ctrl); }
+  .task.em    .checkbox { border-color: var(--em); }
+  .task.paper .checkbox { border-color: var(--paper); }
+  .task.admin .checkbox { border-color: var(--admin); }
+
+  .task.done .checkbox {
+    background: currentColor;
+    border-color: currentColor;
+  }
+  .task.micro.done .checkbox { background: var(--micro); }
+  .task.ctrl.done  .checkbox { background: var(--ctrl); }
+  .task.em.done    .checkbox { background: var(--em); }
+  .task.paper.done .checkbox { background: var(--paper); }
+  .task.admin.done .checkbox { background: var(--admin); }
+
+  .checkbox svg { display: none; }
+  .task.done .checkbox svg { display: block; }
+
+  .task-text {
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.4;
+    flex: 1;
+    color: var(--text);
+  }
+
+  .task-tag {
+    font-size: 0.6rem;
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 7px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .tag-micro { color: var(--micro); background: var(--micro-bg); border: 1px solid var(--micro-border); }
+  .tag-ctrl  { color: var(--ctrl);  background: var(--ctrl-bg);  border: 1px solid var(--ctrl-border);  }
+  .tag-em    { color: var(--em);    background: var(--em-bg);    border: 1px solid var(--em-border);    }
+  .tag-paper { color: var(--paper); background: var(--paper-bg); border: 1px solid var(--paper-border); }
+  .tag-admin { color: var(--admin); background: var(--admin-bg); border: 1px solid var(--admin-border); }
+
+  .exam-card {
+    background: var(--exam-bg);
+    border: 1px solid var(--exam-border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+  }
+
+  .exam-card .exam-title {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--exam);
+    margin-bottom: 4px;
+  }
+
+  .exam-card .exam-sub {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 2.5rem 0;
+  }
+
+  .note {
+    background: var(--surface2);
+    border-left: 3px solid var(--paper);
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 500px) {
+    .task-tag { display: none; }
+    .day-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-top">
+      <h1>Study Plan<br><span>Exams: 12 May & 15 May</span></h1>
+      <div class="progress-wrap">
+        <div class="progress-label">Progress</div>
+        <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+        <div class="progress-count" id="count">0 / 0 tasks</div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--micro)"></div>Microprocessors</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--ctrl)"></div>Control</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--em)"></div>EM & Analogue</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--paper)"></div>Past papers</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--admin)"></div>Admin</div>
+    </div>
+  </header>
+
+  <div class="note">
+    Tasks not time blocks. Finish one, tick it, move on. Distraction between tasks is fine — distraction mid-task, get back in. Progress is saved in your browser automatically.
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="day">
+    <div class="day-header">
+      <span class="day-name">Day 1</span>
+      <span class="day-date">Tue 5 May</span>
+      <span class="day-badge tag-micro">Micro blitz starts</span>
+    </div>
+    <div class="section-label">Microprocessors — weeks 1–5 (new territory)</div>
+    <div class="tasks">
+      <div class="task micro" onclick="toggle(this)" data-id="d1t1"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 1 — Intro to microprocessors</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d1t2"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 2 — Microprocessor basics</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d1t3"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 3 — Intel 8086</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d1t4"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 4 — Microcontrollers</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d1t5"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 5 — ARM7, RISC/CISC architectures</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d1t6"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Tutorial sheets weeks 1–5 (attempt before checking)</span><span class="task-tag tag-micro">Micro</span></div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day">
+    <div class="day-header">
+      <span class="day-name">Day 2</span>
+      <span class="day-date">Wed 6 May</span>
+      <span class="day-badge tag-micro">Micro blitz ends</span>
+    </div>
+    <div class="section-label">Microprocessors — weeks 6–10 (familiar from STM32 lab)</div>
+    <div class="tasks">
+      <div class="task micro" onclick="toggle(this)" data-id="d2t1"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 6 — ADC, sampling, quantisation</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d2t2"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 7 — Serial comms, RS232, UART, USB</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d2t3"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 8 — SPI, master/slave, I2C</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d2t4"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 9 — Further topics, PWM</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d2t5"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write notes: Week 10 — Sensors, actuators, mechatronics</span><span class="task-tag tag-micro">Micro</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d2t6"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Tutorial sheets weeks 6–10</span><span class="task-tag tag-micro">Micro</span></div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day">
+    <div class="day-header">
+      <span class="day-name">Day 3</span>
+      <span class="day-date">Thu 7 May</span>
+      <span class="day-badge tag-ctrl">Control revision</span>
+    </div>
+    <div class="section-label">Control — notes review + tutorial sheets</div>
+    <div class="tasks">
+      <div class="task ctrl" onclick="toggle(this)" data-id="d3t1"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Read through all Control notes — flag anything unclear</span><span class="task-tag tag-ctrl">Control</span></div>
+      <div class="task ctrl" onclick="toggle(this)" data-id="d3t2"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Tutorial sheets weeks 1–5</span><span class="task-tag tag-ctrl">Control</span></div>
+      <div class="task ctrl" onclick="toggle(this)" data-id="d3t3"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Tutorial sheets weeks 6–10</span><span class="task-tag tag-ctrl">Control</span></div>
+      <div class="task ctrl" onclick="toggle(this)" data-id="d3t4"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Write out any gaps from flagged unclear topics</span><span class="task-tag tag-ctrl">Control</span></div>
+    </div>
+    <div class="section-label">Micro — first past paper</div>
+    <div class="tasks">
+      <div class="task paper" onclick="toggle(this)" data-id="d3t5"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Micro: attempt past paper 1</span><span class="task-tag tag-paper">Past paper</span></div>
+    </div>
+  </div>
+
+  <!-- DAY 4 -->
+  <div class="day">
+    <div class="day-header">
+      <span class="day-name">Day 4</span>
+      <span class="day-date">Fri 8 May</span>
+      <span class="day-badge tag-paper">Past paper day</span>
+    </div>
+    <div class="tasks">
+      <div class="task paper" onclick="toggle(this)" data-id="d4t1"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Control: past paper 1</span><span class="task-tag tag-paper">Past paper</span></div>
+      <div class="task paper" onclick="toggle(this)" data-id="d4t2"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Micro: past paper 2</span><span class="task-tag tag-paper">Past paper</span></div>
+      <div class="task paper" onclick="toggle(this)" data-id="d4t3"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Control: past paper 2</span><span class="task-tag tag-paper">Past paper</span></div>
+      <div class="task ctrl" onclick="toggle(this)" data-id="d4t4"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Control: revisit weak spots only</span><span class="task-tag tag-ctrl">Control</span></div>
+      <div class="task micro" onclick="toggle(this)" data-id="d4t5"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Micro: revisit weak spots only</span><span class="task-tag tag-micro">Micro</span></div>
+    </div>
+  </div>
+
+  <!-- BUFFER -->
+  <div class="day">
+    <div class="day-header">
+      <span class="day-name">Buffer</span>
+      <span class="day-date">Sat 9 – Mon 11 May</span>
+      <span class="day-badge tag-admin">Overflow</span>
+    </div>
+    <div class="tasks">
+      <div class="task paper" onclick="toggle(this)" data-id="d5t1"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Any remaining past papers for Control or Micro</span><span class="task-tag tag-paper">Past paper</span></div>
+      <div class="task admin" onclick="toggle(this)" data-id="d5t2"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Any tasks that slipped from days 1–4</span><span class="task-tag tag-admin">Buffer</span></div>
+      <div class="task admin" onclick="toggle(this)" data-id="d5t3"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Night of 11 May: light skim of notes only, then sleep</span><span class="task-tag tag-admin">Admin</span></div>
+    </div>
+  </div>
+
+  <!-- EXAM 1 -->
+  <div class="day">
+    <div class="day-header">
+      <span class="day-name">Exam 1</span>
+      <span class="day-date">Mon 12 May</span>
+    </div>
+    <div class="exam-card">
+      <div class="exam-title">Control & Microprocessors — combined paper</div>
+      <div class="exam-sub">Morning: skim key formulas only. No new learning. Eat. Sleep the night before.</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- DAYS 6–7 -->
+  <div class="day">
+    <div class="day-header">
+      <span class="day-name">Days 6–7</span>
+      <span class="day-date">Tue 13 – Wed 14 May</span>
+      <span class="day-badge tag-em">EM & Analogue</span>
+    </div>
+    <div class="tasks">
+      <div class="task em" onclick="toggle(this)" data-id="d6t1"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Read through all EM & Analogue notes — flag gaps</span><span class="task-tag tag-em">EM/Analogue</span></div>
+      <div class="task em" onclick="toggle(this)" data-id="d6t2"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">All EM tutorial sheets</span><span class="task-tag tag-em">EM/Analogue</span></div>
+      <div class="task em" onclick="toggle(this)" data-id="d6t3"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">All Analogue tutorial sheets</span><span class="task-tag tag-em">EM/Analogue</span></div>
+      <div class="task paper" onclick="toggle(this)" data-id="d6t4"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 1</span><span class="task-tag tag-paper">Past paper</span></div>
+      <div class="task paper" onclick="toggle(this)" data-id="d6t5"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 2</span><span class="task-tag tag-paper">Past paper</span></div>
+      <div class="task paper" onclick="toggle(this)" data-id="d6t6"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 3</span><span class="task-tag tag-paper">Past paper</span></div>
+      <div class="task em" onclick="toggle(this)" data-id="d6t7"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Anki: make cards for formulas you keep forgetting (weak spots only)</span><span class="task-tag tag-em">EM/Analogue</span></div>
+      <div class="task admin" onclick="toggle(this)" data-id="d6t8"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Night of 14 May: skim, sleep, done</span><span class="task-tag tag-admin">Admin</span></div>
+    </div>
+  </div>
+
+  <!-- EXAM 2 -->
+  <div class="day">
+    <div class="day-header">
+      <span class="day-name">Exam 2</span>
+      <span class="day-date">Thu 15 May</span>
+    </div>
+    <div class="exam-card">
+      <div class="exam-title">Electromagnetics & Analogue Devices</div>
+      <div class="exam-sub">You have the notes. You've done this content. Trust the prep.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const STORAGE_KEY = 'study-plan-may2026';
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+    } catch { return {}; }
+  }
+
+  function saveState(state) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function toggle(el) {
+    el.classList.toggle('done');
+    const state = loadState();
+    const id = el.dataset.id;
+    state[id] = el.classList.contains('done');
+    saveState(state);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const all = document.querySelectorAll('.task[data-id]');
+    const done = document.querySelectorAll('.task.done');
+    const pct = all.length ? Math.round((done.length / all.length) * 100) : 0;
+    document.getElementById('fill').style.width = pct + '%';
+    document.getElementById('count').textContent = done.length + ' / ' + all.length + ' tasks';
+  }
+
+  function init() {
+    const state = loadState();
+    document.querySelectorAll('.task[data-id]').forEach(task => {
+      if (state[task.dataset.id]) task.classList.add('done');
+    });
+    updateProgress();
+  }
+
+  init();
+</script>
+</body>
+</html>
