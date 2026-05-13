@@ -12,6 +12,7 @@
     --em: #6ee7b7; --em-bg: rgba(110,231,183,0.08); --em-border: rgba(110,231,183,0.2);
     --paper: #fbbf24; --paper-bg: rgba(251,191,36,0.08); --paper-border: rgba(251,191,36,0.2);
     --admin: #9ca3af; --admin-bg: rgba(156,163,175,0.08); --admin-border: rgba(156,163,175,0.2);
+    --bonus: #f472b6; --bonus-bg: rgba(244,114,182,0.08); --bonus-border: rgba(244,114,182,0.2);
     --exam: #f87171; --exam-bg: rgba(248,113,113,0.1); --exam-border: rgba(248,113,113,0.25);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,18 +39,21 @@
   .tasks { display: flex; flex-direction: column; gap: 5px; }
   .task { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; transition: all 0.15s ease; user-select: none; }
   .task:hover { filter: brightness(1.15); }
-  .task.em    { background: var(--em-bg);    border-color: var(--em-border); }
-  .task.paper { background: var(--paper-bg); border-color: var(--paper-border); }
-  .task.admin { background: var(--admin-bg); border-color: var(--admin-border); }
+  .task.em     { background: var(--em-bg);    border-color: var(--em-border); }
+  .task.paper  { background: var(--paper-bg); border-color: var(--paper-border); }
+  .task.admin  { background: var(--admin-bg); border-color: var(--admin-border); }
+  .task.bonus  { background: var(--bonus-bg); border-color: var(--bonus-border); }
   .task.done { opacity: 0.4; }
   .task.done .task-text { text-decoration: line-through; }
   .checkbox { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
   .task.em    .checkbox { border-color: var(--em); }
   .task.paper .checkbox { border-color: var(--paper); }
   .task.admin .checkbox { border-color: var(--admin); }
+  .task.bonus .checkbox { border-color: var(--bonus); }
   .task.em.done    .checkbox { background: var(--em);    border-color: var(--em); }
   .task.paper.done .checkbox { background: var(--paper); border-color: var(--paper); }
   .task.admin.done .checkbox { background: var(--admin); border-color: var(--admin); }
+  .task.bonus.done .checkbox { background: var(--bonus); border-color: var(--bonus); }
   .checkbox svg { display: none; }
   .task.done .checkbox svg { display: block; }
   .task-text { font-size: 0.85rem; font-weight: 400; line-height: 1.4; flex: 1; }
@@ -57,6 +61,7 @@
   .tag-em    { color: var(--em);    background: var(--em-bg);    border: 1px solid var(--em-border); }
   .tag-paper { color: var(--paper); background: var(--paper-bg); border: 1px solid var(--paper-border); }
   .tag-admin { color: var(--admin); background: var(--admin-bg); border: 1px solid var(--admin-border); }
+  .tag-bonus { color: var(--bonus); background: var(--bonus-bg); border: 1px solid var(--bonus-border); }
   .exam-card { background: var(--exam-bg); border: 1px solid var(--exam-border); border-radius: 8px; padding: 1rem 1.25rem; }
   .exam-title { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; color: var(--exam); margin-bottom: 4px; }
   .exam-sub { font-size: 0.8rem; color: var(--muted); }
@@ -78,14 +83,15 @@
     </div>
   </div>
   <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:var(--em)"></div>EM & Analogue</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--em)"></div>Tutorials</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--paper)"></div>Past papers</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--bonus)"></div>Bonus material</div>
     <div class="legend-item"><div class="legend-dot" style="background:var(--admin)"></div>Admin</div>
   </div>
 </header>
 
 <div class="note">
-  Notes are done. Tutorial sheets are fast since you've seen them before. Tick and move. Progress saves in your browser automatically.
+  Notes are done. Tutorials are fast since you've seen them before. Priority order: Analogue tutorials → EM tutorials → past papers → bonus material if time allows.
 </div>
 
 <!-- ===== TONIGHT 12 MAY ===== -->
@@ -97,15 +103,15 @@
   </div>
   <div class="section-label">Notes skim</div>
   <div class="tasks">
-    <div class="task em" onclick="toggle(this)" data-id="t12a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Skim all EM notes — flag any forgotten topics</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="t12b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Skim all Analogue notes — flag any forgotten topics</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="t12a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Skim EM notes — flag forgotten topics</span><span class="task-tag tag-em">EM</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="t12b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Skim Analogue notes — flag forgotten topics</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task bonus" onclick="toggle(this)" data-id="t12rev"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Read: Revision overview 2026 EM</span><span class="task-tag tag-bonus">Bonus</span></div>
+    <div class="task bonus" onclick="toggle(this)" data-id="t12lec"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Read: Lecture 11 — Revision Analogue Electronics</span><span class="task-tag tag-bonus">Bonus</span></div>
   </div>
-  <div class="section-label">First tutorial sheets</div>
+  <div class="section-label">First tutorials</div>
   <div class="tasks">
-    <div class="task em" onclick="toggle(this)" data-id="t12c"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 1</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="t12d"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 2</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="t12e"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 1</span><span class="task-tag tag-em">Analogue</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="t12f"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 2</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="t12c"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue Week 1 — Op-amps</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="t12d"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue Week 2 — Linear Op-Amp Circuits</span><span class="task-tag tag-em">Analogue</span></div>
   </div>
   <div class="section-label">Admin</div>
   <div class="tasks">
@@ -120,33 +126,30 @@
     <span class="day-date">Full day</span>
     <span class="day-badge tag-em">Main push</span>
   </div>
-  <div class="section-label">EM — tutorial sheets</div>
-  <div class="tasks">
-    <div class="task em" onclick="toggle(this)" data-id="e13a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 3</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="e13b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 4</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="e13c"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 5</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="e13d"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 6</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="e13e"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 7</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="e13f"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 8</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="e13g"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 9</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="e13h"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM tutorial sheet: Week 10</span><span class="task-tag tag-em">EM</span></div>
-  </div>
   <div class="section-label">Analogue — tutorial sheets</div>
   <div class="tasks">
-    <div class="task em" onclick="toggle(this)" data-id="a13a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 3</span><span class="task-tag tag-em">Analogue</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="a13b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 4</span><span class="task-tag tag-em">Analogue</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="a13c"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 5</span><span class="task-tag tag-em">Analogue</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="a13d"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 6</span><span class="task-tag tag-em">Analogue</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="a13e"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 7</span><span class="task-tag tag-em">Analogue</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="a13f"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 8</span><span class="task-tag tag-em">Analogue</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="a13g"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 9</span><span class="task-tag tag-em">Analogue</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="a13h"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue tutorial sheet: Week 10</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="a13a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue Week 3 — Non-Ideal Op-Amp Characteristics</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="a13b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue Week 4 — Op-amps Non-linear characteristics</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="a13c"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue Week 5 — BJTs</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="a13d"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue Week 6 — C-E Amplifier</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="a13e"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue Week 7 — Differential Amplifier</span><span class="task-tag tag-em">Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="a13f"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Analogue Week 8 — Multistage Amplifiers</span><span class="task-tag tag-em">Analogue</span></div>
   </div>
-  <div class="section-label">Past papers</div>
+  <div class="section-label">Analogue — bonus practice</div>
   <div class="tasks">
-    <div class="task paper" onclick="toggle(this)" data-id="p13a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 1</span><span class="task-tag tag-paper">Past paper</span></div>
-    <div class="task paper" onclick="toggle(this)" data-id="p13b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 2</span><span class="task-tag tag-paper">Past paper</span></div>
-    <div class="task paper" onclick="toggle(this)" data-id="p13c"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 3</span><span class="task-tag tag-paper">Past paper</span></div>
+    <div class="task bonus" onclick="toggle(this)" data-id="a13bonus1"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Practice questions on BJT circuits</span><span class="task-tag tag-bonus">Bonus</span></div>
+    <div class="task bonus" onclick="toggle(this)" data-id="a13bonus2"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Part 1 — Solutions to selected tutorial questions</span><span class="task-tag tag-bonus">Bonus</span></div>
+    <div class="task bonus" onclick="toggle(this)" data-id="a13bonus3"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Part 2 — Solutions to selected tutorial questions</span><span class="task-tag tag-bonus">Bonus</span></div>
+  </div>
+  <div class="section-label">EM — tutorial sheets (both have answers included)</div>
+  <div class="tasks">
+    <div class="task em" onclick="toggle(this)" data-id="em13a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM Tutorial 1</span><span class="task-tag tag-em">EM</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="em13b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">EM Tutorial 2</span><span class="task-tag tag-em">EM</span></div>
+  </div>
+  <div class="section-label">Past papers — first 2</div>
+  <div class="tasks">
+    <div class="task paper" onclick="toggle(this)" data-id="p13a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">ECDE Exam Paper 2021-22</span><span class="task-tag tag-paper">Past paper</span></div>
+    <div class="task paper" onclick="toggle(this)" data-id="p13b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">ECDE Exam Paper 2022-23</span><span class="task-tag tag-paper">Past paper</span></div>
   </div>
 </div>
 
@@ -157,14 +160,15 @@
     <span class="day-date">Final day</span>
     <span class="day-badge tag-paper">Past papers + weak spots</span>
   </div>
-  <div class="section-label">Past papers</div>
+  <div class="section-label">Past papers — remaining 3</div>
   <div class="tasks">
-    <div class="task paper" onclick="toggle(this)" data-id="p14a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 4</span><span class="task-tag tag-paper">Past paper</span></div>
-    <div class="task paper" onclick="toggle(this)" data-id="p14b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 5</span><span class="task-tag tag-paper">Past paper</span></div>
+    <div class="task paper" onclick="toggle(this)" data-id="p14a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">ECDE Exam Paper 2023-24</span><span class="task-tag tag-paper">Past paper</span></div>
+    <div class="task paper" onclick="toggle(this)" data-id="p14b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">ECDE Exam Paper 2024-25</span><span class="task-tag tag-paper">Past paper</span></div>
+    <div class="task paper" onclick="toggle(this)" data-id="p14c"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Exam Paper 2019 (04 19505 EE2B)</span><span class="task-tag tag-paper">Past paper</span></div>
   </div>
   <div class="section-label">Weak spots + Anki</div>
   <div class="tasks">
-    <div class="task em" onclick="toggle(this)" data-id="w14a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Revisit flagged weak spots from tutorial sheets</span><span class="task-tag tag-em">EM/Analogue</span></div>
+    <div class="task em" onclick="toggle(this)" data-id="w14a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Revisit flagged weak spots from tutorials</span><span class="task-tag tag-em">EM/Analogue</span></div>
     <div class="task em" onclick="toggle(this)" data-id="w14b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Anki: make cards for formulas you keep forgetting</span><span class="task-tag tag-em">EM/Analogue</span></div>
   </div>
   <div class="section-label">Night before exam</div>
@@ -176,7 +180,6 @@
 
 <hr class="divider">
 
-<!-- ===== EXAM ===== -->
 <div class="day">
   <div class="day-header">
     <span class="day-name">Exam</span>
@@ -191,7 +194,7 @@
 </div>
 
 <script>
-  const STORAGE_KEY = 'study-plan-em-may2026';
+  const STORAGE_KEY = 'study-plan-em-may2026-v2';
   function loadState() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } }
   function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
   function toggle(el) {
