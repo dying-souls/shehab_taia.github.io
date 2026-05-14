@@ -52,66 +52,30 @@
     padding: 1.5rem 1rem 3rem;
   }
 
-  /* ── SHARED ── */
-  .section-wrap {
-    width: 100%;
-    max-width: 640px;
-  }
+  .section-wrap { width: 100%; max-width: 640px; }
+  .section-heading { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); margin-bottom: 1rem; }
 
-  .section-heading {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin-bottom: 1rem;
-  }
-
-  .filter-row {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1rem; }
   .filter-btn {
-    font-size: 12px;
-    padding: 4px 10px;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    background: var(--surface);
-    color: var(--text2);
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.12s;
+    font-size: 12px; padding: 4px 10px; border-radius: 100px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text2);
+    cursor: pointer; font-family: inherit; transition: all 0.12s;
   }
   .filter-btn:hover { border-color: var(--border2); color: var(--text); }
   .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 500; }
 
-  /* ── FLASHCARDS ── */
-  header {
-    width: 100%;
-    max-width: 640px;
-    margin-bottom: 1.5rem;
-  }
+  /* FLASHCARDS */
+  header { width: 100%; max-width: 640px; margin-bottom: 1.5rem; }
   header h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
   header p { font-size: 13px; color: var(--text2); }
-
   .stats-row { display: flex; gap: 8px; margin-top: 0.75rem; flex-wrap: wrap; }
-  .stat {
-    font-size: 13px; padding: 4px 12px; border-radius: 100px;
-    border: 1px solid var(--border); background: var(--surface); color: var(--text2);
-  }
+  .stat { font-size: 13px; padding: 4px 12px; border-radius: 100px; border: 1px solid var(--border); background: var(--surface); color: var(--text2); }
   .stat b { color: var(--text); font-weight: 600; }
 
-  .progress-wrap {
-    width: 100%; max-width: 640px; height: 3px;
-    background: var(--border); border-radius: 2px; margin-bottom: 1.25rem; overflow: hidden;
-  }
+  .progress-wrap { width: 100%; max-width: 640px; height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 1.25rem; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
 
   .card-wrap { width: 100%; max-width: 640px; min-height: 200px; margin-bottom: 0.75rem; }
-
   .card {
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
     padding: 1.5rem; cursor: pointer; transition: border-color 0.15s, transform 0.1s; user-select: none;
@@ -119,25 +83,17 @@
   .card:hover { border-color: var(--border2); }
   .card:active { transform: scale(0.995); }
   .card.flipped { border-color: var(--border2); cursor: default; }
-
   .card-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text3); margin-bottom: 0.75rem; }
   .card-question { font-size: 17px; font-weight: 500; line-height: 1.5; color: var(--text); }
   .card-counter { font-size: 12px; color: var(--text3); margin-top: 0.5rem; }
-
   .card-answer { display: none; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
   .card-answer.visible { display: block; }
   .answer-text { font-size: 14px; font-family: 'SFMono-Regular', 'Consolas', monospace; color: var(--text2); line-height: 1.8; white-space: pre-wrap; }
 
   .tap-hint { text-align: center; font-size: 12px; color: var(--text3); margin-bottom: 0.75rem; width: 100%; max-width: 640px; }
-
   .actions { display: none; gap: 8px; width: 100%; max-width: 640px; margin-bottom: 0.5rem; }
   .actions.visible { display: flex; }
-
-  .btn {
-    flex: 1; padding: 11px; font-size: 14px; font-weight: 500; border-radius: var(--radius-sm);
-    border: 1px solid var(--border2); cursor: pointer; font-family: inherit;
-    transition: all 0.12s; background: var(--surface); color: var(--text);
-  }
+  .btn { flex: 1; padding: 11px; font-size: 14px; font-weight: 500; border-radius: var(--radius-sm); border: 1px solid var(--border2); cursor: pointer; font-family: inherit; transition: all 0.12s; background: var(--surface); color: var(--text); }
   .btn:hover { background: var(--surface2); }
   .btn:active { transform: scale(0.97); }
   .btn-got { border-color: var(--green); color: var(--green); }
@@ -150,52 +106,28 @@
   .done-score { font-size: 52px; font-weight: 700; letter-spacing: -0.03em; color: var(--green); line-height: 1; margin-bottom: 0.5rem; }
   .done h2 { font-size: 20px; font-weight: 600; margin-bottom: 0.5rem; }
   .done p { color: var(--text2); font-size: 14px; margin-bottom: 1.5rem; }
-  .btn-restart {
-    display: inline-block; padding: 10px 24px; font-size: 14px; font-weight: 500;
-    border-radius: var(--radius-sm); border: 1px solid var(--border2); cursor: pointer;
-    font-family: inherit; background: var(--surface); color: var(--text); transition: all 0.12s; margin-bottom: 1.5rem;
-  }
+  .btn-restart { display: inline-block; padding: 10px 24px; font-size: 14px; font-weight: 500; border-radius: var(--radius-sm); border: 1px solid var(--border2); cursor: pointer; font-family: inherit; background: var(--surface); color: var(--text); transition: all 0.12s; margin-bottom: 1.5rem; }
   .btn-restart:hover { background: var(--surface2); }
-
   .missed-section { text-align: left; margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 1rem; }
   .missed-section h3 { font-size: 13px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
   .missed-item { padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
   .missed-item strong { display: block; color: var(--text); font-weight: 500; margin-bottom: 2px; }
   .missed-item span { color: var(--text2); font-family: monospace; font-size: 12px; white-space: pre-wrap; }
 
-  /* ── DIVIDER ── */
-  .divider {
-    width: 100%; max-width: 640px;
-    border: none; border-top: 1px solid var(--border);
-    margin: 2.5rem 0;
-  }
+  /* DIVIDER */
+  .divider { width: 100%; max-width: 640px; border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 
-  /* ── FORMULA LIST ── */
+  /* FORMULA LIST */
   .formula-section { margin-bottom: 2rem; }
-
-  .formula-section-title {
-    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--text3); border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 0;
-  }
-
-  .formula-row {
-    display: grid; grid-template-columns: 1fr 1.6fr;
-    border-bottom: 1px solid var(--border); padding: 11px 0; align-items: start; gap: 1rem;
-  }
-
+  .formula-section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 0; }
+  .formula-row { display: grid; grid-template-columns: 1fr 1.6fr; border-bottom: 1px solid var(--border); padding: 11px 0; align-items: start; gap: 1rem; }
   .formula-label { font-size: 13px; color: var(--text2); line-height: 1.5; padding-top: 1px; }
-
-  .formula-value {
-    font-size: 13px; font-family: 'SFMono-Regular', 'Consolas', monospace;
-    color: var(--text); line-height: 1.8; white-space: pre-wrap;
-  }
-
+  .formula-value { font-size: 13px; font-family: 'SFMono-Regular', 'Consolas', monospace; color: var(--text); line-height: 1.8; white-space: pre-wrap; }
   .formula-note { font-size: 11px; color: var(--text3); font-style: italic; margin-top: 3px; line-height: 1.4; }
 </style>
 </head>
 <body>
 
-<!-- ── FLASHCARDS ── -->
 <header>
   <h1>Formula Flashcards</h1>
   <p>Electronics &amp; Electromagnetics &middot; Mechatronics</p>
@@ -207,9 +139,7 @@
 </header>
 
 <div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
-
 <div class="filter-row section-wrap" id="quiz-filters"></div>
-
 <div class="card-wrap" id="card-wrap"></div>
 <p class="tap-hint" id="hint">Tap the card to reveal the answer</p>
 <div class="actions" id="actions">
@@ -218,124 +148,139 @@
   <button class="btn btn-got" onclick="rate(true)">&#10003; Got it</button>
 </div>
 
-<!-- ── DIVIDER ── -->
 <hr class="divider">
 
-<!-- ── FORMULA LIST ── -->
 <div class="section-wrap">
-  <p class="section-heading" style="margin-bottom:1rem">Full formula reference</p>
+  <p class="section-heading">Full formula reference</p>
   <div class="filter-row" id="list-filters"></div>
   <div id="formula-list"></div>
 </div>
 
 <script>
 const CARDS = [
+  // ── OP-AMPS
   { cat:"Op-amps", q:"Inverting amplifier gain, Rin, Rout",
-    a:"Av = -RF/R1\nRin = R1,  Rout ≈ 0" },
+    a:"Av = -RF/R1\nRin = R1,  Rout \u2248 0" },
   { cat:"Op-amps", q:"Non-inverting amplifier gain, Rin, Rout",
-    a:"Av = 1 + RF/R1\nRin → ∞,  Rout ≈ 0" },
+    a:"Av = 1 + RF/R1\nRin \u2192 \u221e,  Rout \u2248 0" },
   { cat:"Op-amps", q:"Ideal op-amp golden rules",
-    a:"I+ = I− = 0  (no input current)\nV+ = V−  (virtual short)" },
+    a:"I+ = I\u2212 = 0  (no input current)\nV+ = V\u2212  (virtual short)" },
   { cat:"Op-amps", q:"Summing amplifier output",
-    a:"Vout = −(RF/R1·V1 + RF/R2·V2)" },
+    a:"Vout = \u2212(RF/R1\u00b7V1 + RF/R2\u00b7V2)" },
   { cat:"Op-amps", q:"Integrator output",
-    a:"Vout = −1/RC · ∫Vin dt" },
+    a:"Vout = \u22121/RC \u00b7 \u222bVin dt" },
   { cat:"Op-amps", q:"Buffer: gain, Rin, Rout",
-    a:"Av = 1,  Rin = ∞,  Rout = 0" },
+    a:"Av = 1,  Rin = \u221e,  Rout = 0" },
   { cat:"Op-amps", q:"Non-ideal closed-loop gain",
-    a:"Av = A0 / (1 + A0·β)\nβ = R1/(R1+RF)" },
+    a:"Av = A0 / (1 + A0\u00b7\u03b2)\n\u03b2 = R1/(R1+RF)" },
   { cat:"Op-amps", q:"Non-ideal Rout and Rin (non-inverting)",
-    a:"Rout_CL = Rout_OL / (1 + A0·β)\nRin_CL  = Rin_OL  × (1 + A0·β)" },
+    a:"Rout_CL = Rout_OL / (1 + A0\u00b7\u03b2)\nRin_CL  = Rin_OL  \u00d7 (1 + A0\u00b7\u03b2)" },
   { cat:"Op-amps", q:"Gain-bandwidth product / upper cutoff",
-    a:"GBP = Av × fc\nf_upper = GBP / |Av|" },
-  { cat:"Op-amps", q:"Schmitt trigger — general threshold",
-    a:"VTH = Vsat·R1/(R1+R2) + VREF·R2/(R1+R2)\n(apply for +Vsat and −Vsat)" },
-  { cat:"Op-amps", q:"Schmitt trigger — symmetric (VREF=0)",
-    a:"VTH = +Vsat·R1/(R1+R2)\nVTL = −Vsat·R1/(R1+R2)\nΔV  = 2·Vsat·R1/(R1+R2)" },
-  { cat:"Op-amps", q:"Schmitt trigger — asymmetric (VREF≠0)",
-    a:"ΔV unchanged = 2·Vsat·R1/(R1+R2)\nBoth thresholds shift by VREF·R2/(R1+R2)" },
+    a:"GBP = Av \u00d7 fc\nf_upper = GBP / |Av|" },
+  { cat:"Op-amps", q:"Schmitt trigger \u2014 general threshold",
+    a:"VTH = Vsat\u00b7R1/(R1+R2) + VREF\u00b7R2/(R1+R2)\n(apply for +Vsat and \u2212Vsat)" },
+  { cat:"Op-amps", q:"Schmitt trigger \u2014 symmetric (VREF=0)",
+    a:"VTH = +Vsat\u00b7R1/(R1+R2)\nVTL = \u2212Vsat\u00b7R1/(R1+R2)\n\u0394V  = 2\u00b7Vsat\u00b7R1/(R1+R2)" },
+  { cat:"Op-amps", q:"Schmitt trigger \u2014 asymmetric (VREF\u22600)",
+    a:"\u0394V unchanged = 2\u00b7Vsat\u00b7R1/(R1+R2)\nBoth thresholds shift by VREF\u00b7R2/(R1+R2)" },
   { cat:"Op-amps", q:"Precision rectifier",
-    a:"Vin>0 → Vout=Vin\nVin<0 → Vout=0" },
+    a:"Vin>0 \u2192 Vout=Vin\nVin<0 \u2192 Vout=0" },
   { cat:"Op-amps", q:"Current amplifier gain",
-    a:"Ai = −Rf/Ri" },
+    a:"Ai = \u2212Rf/Ri" },
 
+  // ── BJT
   { cat:"BJT", q:"Key BJT currents",
-    a:"IC = β·IB\nIE = IC + IB ≈ IC\nVBE = 0.7V,  VT = 25mV" },
+    a:"IC = \u03b2\u00b7IB\nIE = IC + IB \u2248 IC\nVBE = 0.7V,  VT = 25mV" },
   { cat:"BJT", q:"Quiescent (DC) operating point",
-    a:"IB  = (VBB − VBE)/RB\nIC  = β·IB\nVCE = VCC − IC·RC\n(VCE < 0.2V → saturated)" },
+    a:"IB  = (VBB \u2212 VBE)/RB\nIC  = \u03b2\u00b7IB\nVCE = VCC \u2212 IC\u00b7RC\n(VCE < 0.2V \u2192 saturated)" },
   { cat:"BJT", q:"Transconductance gm",
     a:"gm = IC/VT   (VT = 25mV always)" },
   { cat:"BJT", q:"Small-signal voltage gain (CE)",
-    a:"Av = −gm·RC\nAv = −gm·(RC‖ro)  with Early effect" },
+    a:"Av = \u2212gm\u00b7RC\nAv = \u2212gm\u00b7(RC\u2016ro)  with Early effect" },
   { cat:"BJT", q:"Small-signal Rin (CE amp)",
-    a:"Rin = RB ‖ (β/gm)" },
+    a:"Rin = RB \u2016 (\u03b2/gm)" },
   { cat:"BJT", q:"Early effect output resistance",
     a:"ro = VA/IC" },
   { cat:"BJT", q:"BJT cutoff frequency",
-    a:"fc = 1/(2π·Cin·Rin)" },
+    a:"fc = 1/(2\u03c0\u00b7Cin\u00b7Rin)" },
   { cat:"BJT", q:"Maximum voltage swing",
-    a:"ΔVmax = 2·min(VCC−VC, VC−VCEsat)\nMax swing when VC = VCC/2" },
+    a:"\u0394Vmax = 2\u00b7min(VCC\u2212VC, VC\u2212VCEsat)\nMax swing when VC = VCC/2" },
   { cat:"BJT", q:"Current mirror",
-    a:"IREF = (V − VBE)/RREF\nIout = IREF/(1 + 2/β)" },
+    a:"IREF = (V \u2212 VBE)/RREF\nIout = IREF/(1 + 2/\u03b2)" },
 
+  // ── DIFF AMP
   { cat:"Diff Amp", q:"Differential amplifier gain",
-    a:"Av = −½·gm·RC  (single-ended)\nAv =  gm·RC   (differential)" },
+    a:"Av = \u2212\u00bd\u00b7gm\u00b7RC  (single-ended)\nAv =  gm\u00b7RC   (differential)" },
   { cat:"Diff Amp", q:"Diff amp Rin and Rout",
-    a:"Rin = 2β/gm\nRout = RC" },
+    a:"Rin = 2\u03b2/gm\nRout = RC" },
 
+  // ── GAUSS
   { cat:"Gauss", q:"Gauss's law",
-    a:"∮D·dS = Qfree\nD = ε0·εr·E" },
+    a:"\u222eD\u00b7dS = Qfree\nD = \u03b50\u00b7\u03b5r\u00b7E" },
   { cat:"Gauss", q:"Coulomb's law",
-    a:"F = Q1·Q2/(4π·ε0·r²)\nE = Q/(4π·ε0·r²)" },
-  { cat:"Gauss", q:"Spherical shells — E-field (a<r<b)",
-    a:"E = Q/(4π·ε0·εr·r²)\nD = Q/(4π·r²)" },
-  { cat:"Gauss", q:"Spherical shells — V and C",
-    a:"V = Q/(4π·ε0·εr)·(1/a − 1/b)\nC = 4π·ε0·εr·ab/(b−a)" },
-  { cat:"Gauss", q:"Spherical shells — energy",
-    a:"Ue = ε0·εr·E²/2  [J/m³]\nU  = Q²/(8π·ε0·εr)·(1/a − 1/b)" },
-  { cat:"Gauss", q:"Coaxial cable — E-field (electrostatic)",
-    a:"E = λ/(2π·ε0·εr·r)  for a<r<b\nE = 0 elsewhere" },
-  { cat:"Gauss", q:"Coaxial cable — V and C/L",
-    a:"V   = λ/(2π·ε0·εr)·ln(b/a)\nC/L = 2π·ε0·εr/ln(b/a)" },
-  { cat:"Gauss", q:"Parallel plate — E, V, C",
-    a:"E = σ/(ε0·εr) = Q/(ε0·εr·A)\nV = E·d\nC = ε0·εr·A/d" },
-  { cat:"Gauss", q:"Parallel plate — energy",
-    a:"Ue = σ²/(2·ε0·εr)  [J/m³]\nU  = ½CV² = Q²/2C" },
+    a:"F = Q1\u00b7Q2/(4\u03c0\u00b7\u03b50\u00b7r\u00b2)\nE = Q/(4\u03c0\u00b7\u03b50\u00b7r\u00b2)" },
+  { cat:"Gauss", q:"Spherical shells \u2014 E-field (a<r<b)",
+    a:"E = Q/(4\u03c0\u00b7\u03b50\u00b7\u03b5r\u00b7r\u00b2)\nD = Q/(4\u03c0\u00b7r\u00b2)" },
+  { cat:"Gauss", q:"Spherical shells \u2014 V and C",
+    a:"V = Q/(4\u03c0\u00b7\u03b50\u00b7\u03b5r)\u00b7(1/a \u2212 1/b)\nC = 4\u03c0\u00b7\u03b50\u00b7\u03b5r\u00b7ab/(b\u2212a)" },
+  { cat:"Gauss", q:"Spherical shells \u2014 energy",
+    a:"Ue = \u03b50\u00b7\u03b5r\u00b7E\u00b2/2  [J/m\u00b3]\nU  = Q\u00b2/(8\u03c0\u00b7\u03b50\u00b7\u03b5r)\u00b7(1/a \u2212 1/b)" },
+  { cat:"Gauss", q:"Coaxial cable \u2014 E-field (electrostatic)",
+    a:"E = \u03bb/(2\u03c0\u00b7\u03b50\u00b7\u03b5r\u00b7r)  for a<r<b\nE = 0 elsewhere" },
+  { cat:"Gauss", q:"Coaxial cable \u2014 V and C/L",
+    a:"V   = \u03bb/(2\u03c0\u00b7\u03b50\u00b7\u03b5r)\u00b7ln(b/a)\nC/L = 2\u03c0\u00b7\u03b50\u00b7\u03b5r/ln(b/a)" },
+  { cat:"Gauss", q:"Parallel plate \u2014 E, V, C",
+    a:"E = \u03c3/(\u03b50\u00b7\u03b5r) = Q/(\u03b50\u00b7\u03b5r\u00b7A)\nV = E\u00b7d\nC = \u03b50\u00b7\u03b5r\u00b7A/d" },
+  { cat:"Gauss", q:"Parallel plate \u2014 energy",
+    a:"Ue = \u03c3\u00b2/(2\u00b7\u03b50\u00b7\u03b5r)  [J/m\u00b3]\nU  = \u00bdCV\u00b2 = Q\u00b2/2C" },
   { cat:"Gauss", q:"Conductor vs sheet E-field",
-    a:"Conductor (one side): E = σ/(ε0·εr)\nSheet (both sides):   E = σ/(2·ε0)" },
+    a:"Conductor (one side): E = \u03c3/(\u03b50\u00b7\u03b5r)\nSheet (both sides):   E = \u03c3/(2\u00b7\u03b50)" },
 
-  { cat:"Ampere", q:"Ampère's law",
-    a:"∮B·dl = μ0·I\nB = μ0·H" },
+  // ── POLARISATION (NEW)
+  { cat:"Polarisation", q:"D, E and P relationship",
+    a:"D = \u03b50\u00b7E + P\n\nD = total flux density [C/m\u00b2]\n\u03b50E = vacuum contribution\nP = polarisation (dipole density)" },
+  { cat:"Polarisation", q:"Electric dipole moment p",
+    a:"p = Q\u00b7d\n\nQ = charge magnitude [C]\nd = separation vector [m]\npoints from \u2212 to +" },
+  { cat:"Polarisation", q:"Magnetic flux \u03a6",
+    a:"\u03a6 = B\u00b7A\n\n(uniform B, flat surface perpendicular to B)\n[\u03a6] = Wb = V\u00b7s" },
+
+  // ── AMPERE
+  { cat:"Ampere", q:"Amp\u00e8re's law",
+    a:"\u222eB\u00b7dl = \u03bc0\u00b7I\nB = \u03bc0\u00b7H" },
   { cat:"Ampere", q:"Infinite straight wire",
-    a:"B = μ0·I/(2π·r)\nH = I/(2π·r)" },
-  { cat:"Ampere", q:"Coaxial cable — B-field",
-    a:"r<a:   B = μ0·I·r/(2π·a²)\na<r<b: B = μ0·I/(2π·r)\nr>b:   B = 0" },
-  { cat:"Ampere", q:"Coaxial cable — inductance",
-    a:"Φ   = μ0·I·L/(2π)·ln(b/a)\nL/l = μ0/(2π)·ln(b/a)" },
-  { cat:"Ampere", q:"Solenoid — B-field",
-    a:"B = μ0·n·I = μ0·N·I/l  (inside)\nB = 0  (outside)\nn = N/l" },
-  { cat:"Ampere", q:"Solenoid — inductance",
-    a:"Φ/turn = μ0·n·I·πr²\nL = μ0·N²·A/l = μ0·n²·lA" },
+    a:"B = \u03bc0\u00b7I/(2\u03c0\u00b7r)\nH = I/(2\u03c0\u00b7r)" },
+  { cat:"Ampere", q:"Coaxial cable \u2014 B-field",
+    a:"r<a:   B = \u03bc0\u00b7I\u00b7r/(2\u03c0\u00b7a\u00b2)\na<r<b: B = \u03bc0\u00b7I/(2\u03c0\u00b7r)\nr>b:   B = 0" },
+  { cat:"Ampere", q:"Coaxial cable \u2014 inductance",
+    a:"\u03a6   = \u03bc0\u00b7I\u00b7L/(2\u03c0)\u00b7ln(b/a)\nL/l = \u03bc0/(2\u03c0)\u00b7ln(b/a)" },
+  { cat:"Ampere", q:"Solenoid \u2014 B-field",
+    a:"B = \u03bc0\u00b7n\u00b7I = \u03bc0\u00b7N\u00b7I/l  (inside)\nB = 0  (outside)\nn = N/l" },
+  { cat:"Ampere", q:"Solenoid \u2014 inductance",
+    a:"\u03a6/turn = \u03bc0\u00b7n\u00b7I\u00b7\u03c0r\u00b2\nL = \u03bc0\u00b7N\u00b2\u00b7A/l = \u03bc0\u00b7n\u00b2\u00b7lA" },
   { cat:"Ampere", q:"Mutual inductance (nested solenoids)",
-    a:"M  = μ0·n1·n2·π·r2²·l2\nV2 = −M·dI1/dt" },
+    a:"M  = \u03bc0\u00b7n1\u00b7n2\u00b7\u03c0\u00b7r2\u00b2\u00b7l2\nV2 = \u2212M\u00b7dI1/dt" },
   { cat:"Ampere", q:"Peak induced voltage (sinusoidal)",
-    a:"|Vpeak| = M·2π·f·I0\n(for I = I0·sin(2πft))" },
-  { cat:"Ampere", q:"Parallel plates — magnetic",
-    a:"B = μ0·I/W  (between)\nL = μ0·l·d/W" },
+    a:"|Vpeak| = M\u00b72\u03c0\u00b7f\u00b7I0\n(for I = I0\u00b7sin(2\u03c0ft))" },
+  { cat:"Ampere", q:"Parallel plates \u2014 magnetic",
+    a:"B = \u03bc0\u00b7I/W  (between)\nL = \u03bc0\u00b7l\u00b7d/W" },
   { cat:"Ampere", q:"Magnetic energy",
-    a:"Um = B²/(2μ0)  [J/m³]\nU  = ½·L·I²" },
+    a:"Um = B\u00b2/(2\u03bc0)  [J/m\u00b3]\nU  = \u00bd\u00b7L\u00b7I\u00b2" },
 
+  // ── MAXWELL
   { cat:"Maxwell", q:"Faraday's law (EMF)",
-    a:"v(t) = −dΦ/dt,  Φ = B·A\n(minus = Lenz's law)" },
+    a:"v(t) = \u2212d\u03a6/dt,  \u03a6 = B\u00b7A\n(minus = Lenz's law)" },
   { cat:"Maxwell", q:"All four Maxwell equations",
-    a:"Gauss E:  ∮D·dS = Qfree      → charges create E\nGauss B:  ∮B·dS = 0          → no monopoles\nFaraday:  ∮E·dl = −dΦ/dt    → ∂B creates E\nAmpère-M: ∮B·dl = μ0(I+εrε0·dE/dt)" },
+    a:"Gauss E:  \u222eD\u00b7dS = Qfree      \u2192 charges create E\nGauss B:  \u222eB\u00b7dS = 0          \u2192 no monopoles\nFaraday:  \u222eE\u00b7dl = \u2212d\u03a6/dt    \u2192 \u2202B creates E\nAmp\u00e8re-M: \u222eB\u00b7dl = \u03bc0(I+\u03b5r\u03b50\u00b7dE/dt)" },
+  { cat:"Maxwell", q:"Phasor current and induced voltage",
+    a:"i(t) = I0\u00b7e^{j\u03c9t}\nv(t) = j\u03c9\u00b7M\u00b7i(t)\n\n(phasor form: \u03c9 = 2\u03c0f)" },
+  { cat:"Maxwell", q:"Mutual inductance from geometry",
+    a:"M = \u03a6/I = \u03bc0\u00b7A / (2\u03c0\u00b7d)\n\n\u03a6 = flux linkage [Wb]\nA = cross-section area [m\u00b2]\nd = separation [m]" },
 ];
 
 const CATS = ["All", ...new Set(CARDS.map(c => c.cat))];
 let quizFilter = "All", listFilter = "All";
 let deck = [], cur = 0, got = 0, miss = 0, missedCards = [], flipped = false;
 
-/* ── QUIZ ── */
 function buildQuizFilters() {
   document.getElementById('quiz-filters').innerHTML = CATS.map(c =>
     '<button class="filter-btn' + (c === quizFilter ? ' active' : '') +
@@ -403,7 +348,7 @@ function showDone() {
     });
     missedHtml += '</div>';
   }
-  var msg = pct >= 80 ? "Solid — you're exam ready." : pct >= 60 ? "Good progress. Review the missed ones below." : "Keep drilling — focus on the cards below.";
+  var msg = pct >= 80 ? "Solid \u2014 you're exam ready." : pct >= 60 ? "Good progress. Review the missed ones below." : "Keep drilling \u2014 focus on the cards below.";
   document.getElementById('card-wrap').innerHTML =
     '<div class="done"><div class="done-score">' + pct + '%</div>' +
     '<h2>' + got + ' / ' + total + ' correct</h2><p>' + msg + '</p>' +
@@ -411,7 +356,6 @@ function showDone() {
     missedHtml + '</div>';
 }
 
-/* ── FORMULA LIST ── */
 function buildListFilters() {
   document.getElementById('list-filters').innerHTML = CATS.map(c =>
     '<button class="filter-btn' + (c === listFilter ? ' active' : '') +
@@ -439,7 +383,6 @@ function buildList() {
   document.getElementById('formula-list').innerHTML = html;
 }
 
-/* ── INIT ── */
 buildQuizFilters();
 startDeck();
 buildListFilters();
