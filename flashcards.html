@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formula Flashcards</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --surface2: #f0efe9;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.2);
+    --text: #1a1a18;
+    --text2: #6b6a65;
+    --text3: #9b9a96;
+    --green: #0f6e56;
+    --green-bg: #e1f5ee;
+    --red: #993c1d;
+    --red-bg: #faece7;
+    --accent: #178bca;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --surface: #242422;
+      --surface2: #2e2e2b;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.16);
+      --text: #f0efe9;
+      --text2: #9b9a96;
+      --text3: #6b6a65;
+      --green: #5dcaa5;
+      --green-bg: rgba(15,110,86,0.2);
+      --red: #f0997b;
+      --red-bg: rgba(153,60,29,0.2);
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  header {
+    width: 100%;
+    max-width: 640px;
+    margin-bottom: 1.5rem;
+  }
+
+  header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.25rem;
+  }
+
+  header p {
+    font-size: 13px;
+    color: var(--text2);
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+  }
+
+  .stat b { color: var(--text); font-weight: 600; }
+
+  .progress-wrap {
+    width: 100%;
+    max-width: 640px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .filter-row {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .filter-btn {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.12s;
+  }
+
+  .filter-btn:hover { border-color: var(--border2); color: var(--text); }
+  .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 500; }
+
+  .card-wrap {
+    width: 100%;
+    max-width: 640px;
+    min-height: 200px;
+    margin-bottom: 0.75rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.1s;
+    user-select: none;
+  }
+
+  .card:hover { border-color: var(--border2); }
+  .card:active { transform: scale(0.995); }
+  .card.flipped { border-color: var(--border2); cursor: default; }
+
+  .card-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.75rem;
+  }
+
+  .card-question {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .card-counter {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 0.5rem;
+  }
+
+  .card-answer {
+    display: none;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-answer.visible { display: block; }
+
+  .answer-text {
+    font-size: 14px;
+    font-family: 'SFMono-Regular', 'Consolas', monospace;
+    color: var(--text2);
+    line-height: 1.8;
+    white-space: pre-wrap;
+  }
+
+  .tap-hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 0.75rem;
+  }
+
+  .actions {
+    display: none;
+    gap: 8px;
+    width: 100%;
+    max-width: 640px;
+    margin-bottom: 0.5rem;
+  }
+
+  .actions.visible { display: flex; }
+
+  .btn {
+    flex: 1;
+    padding: 11px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.12s;
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  .btn:hover { background: var(--surface2); }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-got {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .btn-got:hover { background: var(--green-bg); }
+
+  .btn-missed {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .btn-missed:hover { background: var(--red-bg); }
+
+  .btn-skip { color: var(--text2); }
+
+  .done {
+    width: 100%;
+    max-width: 640px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  .done-score {
+    font-size: 52px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .done h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .done p {
+    color: var(--text2);
+    font-size: 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-restart {
+    display: inline-block;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    cursor: pointer;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--text);
+    transition: all 0.12s;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-restart:hover { background: var(--surface2); }
+
+  .missed-section {
+    text-align: left;
+    margin-top: 1rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+  }
+
+  .missed-section h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+
+  .missed-item {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .missed-item strong {
+    display: block;
+    color: var(--text);
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .missed-item span {
+    color: var(--text2);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Formula Flashcards</h1>
+  <p>Electronics &amp; Electromagnetics · Mechatronics</p>
+  <div class="stats-row">
+    <div class="stat">✓ <b id="s-got">0</b></div>
+    <div class="stat">✗ <b id="s-miss">0</b></div>
+    <div class="stat"><b id="s-left">—</b> remaining</div>
+  </div>
+</header>
+
+<div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
+<div class="filter-row" id="filters"></div>
+<div class="card-wrap" id="card-wrap"></div>
+<p class="tap-hint" id="hint">Tap the card to reveal the answer</p>
+<div class="actions" id="actions">
+  <button class="btn btn-missed" onclick="rate(false)">✗ Missed</button>
+  <button class="btn btn-skip" onclick="next()">Skip</button>
+  <button class="btn btn-got" onclick="rate(true)">✓ Got it</button>
+</div>
+
+<script>
+const CARDS = [
+  {cat:"Op-amps", q:"Inverting amplifier gain", a:"Av = −RF / R1\nRin = R1,  Rout ≈ 0"},
+  {cat:"Op-amps", q:"Non-inverting amplifier gain", a:"Av = 1 + RF/R1\nRin → ∞,  Rout ≈ 0"},
+  {cat:"Op-amps", q:"Summing amplifier output voltage", a:"Vout = −(RF/R1·V1 + RF/R2·V2)"},
+  {cat:"Op-amps", q:"Ideal op-amp golden rules", a:"I+ = I− = 0  (no input current)\nV+ = V−  (virtual short)"},
+  {cat:"Op-amps", q:"Integrator output", a:"Vout = −1/RC · ∫Vin dt"},
+  {cat:"Op-amps", q:"Buffer: gain, Rin, Rout", a:"Av = 1,  Rin = ∞,  Rout = 0"},
+  {cat:"Op-amps", q:"Non-ideal closed-loop gain", a:"Av = A0 / (1 + A0·β)\nβ = R1/(R1+RF)"},
+  {cat:"Op-amps", q:"Closed-loop Rout (non-ideal)", a:"Rout_CL = Rout_OL / (1 + A0·β)\n→ negative feedback lowers Rout"},
+  {cat:"Op-amps", q:"Closed-loop Rin non-inverting (non-ideal)", a:"Rin_CL = Rin_OL × (1 + A0·β)\n→ negative feedback raises Rin"},
+  {cat:"Op-amps", q:"Upper cutoff frequency from GBP", a:"GBP = Av × fc\nf_upper = GBP / |Av|"},
+  {cat:"Op-amps", q:"Schmitt trigger — general threshold formula", a:"VTH = Vsat·R1/(R1+R2) + VREF·R2/(R1+R2)\nApply for +Vsat and −Vsat to get both thresholds"},
+  {cat:"Op-amps", q:"Schmitt trigger — symmetric (VREF = 0)", a:"VTH = +Vsat·R1/(R1+R2)\nVTL = −Vsat·R1/(R1+R2)\nΔV = 2·Vsat·R1/(R1+R2)"},
+  {cat:"Op-amps", q:"Schmitt trigger — asymmetric (VREF ≠ 0)", a:"Both thresholds shift by VREF·R2/(R1+R2)\nHysteresis width ΔV stays the same"},
+  {cat:"Op-amps", q:"Precision rectifier behaviour", a:"Vin > 0 → Vout = Vin\nVin < 0 → Vout = 0\n(diode Vf cancelled by feedback)"},
+  {cat:"Op-amps", q:"Current amplifier gain", a:"Ai = −Rf / Ri"},
+  {cat:"BJT", q:"BJT key current relationships", a:"IC = β·IB\nIE = IC + IB\nIC ≈ IE\nVBE = 0.7 V (NPN)"},
+  {cat:"BJT", q:"NPN active region bias conditions", a:"B-E junction: forward biased\nB-C junction: reverse biased"},
+  {cat:"BJT", q:"Quiescent (DC) operating point", a:"IB = (VBB − VBE) / RB\nIC = β·IB\nVCE = VCC − IC·RC\nIf VCE < 0.2 V → saturated"},
+  {cat:"BJT", q:"Transconductance gm", a:"gm = IC / VT\nVT = 25 mV (always)"},
+  {cat:"BJT", q:"Small-signal voltage gain (CE amp)", a:"Av = −gm·RC\nWith Early effect: Av = −gm·(RC ‖ ro)"},
+  {cat:"BJT", q:"Small-signal input resistance (CE amp)", a:"Rin = RB ‖ (β / gm)"},
+  {cat:"BJT", q:"Early effect output resistance", a:"ro = VA / IC"},
+  {cat:"BJT", q:"BJT cutoff frequency", a:"fc = 1 / (2π·Cin·Rin)"},
+  {cat:"BJT", q:"Maximum voltage swing", a:"ΔVmax = 2·min(VCC−VC, VC−VCEsat)\nFor max swing: VC = VCC/2"},
+  {cat:"BJT", q:"Current mirror output current", a:"IREF = (V − VBE) / RREF\nIout = IREF / (1 + 2/β)"},
+  {cat:"Diff Amp", q:"Differential amplifier gains", a:"Single-ended: Av = −½·gm·RC\nDifferential output: Av = gm·RC"},
+  {cat:"Diff Amp", q:"Diff amp input resistance and cutoff", a:"Rin = 2β/gm\nRout = RC\nCutoff = DC (no coupling cap)"},
+  {cat:"Diff Amp", q:"Why is single-ended diff amp gain half CE?", a:"Tail current source splits the signal\n→ each transistor only sees half ΔVin"},
+  {cat:"Gauss", q:"Gauss's law — integral form", a:"∮ D·dS = Q_free\nD = ε0·εr·E"},
+  {cat:"Gauss", q:"E-field between spherical shells (a < r < b)", a:"E = Q / (4π·ε0·εr·r²)\nD = Q / (4π·r²)"},
+  {cat:"Gauss", q:"Spherical shell: voltage and capacitance", a:"V = Q/(4πε0εr)·(1/a − 1/b)\nC = 4πε0εr·ab/(b−a)"},
+  {cat:"Gauss", q:"Coaxial cable E-field (electrostatic)", a:"E = λ/(2π·ε0·εr·r)  for a < r < b\nE = 0 everywhere else"},
+  {cat:"Gauss", q:"Coaxial capacitance per unit length", a:"C/L = 2π·ε0·εr / ln(b/a)"},
+  {cat:"Gauss", q:"Parallel plate capacitor — E, V, C", a:"E = σ/(ε0·εr) = Q/(ε0·εr·A)\nV = E·d\nC = ε0·εr·A/d"},
+  {cat:"Gauss", q:"Electric energy density", a:"Ue = ε0·εr·E²/2 = D·E/2  [J/m³]"},
+  {cat:"Gauss", q:"Capacitor stored energy", a:"U = ½CV² = Q²/2C"},
+  {cat:"Gauss", q:"Conductor surface vs infinite sheet E-field", a:"Conductor (one side): E = σ/(ε0·εr)\nSheet (both sides): E = σ/(2ε0) each side"},
+  {cat:"Gauss", q:"Coulomb's law", a:"F = Q1·Q2 / (4π·ε0·r²)\nE = Q / (4π·ε0·r²)"},
+  {cat:"Ampere", q:"Ampère's law — integral form", a:"∮ B·dl = μ0·I\nB = μ0·H"},
+  {cat:"Ampere", q:"Infinite straight wire B-field", a:"B = μ0·I / (2π·r)\nH = I / (2π·r)\n(direction: right-hand rule)"},
+  {cat:"Ampere", q:"B-field inside solid conductor (r < a)", a:"B = μ0·I·r / (2π·a²)\n(grows linearly from centre)"},
+  {cat:"Ampere", q:"Coaxial cable inductance per unit length", a:"L/l = μ0/(2π) · ln(b/a)"},
+  {cat:"Ampere", q:"Coaxial cable flux between conductors", a:"Φ = μ0·I·L/(2π) · ln(b/a)"},
+  {cat:"Ampere", q:"Solenoid B-field", a:"B = μ0·n·I = μ0·N·I/l  (inside)\nB = 0  (outside)\nn = N/l turns per metre"},
+  {cat:"Ampere", q:"Solenoid inductance", a:"L = μ0·N²·A/l = μ0·n²·lA\nΦ per turn = μ0·n·I·πr²"},
+  {cat:"Ampere", q:"Mutual inductance of nested solenoids", a:"M = μ0·n1·n2·π·r2²·l2\nV2 = −M·dI1/dt"},
+  {cat:"Ampere", q:"Peak induced voltage (sinusoidal drive)", a:"|V_peak| = M · 2πf · I0\nfor I = I0·sin(2πft)"},
+  {cat:"Ampere", q:"Parallel plate inductance (magnetic)", a:"B = μ0·I/W  (between)\nL = μ0·l·d/W"},
+  {cat:"Ampere", q:"Magnetic energy density", a:"Um = B²/(2μ0)  [J/m³]"},
+  {cat:"Ampere", q:"Inductor stored energy", a:"U = ½·L·I²"},
+  {cat:"Maxwell", q:"All four Maxwell equations (name + meaning)", a:"Gauss E: ∮D·dS=Qfree  → charges create E\nGauss B: ∮B·dS=0  → no monopoles\nFaraday: ∮E·dl=−dΦ/dt  → ∂B creates E\nAmpère-M: ∮B·dl=μ0(I+εrε0·dE/dt)"},
+  {cat:"Maxwell", q:"Faraday's law (EMF form + Lenz's law)", a:"v(t) = −dΦ/dt,  Φ = B·A\nMinus sign = Lenz: induced EMF opposes change"},
+];
+
+let filtered = [...CARDS];
+let deck = [], cur = 0, got = 0, miss = 0, missedCards = [];
+let flipped = false, activeFilter = "All";
+const cats = ["All", ...new Set(CARDS.map(c=>c.cat))];
+
+function buildFilters(){
+  document.getElementById('filters').innerHTML = cats.map(cat =>
+    `<button class="filter-btn${cat===activeFilter?' active':''}" onclick="setFilter('${cat}')">${cat}</button>`
+  ).join('');
+}
+
+function setFilter(cat){
+  activeFilter = cat;
+  filtered = cat==="All" ? [...CARDS] : CARDS.filter(c=>c.cat===cat);
+  got=0; miss=0; missedCards=[];
+  document.getElementById('s-got').textContent=0;
+  document.getElementById('s-miss').textContent=0;
+  buildFilters();
+  startDeck();
+}
+
+function shuffle(a){ return [...a].sort(()=>Math.random()-0.5); }
+
+function startDeck(){
+  deck = shuffle(filtered);
+  cur = 0;
+  render();
+}
+
+function render(){
+  const left = deck.length - cur;
+  document.getElementById('s-left').textContent = left;
+  document.getElementById('prog').style.width = Math.round(cur/Math.max(deck.length,1)*100)+'%';
+
+  if(cur >= deck.length){ showDone(); return; }
+
+  flipped = false;
+  document.getElementById('hint').style.display='block';
+  document.getElementById('actions').classList.remove('visible');
+
+  const c = deck[cur];
+  document.getElementById('card-wrap').innerHTML = `
+    <div class="card" id="fc" onclick="flip()">
+      <div class="card-tag">${c.cat}</div>
+      <div class="card-question">${c.q}</div>
+      <div class="card-counter">${cur+1} / ${deck.length}</div>
+      <div class="card-answer" id="ans">
+        <div class="answer-text">${c.a}</div>
+      </div>
+    </div>`;
+}
+
+function flip(){
+  if(flipped) return;
+  flipped = true;
+  document.getElementById('ans').classList.add('visible');
+  document.getElementById('fc').classList.add('flipped');
+  document.getElementById('hint').style.display='none';
+  document.getElementById('actions').classList.add('visible');
+}
+
+function rate(correct){
+  if(correct){ got++; document.getElementById('s-got').textContent=got; }
+  else { miss++; document.getElementById('s-miss').textContent=miss; missedCards.push(deck[cur]); }
+  next();
+}
+
+function next(){ cur++; render(); }
+
+function showDone(){
+  const total = deck.length;
+  const pct = Math.round(got/total*100);
+  document.getElementById('prog').style.width='100%';
+  document.getElementById('hint').style.display='none';
+  document.getElementById('actions').classList.remove('visible');
+
+  const missedHtml = missedCards.length ? `
+    <div class="missed-section">
+      <h3>Review these (${missedCards.length})</h3>
+      ${missedCards.map(c=>`
+        <div class="missed-item">
+          <strong>${c.q}</strong>
+          <span>${c.a}</span>
+        </div>`).join('')}
+    </div>` : '';
+
+  document.getElementById('card-wrap').innerHTML = `
+    <div class="done">
+      <div class="done-score">${pct}%</div>
+      <h2>${got} / ${total} correct</h2>
+      <p>${pct>=80?'Solid — you\'re exam ready.':pct>=60?'Good progress. Review the missed ones below.':'Keep drilling — focus on the cards below.'}</p>
+      <button class="btn-restart" onclick="startDeck()">Restart deck ↺</button>
+      ${missedHtml}
+    </div>`;
+}
+
+buildFilters();
+startDeck();
+</script>
+</body>
+</html>
