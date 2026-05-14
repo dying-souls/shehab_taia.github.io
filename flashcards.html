@@ -64,7 +64,6 @@
   .filter-btn:hover { border-color: var(--border2); color: var(--text); }
   .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 500; }
 
-  /* FLASHCARDS */
   header { width: 100%; max-width: 640px; margin-bottom: 1.5rem; }
   header h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.25rem; }
   header p { font-size: 13px; color: var(--text2); }
@@ -114,16 +113,13 @@
   .missed-item strong { display: block; color: var(--text); font-weight: 500; margin-bottom: 2px; }
   .missed-item span { color: var(--text2); font-family: monospace; font-size: 12px; white-space: pre-wrap; }
 
-  /* DIVIDER */
   .divider { width: 100%; max-width: 640px; border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 
-  /* FORMULA LIST */
   .formula-section { margin-bottom: 2rem; }
   .formula-section-title { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 0; }
   .formula-row { display: grid; grid-template-columns: 1fr 1.6fr; border-bottom: 1px solid var(--border); padding: 11px 0; align-items: start; gap: 1rem; }
   .formula-label { font-size: 13px; color: var(--text2); line-height: 1.5; padding-top: 1px; }
   .formula-value { font-size: 13px; font-family: 'SFMono-Regular', 'Consolas', monospace; color: var(--text); line-height: 1.8; white-space: pre-wrap; }
-  .formula-note { font-size: 11px; color: var(--text3); font-style: italic; margin-top: 3px; line-height: 1.4; }
 </style>
 </head>
 <body>
@@ -158,7 +154,8 @@
 
 <script>
 const CARDS = [
-  // ── OP-AMPS
+
+  // ── OP-AMPS ──────────────────────────────────────────────────────
   { cat:"Op-amps", q:"Inverting amplifier gain, Rin, Rout",
     a:"Av = -RF/R1\nRin = R1,  Rout \u2248 0" },
   { cat:"Op-amps", q:"Non-inverting amplifier gain, Rin, Rout",
@@ -175,117 +172,141 @@ const CARDS = [
     a:"Av = A0 / (1 + A0\u00b7\u03b2)\n\u03b2 = R1/(R1+RF)" },
   { cat:"Op-amps", q:"Non-ideal Rout and Rin (non-inverting)",
     a:"Rout_CL = Rout_OL / (1 + A0\u00b7\u03b2)\nRin_CL  = Rin_OL  \u00d7 (1 + A0\u00b7\u03b2)" },
-  { cat:"Op-amps", q:"Gain-bandwidth product / upper cutoff",
+  { cat:"Op-amps", q:"Gain-bandwidth product and upper cutoff",
     a:"GBP = Av \u00d7 fc\nf_upper = GBP / |Av|" },
   { cat:"Op-amps", q:"Schmitt trigger \u2014 general threshold",
     a:"VTH = Vsat\u00b7R1/(R1+R2) + VREF\u00b7R2/(R1+R2)\n(apply for +Vsat and \u2212Vsat)" },
-  { cat:"Op-amps", q:"Schmitt trigger \u2014 symmetric (VREF=0)",
+  { cat:"Op-amps", q:"Schmitt trigger \u2014 symmetric (VREF = 0)",
     a:"VTH = +Vsat\u00b7R1/(R1+R2)\nVTL = \u2212Vsat\u00b7R1/(R1+R2)\n\u0394V  = 2\u00b7Vsat\u00b7R1/(R1+R2)" },
-  { cat:"Op-amps", q:"Schmitt trigger \u2014 asymmetric (VREF\u22600)",
+  { cat:"Op-amps", q:"Schmitt trigger \u2014 asymmetric (VREF \u2260 0)",
     a:"\u0394V unchanged = 2\u00b7Vsat\u00b7R1/(R1+R2)\nBoth thresholds shift by VREF\u00b7R2/(R1+R2)" },
   { cat:"Op-amps", q:"Precision rectifier",
-    a:"Vin>0 \u2192 Vout=Vin\nVin<0 \u2192 Vout=0" },
+    a:"Vin > 0 \u2192 Vout = Vin\nVin < 0 \u2192 Vout = 0" },
   { cat:"Op-amps", q:"Current amplifier gain",
     a:"Ai = \u2212Rf/Ri" },
+  { cat:"Op-amps", q:"Oscillator period and frequency",
+    a:"T = 2.2\u00b7R\u00b7C\nf = 1 / (2.2\u00b7R\u00b7C)" },
+  { cat:"Op-amps", q:"Slew rate",
+    a:"SR = 2\u03c0\u00b7f\u00b7Vpeak  [V/\u03bcs]\n\nMax frequency before slew limiting:\nf_max = SR / (2\u03c0\u00b7Vpeak)" },
 
-  // ── BJT
+  // ── BJT ──────────────────────────────────────────────────────────
   { cat:"BJT", q:"Key BJT currents",
-    a:"IC = \u03b2\u00b7IB\nIE = IC + IB \u2248 IC\nVBE = 0.7V,  VT = 25mV" },
+    a:"IC = \u03b2\u00b7IB\nIE = IC + IB \u2248 IC\nVBE = 0.7 V,  VT = 25 mV" },
   { cat:"BJT", q:"Quiescent (DC) operating point",
-    a:"IB  = (VBB \u2212 VBE)/RB\nIC  = \u03b2\u00b7IB\nVCE = VCC \u2212 IC\u00b7RC\n(VCE < 0.2V \u2192 saturated)" },
+    a:"IB  = (VBB \u2212 VBE) / RB\nIC  = \u03b2\u00b7IB\nVCE = VCC \u2212 IC\u00b7RC\n(VCE < 0.2 V \u2192 saturated)" },
+  { cat:"BJT", q:"Voltage divider bias (R1/R2 network)",
+    a:"VTH = VCC \u00d7 R2/(R1+R2)\nRTH = R1\u2016R2\nIB  = (VTH \u2212 VBE) / RTH\nIC  = \u03b2\u00b7IB\nVCE = VCC \u2212 IC\u00b7RC" },
+  { cat:"BJT", q:"Power dissipated in BJT",
+    a:"PT = IB\u00b7VBE + IC\u00b7VCE\n\n(base + collector dissipation)" },
   { cat:"BJT", q:"Transconductance gm",
-    a:"gm = IC/VT   (VT = 25mV always)" },
+    a:"gm = IC / VT   (VT = 25 mV always)" },
   { cat:"BJT", q:"Small-signal voltage gain (CE)",
     a:"Av = \u2212gm\u00b7RC\nAv = \u2212gm\u00b7(RC\u2016ro)  with Early effect" },
-  { cat:"BJT", q:"Small-signal Rin (CE amp)",
-    a:"Rin = RB \u2016 (\u03b2/gm)" },
+  { cat:"BJT", q:"Small-signal Rin and Rout (CE amp)",
+    a:"Rin  = RB \u2016 (\u03b2/gm)\nRout = RC" },
   { cat:"BJT", q:"Early effect output resistance",
-    a:"ro = VA/IC" },
+    a:"ro = VA / IC" },
   { cat:"BJT", q:"BJT cutoff frequency",
-    a:"fc = 1/(2\u03c0\u00b7Cin\u00b7Rin)" },
+    a:"fc = 1 / (2\u03c0\u00b7Cin\u00b7Rin)" },
   { cat:"BJT", q:"Maximum voltage swing",
     a:"\u0394Vmax = 2\u00b7min(VCC\u2212VC, VC\u2212VCEsat)\nMax swing when VC = VCC/2" },
   { cat:"BJT", q:"Current mirror",
-    a:"IREF = (V \u2212 VBE)/RREF\nIout = IREF/(1 + 2/\u03b2)" },
+    a:"IREF = (V \u2212 VBE) / RREF\nIout = IREF / (1 + 2/\u03b2)" },
 
-  // ── DIFF AMP
+  // ── DIFF AMP ─────────────────────────────────────────────────────
   { cat:"Diff Amp", q:"Differential amplifier gain",
     a:"Av = \u2212\u00bd\u00b7gm\u00b7RC  (single-ended)\nAv =  gm\u00b7RC   (differential)" },
   { cat:"Diff Amp", q:"Diff amp Rin and Rout",
     a:"Rin = 2\u03b2/gm\nRout = RC" },
 
-  // ── GAUSS
+  // ── GAUSS ────────────────────────────────────────────────────────
   { cat:"Gauss", q:"Gauss's law",
     a:"\u222eD\u00b7dS = Qfree\nD = \u03b50\u00b7\u03b5r\u00b7E" },
   { cat:"Gauss", q:"Coulomb's law",
-    a:"F = Q1\u00b7Q2/(4\u03c0\u00b7\u03b50\u00b7r\u00b2)\nE = Q/(4\u03c0\u00b7\u03b50\u00b7r\u00b2)" },
-  { cat:"Gauss", q:"Spherical shells \u2014 E-field (a<r<b)",
-    a:"E = Q/(4\u03c0\u00b7\u03b50\u00b7\u03b5r\u00b7r\u00b2)\nD = Q/(4\u03c0\u00b7r\u00b2)" },
+    a:"F = Q1\u00b7Q2 / (4\u03c0\u00b7\u03b50\u00b7r\u00b2)\nE = Q / (4\u03c0\u00b7\u03b50\u00b7r\u00b2)" },
+  { cat:"Gauss", q:"Spherical shells \u2014 E-field (a < r < b)",
+    a:"E = Q / (4\u03c0\u00b7\u03b50\u00b7\u03b5r\u00b7r\u00b2)\nD = Q / (4\u03c0\u00b7r\u00b2)" },
   { cat:"Gauss", q:"Spherical shells \u2014 V and C",
     a:"V = Q/(4\u03c0\u00b7\u03b50\u00b7\u03b5r)\u00b7(1/a \u2212 1/b)\nC = 4\u03c0\u00b7\u03b50\u00b7\u03b5r\u00b7ab/(b\u2212a)" },
   { cat:"Gauss", q:"Spherical shells \u2014 energy",
     a:"Ue = \u03b50\u00b7\u03b5r\u00b7E\u00b2/2  [J/m\u00b3]\nU  = Q\u00b2/(8\u03c0\u00b7\u03b50\u00b7\u03b5r)\u00b7(1/a \u2212 1/b)" },
   { cat:"Gauss", q:"Coaxial cable \u2014 E-field (electrostatic)",
-    a:"E = \u03bb/(2\u03c0\u00b7\u03b50\u00b7\u03b5r\u00b7r)  for a<r<b\nE = 0 elsewhere" },
+    a:"E = \u03bb / (2\u03c0\u00b7\u03b50\u00b7\u03b5r\u00b7r)  for a < r < b\nE = 0 elsewhere" },
   { cat:"Gauss", q:"Coaxial cable \u2014 V and C/L",
-    a:"V   = \u03bb/(2\u03c0\u00b7\u03b50\u00b7\u03b5r)\u00b7ln(b/a)\nC/L = 2\u03c0\u00b7\u03b50\u00b7\u03b5r/ln(b/a)" },
+    a:"V   = \u03bb/(2\u03c0\u00b7\u03b50\u00b7\u03b5r)\u00b7ln(b/a)\nC/L = 2\u03c0\u00b7\u03b50\u00b7\u03b5r / ln(b/a)" },
   { cat:"Gauss", q:"Parallel plate \u2014 E, V, C",
     a:"E = \u03c3/(\u03b50\u00b7\u03b5r) = Q/(\u03b50\u00b7\u03b5r\u00b7A)\nV = E\u00b7d\nC = \u03b50\u00b7\u03b5r\u00b7A/d" },
   { cat:"Gauss", q:"Parallel plate \u2014 energy",
     a:"Ue = \u03c3\u00b2/(2\u00b7\u03b50\u00b7\u03b5r)  [J/m\u00b3]\nU  = \u00bdCV\u00b2 = Q\u00b2/2C" },
   { cat:"Gauss", q:"Conductor vs sheet E-field",
     a:"Conductor (one side): E = \u03c3/(\u03b50\u00b7\u03b5r)\nSheet (both sides):   E = \u03c3/(2\u00b7\u03b50)" },
+  { cat:"Gauss", q:"Two dielectric layers in series",
+    a:"D same in both layers\nE1 = D/(\u03b50\u00b7\u03b51),  E2 = D/(\u03b50\u00b7\u03b52)\nV  = E1\u00b7t1 + E2\u00b7t2\nC  = \u03b50\u00b7A / (t1/\u03b51 + t2/\u03b52)" },
 
-  // ── POLARISATION (NEW)
+  // ── POLARISATION ─────────────────────────────────────────────────
   { cat:"Polarisation", q:"D, E and P relationship",
-    a:"D = \u03b50\u00b7E + P\n\nD = total flux density [C/m\u00b2]\n\u03b50E = vacuum contribution\nP = polarisation (dipole density)" },
+    a:"D = \u03b50\u00b7E + P\n\nD = total flux density [C/m\u00b2]\n\u03b50E = vacuum contribution\nP = polarisation (bound dipole density)" },
   { cat:"Polarisation", q:"Electric dipole moment p",
-    a:"p = Q\u00b7d\n\nQ = charge magnitude [C]\nd = separation vector [m]\npoints from \u2212 to +" },
+    a:"p = Q\u00b7d\n\nQ = charge magnitude [C]\nd = separation [m]  (points \u2212 \u2192 +)" },
   { cat:"Polarisation", q:"Magnetic flux \u03a6",
-    a:"\u03a6 = B\u00b7A\n\n(uniform B, flat surface perpendicular to B)\n[\u03a6] = Wb = V\u00b7s" },
+    a:"\u03a6 = B\u00b7A\n\n(uniform B perpendicular to flat surface)\n[\u03a6] = Wb = V\u00b7s" },
 
-  // ── AMPERE
+  // ── AMPERE ───────────────────────────────────────────────────────
   { cat:"Ampere", q:"Amp\u00e8re's law",
     a:"\u222eB\u00b7dl = \u03bc0\u00b7I\nB = \u03bc0\u00b7H" },
   { cat:"Ampere", q:"Infinite straight wire",
-    a:"B = \u03bc0\u00b7I/(2\u03c0\u00b7r)\nH = I/(2\u03c0\u00b7r)" },
-  { cat:"Ampere", q:"Coaxial cable \u2014 B-field",
-    a:"r<a:   B = \u03bc0\u00b7I\u00b7r/(2\u03c0\u00b7a\u00b2)\na<r<b: B = \u03bc0\u00b7I/(2\u03c0\u00b7r)\nr>b:   B = 0" },
+    a:"B = \u03bc0\u00b7I / (2\u03c0\u00b7r)\nH = I / (2\u03c0\u00b7r)" },
+  { cat:"Ampere", q:"Inside solid conductor at radius r",
+    a:"B = \u03bc0\u00b7I\u00b7r / (2\u03c0\u00b7a\u00b2)\n\n(B grows linearly from 0 at centre to\n\u03bc0I/2\u03c0a at surface r = a)" },
+  { cat:"Ampere", q:"Two parallel wires \u2014 superposition B-field",
+    a:"B = \u03bc0\u00b7I\u00b7d / (2\u03c0\u00b7x\u00b2)  for x \u226b d\n\nd = wire separation\nx = distance from midpoint" },
+  { cat:"Ampere", q:"Coaxial cable \u2014 B-field (all regions)",
+    a:"r < a:   B = \u03bc0\u00b7I\u00b7r / (2\u03c0\u00b7a\u00b2)\na < r < b: B = \u03bc0\u00b7I / (2\u03c0\u00b7r)\nr > b:   B = 0" },
   { cat:"Ampere", q:"Coaxial cable \u2014 inductance",
     a:"\u03a6   = \u03bc0\u00b7I\u00b7L/(2\u03c0)\u00b7ln(b/a)\nL/l = \u03bc0/(2\u03c0)\u00b7ln(b/a)" },
   { cat:"Ampere", q:"Solenoid \u2014 B-field",
-    a:"B = \u03bc0\u00b7n\u00b7I = \u03bc0\u00b7N\u00b7I/l  (inside)\nB = 0  (outside)\nn = N/l" },
+    a:"B = \u03bc0\u00b7n\u00b7I = \u03bc0\u00b7N\u00b7I/l  (inside)\nB = 0  (outside),  n = N/l" },
   { cat:"Ampere", q:"Solenoid \u2014 inductance",
-    a:"\u03a6/turn = \u03bc0\u00b7n\u00b7I\u00b7\u03c0r\u00b2\nL = \u03bc0\u00b7N\u00b2\u00b7A/l = \u03bc0\u00b7n\u00b2\u00b7lA" },
+    a:"\u03a6/turn = \u03bc0\u00b7n\u00b7I\u00b7\u03c0r\u00b2\nL = \u03bc0\u00b7N\u00b2\u00b7A/l = \u03bc0\u00b7n\u00b2\u00b7l\u00b7A" },
   { cat:"Ampere", q:"Mutual inductance (nested solenoids)",
     a:"M  = \u03bc0\u00b7n1\u00b7n2\u00b7\u03c0\u00b7r2\u00b2\u00b7l2\nV2 = \u2212M\u00b7dI1/dt" },
   { cat:"Ampere", q:"Peak induced voltage (sinusoidal)",
     a:"|Vpeak| = M\u00b72\u03c0\u00b7f\u00b7I0\n(for I = I0\u00b7sin(2\u03c0ft))" },
   { cat:"Ampere", q:"Parallel plates \u2014 magnetic",
     a:"B = \u03bc0\u00b7I/W  (between)\nL = \u03bc0\u00b7l\u00b7d/W" },
-  { cat:"Ampere", q:"Magnetic energy",
-    a:"Um = B\u00b2/(2\u03bc0)  [J/m\u00b3]\nU  = \u00bd\u00b7L\u00b7I\u00b2" },
+  { cat:"Ampere", q:"Faraday induced voltage (N turns)",
+    a:"V = \u2212N\u00b7d\u03a6/dt\n\n(single turn: V = \u2212d\u03a6/dt)" },
 
-  // ── MAXWELL
-  { cat:"Maxwell", q:"Faraday's law (EMF)",
-    a:"v(t) = \u2212d\u03a6/dt,  \u03a6 = B\u00b7A\n(minus = Lenz's law)" },
+  // ── MAXWELL ──────────────────────────────────────────────────────
+  { cat:"Maxwell", q:"Faraday's law (EMF form)",
+    a:"v(t) = \u2212d\u03a6/dt,  \u03a6 = B\u00b7A\n(minus = Lenz\u2019s law)" },
   { cat:"Maxwell", q:"All four Maxwell equations",
     a:"Gauss E:  \u222eD\u00b7dS = Qfree      \u2192 charges create E\nGauss B:  \u222eB\u00b7dS = 0          \u2192 no monopoles\nFaraday:  \u222eE\u00b7dl = \u2212d\u03a6/dt    \u2192 \u2202B creates E\nAmp\u00e8re-M: \u222eB\u00b7dl = \u03bc0(I+\u03b5r\u03b50\u00b7dE/dt)" },
   { cat:"Maxwell", q:"Phasor current and induced voltage",
-    a:"i(t) = I0\u00b7e^{j\u03c9t}\nv(t) = j\u03c9\u00b7M\u00b7i(t)\n\n(phasor form: \u03c9 = 2\u03c0f)" },
+    a:"i(t) = I0\u00b7e^{j\u03c9t}\nv(t) = j\u03c9\u00b7M\u00b7i(t)\n\n(\u03c9 = 2\u03c0f)" },
   { cat:"Maxwell", q:"Mutual inductance from geometry",
-    a:"M = \u03a6/I = \u03bc0\u00b7A / (2\u03c0\u00b7d)\n\n\u03a6 = flux linkage [Wb]\nA = cross-section area [m\u00b2]\nd = separation [m]" },
+    a:"M = \u03a6/I = \u03bc0\u00b7A / (2\u03c0\u00b7d)\n\nA = cross-section area [m\u00b2]\nd = separation [m]" },
+
+  // ── ENERGY ───────────────────────────────────────────────────────
+  { cat:"Energy", q:"Electric and magnetic energy densities",
+    a:"Ue = \u03b50\u00b7\u03b5r\u00b7E\u00b2/2  [J/m\u00b3]\nUm = B\u00b2/(2\u03bc0)   [J/m\u00b3]" },
+  { cat:"Energy", q:"Total energy in a volume",
+    a:"U = Ue \u00d7 Volume  (electric)\nU = Um \u00d7 Volume  (magnetic)\n\nU = energy_density \u00d7 volume [J]" },
+  { cat:"Energy", q:"Solenoid total magnetic energy (using B)",
+    a:"U = B\u00b2/(2\u03bc0) \u00d7 \u03c0r\u00b2\u00b7l\n\n= (B\u00b2 \u00d7 volume) / (2\u03bc0)\nalso equals \u00bdLI\u00b2" },
+  { cat:"Energy", q:"Capacitor and inductor stored energy",
+    a:"Capacitor: U = \u00bdCV\u00b2 = Q\u00b2/2C\nInductor:  U = \u00bdLI\u00b2" },
 ];
 
-const CATS = ["All", ...new Set(CARDS.map(c => c.cat))];
+const CATS = ["All", ...new Set(CARDS.map(function(c){ return c.cat; }))];
 let quizFilter = "All", listFilter = "All";
 let deck = [], cur = 0, got = 0, miss = 0, missedCards = [], flipped = false;
 
 function buildQuizFilters() {
-  document.getElementById('quiz-filters').innerHTML = CATS.map(c =>
-    '<button class="filter-btn' + (c === quizFilter ? ' active' : '') +
-    '" onclick="setQuizFilter(\'' + c + '\')">' + c + '</button>'
-  ).join('');
+  document.getElementById('quiz-filters').innerHTML = CATS.map(function(c) {
+    return '<button class="filter-btn' + (c === quizFilter ? ' active' : '') +
+      '" onclick="setQuizFilter(\'' + c + '\')">' + c + '</button>';
+  }).join('');
 }
 
 function setQuizFilter(cat) {
@@ -357,10 +378,10 @@ function showDone() {
 }
 
 function buildListFilters() {
-  document.getElementById('list-filters').innerHTML = CATS.map(c =>
-    '<button class="filter-btn' + (c === listFilter ? ' active' : '') +
-    '" onclick="setListFilter(\'' + c + '\')">' + c + '</button>'
-  ).join('');
+  document.getElementById('list-filters').innerHTML = CATS.map(function(c) {
+    return '<button class="filter-btn' + (c === listFilter ? ' active' : '') +
+      '" onclick="setListFilter(\'' + c + '\')">' + c + '</button>';
+  }).join('');
 }
 
 function setListFilter(cat) { listFilter = cat; buildList(); buildListFilters(); }
