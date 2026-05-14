@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Formula Flashcards</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
-  onload="initApp()"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -62,7 +59,6 @@ body {
   border-bottom: 1px solid var(--border2);
   margin-bottom: 2rem;
 }
-
 .tab {
   padding: 8px 20px;
   font-size: 14px;
@@ -86,7 +82,6 @@ body {
   flex-wrap: wrap;
   margin-bottom: 1.25rem;
 }
-
 .filter-btn {
   font-size: 12px;
   padding: 4px 12px;
@@ -101,171 +96,68 @@ body {
 .filter-btn:hover { color: var(--text); }
 .filter-btn.active { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 500; }
 
-/* ── BROWSE ────────────────────────────────────────────────────── */
+/* BROWSE */
 #browse-view { width: 100%; max-width: 700px; }
-
-.browse-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  margin-bottom: 1.5rem;
-}
+.browse-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem; }
 .browse-header h1 { font-size: 22px; font-weight: normal; letter-spacing: -0.01em; }
 .browse-header span { font-size: 13px; color: var(--text3); font-family: -apple-system, sans-serif; }
-
 .section-block { margin-bottom: 2.5rem; }
-
 .section-title {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text3);
-  font-family: -apple-system, sans-serif;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 6px;
-  margin-bottom: 0;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text3); font-family: -apple-system, sans-serif;
+  border-bottom: 1px solid var(--border); padding-bottom: 6px;
 }
-
 .formula-row {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 0;
-  border-bottom: 1px solid var(--border);
-  padding: 14px 0;
-  align-items: start;
+  display: grid; grid-template-columns: 1fr 1.5fr;
+  border-bottom: 1px solid var(--border); padding: 14px 0; align-items: start;
 }
-
 .formula-label {
-  font-size: 14px;
-  color: var(--text2);
-  font-family: -apple-system, sans-serif;
-  padding-right: 1rem;
-  padding-top: 6px;
-  line-height: 1.5;
+  font-size: 14px; color: var(--text2); font-family: -apple-system, sans-serif;
+  padding-right: 1rem; padding-top: 6px; line-height: 1.5;
 }
-
-.formula-math { font-size: 15px; line-height: 1; }
-.formula-math .katex-display { margin: 0.35em 0; }
-.formula-math .katex { font-size: 1em; }
+.formula-math { font-size: 15px; }
+.formula-math .katex-display { margin: 0.3em 0; }
 .answer-note {
-  font-size: 12px;
-  color: var(--text3);
-  font-family: -apple-system, sans-serif;
-  font-style: italic;
-  line-height: 1.5;
-  margin-top: 6px;
+  font-size: 12px; color: var(--text3); font-family: -apple-system, sans-serif;
+  font-style: italic; line-height: 1.5; margin-top: 6px;
 }
 
-/* ── QUIZ ──────────────────────────────────────────────────────── */
+/* QUIZ */
 #quiz-view { width: 100%; max-width: 700px; display: none; }
-
-.quiz-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
+.quiz-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
 .quiz-top h1 { font-size: 18px; font-weight: normal; }
-
 .stats-row { display: flex; gap: 8px; }
 .stat {
-  font-size: 12px;
-  padding: 3px 10px;
-  border-radius: 100px;
-  border: 1px solid var(--border2);
-  background: var(--surface);
-  color: var(--text2);
-  font-family: -apple-system, sans-serif;
+  font-size: 12px; padding: 3px 10px; border-radius: 100px;
+  border: 1px solid var(--border2); background: var(--surface);
+  color: var(--text2); font-family: -apple-system, sans-serif;
 }
 .stat b { color: var(--text); }
-
-.progress-wrap {
-  width: 100%;
-  height: 2px;
-  background: var(--border2);
-  border-radius: 2px;
-  margin-bottom: 1.25rem;
-  overflow: hidden;
-}
-.progress-fill {
-  height: 100%;
-  background: var(--green);
-  border-radius: 2px;
-  transition: width 0.4s ease;
-  width: 0%;
-}
+.progress-wrap { width: 100%; height: 2px; background: var(--border2); border-radius: 2px; margin-bottom: 1.25rem; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
 
 .card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius);
-  padding: 1.75rem 2rem;
-  cursor: pointer;
-  transition: border-color 0.15s;
-  margin-bottom: 0.75rem;
-  min-height: 150px;
+  background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius);
+  padding: 1.75rem 2rem; cursor: pointer; transition: border-color 0.15s;
+  margin-bottom: 0.75rem; min-height: 150px;
 }
 .card:hover { border-color: var(--text3); }
 .card.flipped { cursor: default; border-color: var(--text3); }
-
-.card-tag {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text3);
-  font-family: -apple-system, sans-serif;
-  margin-bottom: 0.9rem;
-}
-.card-question {
-  font-size: 18px;
-  color: var(--text);
-  line-height: 1.4;
-  font-family: -apple-system, sans-serif;
-  font-weight: 500;
-}
-.card-num {
-  font-size: 12px;
-  color: var(--text3);
-  font-family: -apple-system, sans-serif;
-  margin-top: 0.5rem;
-}
-
-.card-answer {
-  display: none;
-  margin-top: 1.25rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border);
-}
+.card-tag { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text3); font-family: -apple-system, sans-serif; margin-bottom: 0.9rem; }
+.card-question { font-size: 18px; color: var(--text); line-height: 1.4; font-family: -apple-system, sans-serif; font-weight: 500; }
+.card-num { font-size: 12px; color: var(--text3); font-family: -apple-system, sans-serif; margin-top: 0.5rem; }
+.card-answer { display: none; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border); }
 .card-answer.visible { display: block; }
-.answer-math { font-size: 15px; line-height: 1; }
 .answer-math .katex-display { margin: 0.4em 0; }
-.answer-math .katex { font-size: 1em; }
 
-.tap-hint {
-  text-align: center;
-  font-size: 12px;
-  color: var(--text3);
-  font-family: -apple-system, sans-serif;
-  margin-bottom: 0.75rem;
-}
-
+.tap-hint { text-align: center; font-size: 12px; color: var(--text3); font-family: -apple-system, sans-serif; margin-bottom: 0.75rem; }
 .actions { display: none; gap: 8px; margin-bottom: 0.5rem; }
 .actions.visible { display: flex; }
-
 .btn {
-  flex: 1;
-  padding: 10px;
-  font-size: 13px;
-  font-weight: 500;
-  border-radius: var(--radius);
-  border: 1px solid var(--border2);
-  cursor: pointer;
-  font-family: -apple-system, sans-serif;
-  transition: all 0.12s;
-  background: var(--surface);
-  color: var(--text);
+  flex: 1; padding: 10px; font-size: 13px; font-weight: 500;
+  border-radius: var(--radius); border: 1px solid var(--border2);
+  cursor: pointer; font-family: -apple-system, sans-serif;
+  transition: all 0.12s; background: var(--surface); color: var(--text);
 }
 .btn:hover { background: var(--surface2); }
 .btn:active { transform: scale(0.97); }
@@ -275,69 +167,30 @@ body {
 .btn-missed:hover { background: var(--red-bg); }
 .btn-skip { color: var(--text2); }
 
-/* done */
-.done {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius);
-  padding: 2.5rem 2rem;
-  text-align: center;
-}
-.done-score {
-  font-size: 56px;
-  font-weight: normal;
-  color: var(--green);
-  font-family: Georgia, serif;
-  line-height: 1;
-  margin-bottom: 0.25rem;
-}
+.done { background: var(--surface); border: 1px solid var(--border2); border-radius: var(--radius); padding: 2.5rem 2rem; text-align: center; }
+.done-score { font-size: 56px; font-weight: normal; color: var(--green); font-family: Georgia, serif; line-height: 1; margin-bottom: 0.25rem; }
 .done h2 { font-size: 20px; font-weight: normal; margin-bottom: 0.5rem; }
 .done p { color: var(--text2); font-size: 14px; font-family: -apple-system, sans-serif; margin-bottom: 1.5rem; }
-
 .btn-restart {
-  display: inline-block;
-  padding: 9px 22px;
-  font-size: 13px;
-  font-weight: 500;
-  border-radius: var(--radius);
-  border: 1px solid var(--border2);
-  cursor: pointer;
-  font-family: -apple-system, sans-serif;
-  background: var(--surface);
-  color: var(--text);
-  transition: all 0.12s;
+  display: inline-block; padding: 9px 22px; font-size: 13px; font-weight: 500;
+  border-radius: var(--radius); border: 1px solid var(--border2); cursor: pointer;
+  font-family: -apple-system, sans-serif; background: var(--surface); color: var(--text); transition: all 0.12s;
 }
 .btn-restart:hover { background: var(--surface2); }
-
-.missed-section {
-  text-align: left;
-  margin-top: 1.5rem;
-  border-top: 1px solid var(--border);
-  padding-top: 1rem;
-}
-.missed-section h3 {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text3);
-  font-family: -apple-system, sans-serif;
-  margin-bottom: 0.75rem;
-}
+.missed-section { text-align: left; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; }
+.missed-section h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); font-family: -apple-system, sans-serif; margin-bottom: 0.75rem; }
 .missed-item { padding: 10px 0; border-bottom: 1px solid var(--border); }
 .missed-q { font-size: 13px; font-weight: 500; color: var(--text); font-family: -apple-system, sans-serif; margin-bottom: 4px; }
-.missed-a .katex-display { margin: 0.35em 0; }
-.missed-a .katex { font-size: 0.95em; }
+.missed-a .katex-display { margin: 0.3em 0; }
 </style>
 </head>
 <body>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('browse')">Browse all</button>
-  <button class="tab" onclick="showTab('quiz'); startDeck();">Flashcard quiz</button>
+  <button class="tab active" id="tab-browse" onclick="showTab('browse')">Browse all</button>
+  <button class="tab" id="tab-quiz" onclick="showTab('quiz')">Flashcard quiz</button>
 </div>
 
-<!-- BROWSE -->
 <div id="browse-view">
   <div class="browse-header">
     <h1>Formula Sheet</h1>
@@ -347,14 +200,13 @@ body {
   <div id="browse-list"></div>
 </div>
 
-<!-- QUIZ -->
 <div id="quiz-view">
   <div class="quiz-top">
     <h1>Flashcard quiz</h1>
     <div class="stats-row">
-      <div class="stat">✓ <b id="s-got">0</b></div>
-      <div class="stat">✗ <b id="s-miss">0</b></div>
-      <div class="stat"><b id="s-left">—</b> left</div>
+      <div class="stat">&#10003; <b id="s-got">0</b></div>
+      <div class="stat">&#10007; <b id="s-miss">0</b></div>
+      <div class="stat"><b id="s-left">0</b> left</div>
     </div>
   </div>
   <div class="progress-wrap"><div class="progress-fill" id="prog"></div></div>
@@ -362,337 +214,315 @@ body {
   <div id="card-wrap"></div>
   <p class="tap-hint" id="hint">Tap the card to reveal the answer</p>
   <div class="actions" id="actions">
-    <button class="btn btn-missed" onclick="rate(false)">✗ Missed</button>
+    <button class="btn btn-missed" onclick="rate(false)">&#10007; Missed</button>
     <button class="btn btn-skip" onclick="nextCard()">Skip</button>
-    <button class="btn btn-got" onclick="rate(true)">✓ Got it</button>
+    <button class="btn btn-got" onclick="rate(true)">&#10003; Got it</button>
   </div>
 </div>
 
+<!-- Load KaTeX synchronously so it's ready before any JS runs -->
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script>
+
 const CARDS = [
-  // ── OP-AMPS
   { cat:"Op-amps", q:"Inverting amplifier gain, Rin, Rout",
     math:["A_v = -\\dfrac{R_F}{R_1}", "R_{in} = R_1 \\qquad R_{out} \\approx 0"] },
-
   { cat:"Op-amps", q:"Non-inverting amplifier gain, Rin, Rout",
     math:["A_v = 1 + \\dfrac{R_F}{R_1}", "R_{in} \\to \\infty \\qquad R_{out} \\approx 0"] },
-
   { cat:"Op-amps", q:"Ideal op-amp golden rules",
     math:["I_+ = I_- = 0", "V_+ = V_-"],
     note:"No input current; virtual short between inputs." },
-
   { cat:"Op-amps", q:"Summing amplifier output voltage",
-    math:["V_{out} = -\\!\\left(\\dfrac{R_F}{R_1}V_1 + \\dfrac{R_F}{R_2}V_2\\right)"] },
-
+    math:["V_{out} = -\\left(\\dfrac{R_F}{R_1}V_1 + \\dfrac{R_F}{R_2}V_2\\right)"] },
   { cat:"Op-amps", q:"Integrator output",
     math:["V_{out} = -\\dfrac{1}{RC}\\int V_{in}\\,dt"] },
-
   { cat:"Op-amps", q:"Buffer: gain, Rin, Rout",
     math:["A_v = 1 \\qquad R_{in} = \\infty \\qquad R_{out} = 0"] },
-
   { cat:"Op-amps", q:"Non-ideal closed-loop gain",
     math:["A_v = \\dfrac{A_0}{1 + A_0\\beta}", "\\beta = \\dfrac{R_1}{R_1 + R_F}"] },
-
   { cat:"Op-amps", q:"Non-ideal closed-loop Rout and Rin",
     math:["R_{out,CL} = \\dfrac{R_{out,OL}}{1 + A_0\\beta}",
           "R_{in,CL} = R_{in,OL}\\,(1 + A_0\\beta)"],
     note:"Negative feedback lowers Rout and raises Rin." },
-
   { cat:"Op-amps", q:"Gain-bandwidth product and upper cutoff frequency",
     math:["\\mathrm{GBP} = A_v \\times f_c",
           "f_{upper} = \\dfrac{\\mathrm{GBP}}{|A_v|}"] },
-
   { cat:"Op-amps", q:"Schmitt trigger threshold — general form",
     math:["V_{TH} = V_{sat}\\dfrac{R_1}{R_1+R_2} + V_{REF}\\dfrac{R_2}{R_1+R_2}"],
-    note:"Apply for +Vsat and −Vsat. R1: output→V+,  R2: V+→GND." },
-
+    note:"Apply for +Vsat and -Vsat. R1: output to V+,  R2: V+ to GND." },
   { cat:"Op-amps", q:"Schmitt trigger — symmetric (VREF = 0)",
     math:["V_{TH} = +V_{sat}\\dfrac{R_1}{R_1+R_2}",
           "V_{TL} = -V_{sat}\\dfrac{R_1}{R_1+R_2}",
           "\\Delta V = 2V_{sat}\\dfrac{R_1}{R_1+R_2}"] },
-
-  { cat:"Op-amps", q:"Schmitt trigger — asymmetric (VREF ≠ 0)",
-    math:["\\Delta V = 2V_{sat}\\dfrac{R_1}{R_1+R_2}\\quad(\\text{unchanged})"],
-    note:"Both thresholds shift by VREF·R2/(R1+R2). Hysteresis width unchanged." },
-
+  { cat:"Op-amps", q:"Schmitt trigger — asymmetric (VREF not 0)",
+    math:["\\Delta V = 2V_{sat}\\dfrac{R_1}{R_1+R_2}"],
+    note:"Both thresholds shift by VREF x R2/(R1+R2). Hysteresis width unchanged." },
   { cat:"Op-amps", q:"Precision rectifier behaviour",
-    math:["V_{in}>0:\\;V_{out}=V_{in}", "V_{in}<0:\\;V_{out}=0"],
+    math:["V_{in}>0 \\Rightarrow V_{out}=V_{in}", "V_{in}<0 \\Rightarrow V_{out}=0"],
     note:"Diode forward voltage cancelled by feedback loop." },
-
   { cat:"Op-amps", q:"Current amplifier gain",
     math:["A_i = -\\dfrac{R_f}{R_i}"] },
 
-  // ── BJT
   { cat:"BJT", q:"Key BJT current relationships",
     math:["I_C = \\beta I_B",
           "I_E = I_C + I_B \\approx I_C",
-          "V_{BE} = 0.7\\,\\text{V}\\quad V_T = 25\\,\\text{mV}"] },
-
+          "V_{BE} = 0.7\\,\\text{V} \\qquad V_T = 25\\,\\text{mV}"] },
   { cat:"BJT", q:"Quiescent (DC) operating point",
     math:["I_B = \\dfrac{V_{BB} - V_{BE}}{R_B}",
           "I_C = \\beta I_B",
           "V_{CE} = V_{CC} - I_C R_C"],
-    note:"If VCE < 0.2 V → saturated." },
-
+    note:"If VCE < 0.2 V the transistor is saturated." },
   { cat:"BJT", q:"Transconductance gm",
     math:["g_m = \\dfrac{I_C}{V_T}"],
-    note:"VT = 25 mV always. Bigger IC → bigger gm → more gain." },
-
+    note:"VT = 25 mV always. Bigger IC means bigger gm means more gain." },
   { cat:"BJT", q:"Small-signal voltage gain (CE amp)",
     math:["A_v = -g_m R_C",
-          "A_v = -g_m(R_C \\| r_o)\\quad\\text{(with Early effect)}"],
+          "A_v = -g_m(R_C \\| r_o) \\quad \\text{with Early effect}"],
     note:"Minus sign = inverting." },
-
   { cat:"BJT", q:"Small-signal input resistance (CE amp)",
-    math:["R_{in} = R_B \\,\\Big\\|\\, \\dfrac{\\beta}{g_m}"] },
-
+    math:["R_{in} = R_B \\, \\| \\, \\dfrac{\\beta}{g_m}"] },
   { cat:"BJT", q:"Early effect output resistance",
     math:["r_o = \\dfrac{V_A}{I_C}"] },
-
   { cat:"BJT", q:"BJT cutoff frequency",
     math:["f_c = \\dfrac{1}{2\\pi C_{in} R_{in}}"] },
-
   { cat:"BJT", q:"Maximum output voltage swing",
-    math:["\\Delta V_{max} = 2\\min\\bigl(V_{CC}-V_C,\\;V_C - V_{CE,sat}\\bigr)"],
+    math:["\\Delta V_{max} = 2\\min(V_{CC}-V_C,\\; V_C - V_{CE,sat})"],
     note:"For maximum swing set VC = VCC/2." },
-
   { cat:"BJT", q:"Current mirror",
     math:["I_{REF} = \\dfrac{V - V_{BE}}{R_{REF}}",
           "I_{out} = \\dfrac{I_{REF}}{1 + 2/\\beta}"] },
 
-  // ── DIFF AMP
   { cat:"Diff Amp", q:"Differential amplifier voltage gain",
-    math:["A_v = -\\tfrac{1}{2}g_m R_C\\quad\\text{(single-ended)}",
-          "A_v = g_m R_C\\quad\\text{(differential output)}"],
-    note:"Single-ended is half CE gain — tail source splits the signal." },
-
+    math:["A_v = -\\tfrac{1}{2}g_m R_C \\quad \\text{single-ended}",
+          "A_v = g_m R_C \\quad \\text{differential output}"],
+    note:"Single-ended is half CE gain because the tail source splits the signal." },
   { cat:"Diff Amp", q:"Diff amp Rin and Rout",
-    math:["R_{in} = \\dfrac{2\\beta}{g_m}\\qquad R_{out} = R_C"] },
+    math:["R_{in} = \\dfrac{2\\beta}{g_m} \\qquad R_{out} = R_C"] },
 
-  // ── GAUSS
   { cat:"Gauss", q:"Gauss's law — integral form",
-    math:["\\oint \\mathbf{D}\\cdot d\\mathbf{S} = Q_{\\text{free}}",
-          "\\mathbf{D} = \\varepsilon_0\\varepsilon_r\\mathbf{E}"] },
-
+    math:["\\oint \\mathbf{D} \\cdot d\\mathbf{S} = Q_{\\text{free}}",
+          "\\mathbf{D} = \\varepsilon_0 \\varepsilon_r \\mathbf{E}"] },
   { cat:"Gauss", q:"Coulomb's law",
     math:["F = \\dfrac{Q_1 Q_2}{4\\pi\\varepsilon_0 r^2}",
           "E = \\dfrac{Q}{4\\pi\\varepsilon_0 r^2}"] },
-
-  { cat:"Gauss", q:"Spherical shells — E-field and D (a < r < b)",
+  { cat:"Gauss", q:"Spherical shells — E-field (a < r < b)",
     math:["E = \\dfrac{Q}{4\\pi\\varepsilon_0\\varepsilon_r r^2}",
           "D = \\dfrac{Q}{4\\pi r^2}"] },
-
   { cat:"Gauss", q:"Spherical shells — voltage and capacitance",
-    math:["V = \\dfrac{Q}{4\\pi\\varepsilon_0\\varepsilon_r}\\!\\left(\\dfrac{1}{a}-\\dfrac{1}{b}\\right)",
+    math:["V = \\dfrac{Q}{4\\pi\\varepsilon_0\\varepsilon_r}\\left(\\dfrac{1}{a}-\\dfrac{1}{b}\\right)",
           "C = \\dfrac{4\\pi\\varepsilon_0\\varepsilon_r\\,ab}{b-a}"] },
-
   { cat:"Gauss", q:"Spherical shells — energy density and total energy",
-    math:["u_e = \\dfrac{\\varepsilon_0\\varepsilon_r E^2}{2}\\;[\\text{J/m}^3]",
-          "U = \\dfrac{Q^2}{8\\pi\\varepsilon_0\\varepsilon_r}\\!\\left(\\dfrac{1}{a}-\\dfrac{1}{b}\\right)"] },
-
+    math:["u_e = \\dfrac{\\varepsilon_0\\varepsilon_r E^2}{2} \\; [\\text{J/m}^3]",
+          "U = \\dfrac{Q^2}{8\\pi\\varepsilon_0\\varepsilon_r}\\left(\\dfrac{1}{a}-\\dfrac{1}{b}\\right)"] },
   { cat:"Gauss", q:"Coaxial cable — E-field (electrostatic)",
-    math:["E = \\dfrac{\\lambda}{2\\pi\\varepsilon_0\\varepsilon_r r}\\quad(a<r<b)",
-          "E = 0\\quad\\text{elsewhere}"] },
-
+    math:["E = \\dfrac{\\lambda}{2\\pi\\varepsilon_0\\varepsilon_r r} \\quad (a<r<b)",
+          "E = 0 \\quad \\text{elsewhere}"] },
   { cat:"Gauss", q:"Coaxial cable — voltage and capacitance per unit length",
     math:["V = \\dfrac{\\lambda}{2\\pi\\varepsilon_0\\varepsilon_r}\\ln\\dfrac{b}{a}",
           "\\dfrac{C}{L} = \\dfrac{2\\pi\\varepsilon_0\\varepsilon_r}{\\ln(b/a)}"] },
-
   { cat:"Gauss", q:"Parallel plate capacitor — E, V, C",
     math:["E = \\dfrac{\\sigma}{\\varepsilon_0\\varepsilon_r} = \\dfrac{Q}{\\varepsilon_0\\varepsilon_r A}",
-          "V = Ed\\qquad C = \\dfrac{\\varepsilon_0\\varepsilon_r A}{d}"] },
-
+          "V = Ed \\qquad C = \\dfrac{\\varepsilon_0\\varepsilon_r A}{d}"] },
   { cat:"Gauss", q:"Parallel plate — energy density and stored energy",
     math:["u_e = \\dfrac{\\sigma^2}{2\\varepsilon_0\\varepsilon_r}",
           "U = \\tfrac{1}{2}CV^2 = \\dfrac{Q^2}{2C}"] },
-
   { cat:"Gauss", q:"Conductor surface vs infinite sheet E-field",
     math:["E_{\\text{conductor}} = \\dfrac{\\sigma}{\\varepsilon_0\\varepsilon_r}",
-          "E_{\\text{sheet}} = \\dfrac{\\sigma}{2\\varepsilon_0}\\;\\text{(each side)}"] },
+          "E_{\\text{sheet}} = \\dfrac{\\sigma}{2\\varepsilon_0} \\; \\text{each side}"] },
 
-  // ── AMPERE
-  { cat:"Ampere", q:"Ampère's law — integral form",
-    math:["\\oint \\mathbf{B}\\cdot d\\mathbf{l} = \\mu_0 I",
+  { cat:"Ampere", q:"Ampere's law — integral form",
+    math:["\\oint \\mathbf{B} \\cdot d\\mathbf{l} = \\mu_0 I",
           "\\mathbf{B} = \\mu_0 \\mathbf{H}"] },
-
   { cat:"Ampere", q:"Infinite straight wire — B and H",
-    math:["B = \\dfrac{\\mu_0 I}{2\\pi r}\\qquad H = \\dfrac{I}{2\\pi r}"],
+    math:["B = \\dfrac{\\mu_0 I}{2\\pi r} \\qquad H = \\dfrac{I}{2\\pi r}"],
     note:"Direction: right-hand rule." },
-
   { cat:"Ampere", q:"Coaxial cable — B-field in all three regions",
-    math:["r < a:\\quad B = \\dfrac{\\mu_0 I\\,r}{2\\pi a^2}",
-          "a<r<b:\\quad B = \\dfrac{\\mu_0 I}{2\\pi r}",
-          "r > b:\\quad B = 0"] },
-
+    math:["r < a: \\quad B = \\dfrac{\\mu_0 I\\,r}{2\\pi a^2}",
+          "a<r<b: \\quad B = \\dfrac{\\mu_0 I}{2\\pi r}",
+          "r > b: \\quad B = 0"] },
   { cat:"Ampere", q:"Coaxial cable — flux and inductance per unit length",
     math:["\\Phi = \\dfrac{\\mu_0 I L}{2\\pi}\\ln\\dfrac{b}{a}",
           "\\dfrac{L}{l} = \\dfrac{\\mu_0}{2\\pi}\\ln\\dfrac{b}{a}"] },
-
   { cat:"Ampere", q:"Solenoid — B-field",
-    math:["B = \\mu_0 n I = \\dfrac{\\mu_0 N I}{l}\\quad(\\text{inside})",
-          "B = 0\\quad(\\text{outside})"],
+    math:["B = \\mu_0 n I = \\dfrac{\\mu_0 N I}{l} \\quad (\\text{inside})",
+          "B = 0 \\quad (\\text{outside})"],
     note:"n = N/l turns per metre." },
-
   { cat:"Ampere", q:"Solenoid — inductance and flux per turn",
     math:["\\Phi_{\\text{per turn}} = \\mu_0 n I\\,\\pi r^2",
           "L = \\dfrac{\\mu_0 N^2 A}{l} = \\mu_0 n^2 l A"] },
-
   { cat:"Ampere", q:"Mutual inductance of nested solenoids",
     math:["M = \\mu_0\\, n_1 n_2\\,\\pi r_2^2\\,l_2",
           "V_2 = -M\\,\\dfrac{dI_1}{dt}"] },
-
   { cat:"Ampere", q:"Peak induced voltage (sinusoidal drive)",
-    math:["|V_{\\text{peak}}| = M\\cdot 2\\pi f\\cdot I_0"],
-    note:"For I₁ = I₀ sin(2πft)." },
-
+    math:["|V_{\\text{peak}}| = M \\cdot 2\\pi f \\cdot I_0"],
+    note:"For I1 = I0 sin(2 pi f t)." },
   { cat:"Ampere", q:"Parallel plates (magnetic) — B-field and inductance",
-    math:["B = \\dfrac{\\mu_0 I}{W}\\quad(\\text{between})",
+    math:["B = \\dfrac{\\mu_0 I}{W} \\quad (\\text{between})",
           "L = \\dfrac{\\mu_0\\,l\\,d}{W}"] },
-
   { cat:"Ampere", q:"Magnetic energy density and inductor energy",
-    math:["u_m = \\dfrac{B^2}{2\\mu_0}\\;[\\text{J/m}^3]",
+    math:["u_m = \\dfrac{B^2}{2\\mu_0} \\; [\\text{J/m}^3]",
           "U = \\tfrac{1}{2}LI^2"] },
 
-  // ── MAXWELL
   { cat:"Maxwell", q:"Faraday's law — EMF form",
-    math:["v(t) = -\\dfrac{d\\Phi}{dt}\\qquad \\Phi = B\\cdot A"],
-    note:"Minus = Lenz's law: induced EMF opposes the change that caused it." },
-
+    math:["v(t) = -\\dfrac{d\\Phi}{dt} \\qquad \\Phi = B \\cdot A"],
+    note:"Minus sign = Lenz's law: induced EMF opposes the change that caused it." },
   { cat:"Maxwell", q:"All four Maxwell equations",
-    math:["\\oint\\mathbf{D}\\cdot d\\mathbf{S} = Q_{\\text{free}}\\quad\\text{(Gauss E)}",
-          "\\oint\\mathbf{B}\\cdot d\\mathbf{S} = 0\\quad\\text{(Gauss B — no monopoles)}",
-          "\\oint\\mathbf{E}\\cdot d\\mathbf{l} = -\\dfrac{d\\Phi}{dt}\\quad\\text{(Faraday)}",
-          "\\oint\\mathbf{B}\\cdot d\\mathbf{l} = \\mu_0\\!\\left(I + \\varepsilon_r\\varepsilon_0\\dfrac{dE}{dt}\\right)\\quad\\text{(Ampère-Maxwell)}"] },
+    math:["\\oint\\mathbf{D}\\cdot d\\mathbf{S} = Q_{\\text{free}} \\quad (\\text{Gauss E})",
+          "\\oint\\mathbf{B}\\cdot d\\mathbf{S} = 0 \\quad (\\text{Gauss B})",
+          "\\oint\\mathbf{E}\\cdot d\\mathbf{l} = -\\dfrac{d\\Phi}{dt} \\quad (\\text{Faraday})",
+          "\\oint\\mathbf{B}\\cdot d\\mathbf{l} = \\mu_0\\left(I + \\varepsilon_r\\varepsilon_0\\dfrac{dE}{dt}\\right) \\quad (\\text{Ampere-Maxwell})"] },
 ];
 
-const CATS = ["All", ...new Set(CARDS.map(c=>c.cat))];
-let browseFilter="All", quizFilter="All";
-let deck=[], cur=0, got=0, miss=0, missedCards=[], flipped=false;
+const CATS = ["All", ...new Set(CARDS.map(c => c.cat))];
+let browseFilter = "All", quizFilter = "All";
+let deck = [], cur = 0, got = 0, miss = 0, missedCards = [], flipped = false;
 
-function renderMath(exprs){
-  return exprs.map(expr=>{
-    try{ return katex.renderToString(expr,{displayMode:true,throwOnError:false}); }
-    catch(e){ return `<code>${expr}</code>`; }
-  }).join('');
-}
-
-function showTab(tab){
-  document.getElementById('browse-view').style.display = tab==='browse'?'':'none';
-  document.getElementById('quiz-view').style.display   = tab==='quiz'?'':'none';
-  document.querySelectorAll('.tab').forEach((el,i)=>
-    el.classList.toggle('active',(i===0&&tab==='browse')||(i===1&&tab==='quiz')));
-}
-
-/* BROWSE */
-function buildBrowse(){
-  document.getElementById('browse-filters').innerHTML = CATS.map(c=>
-    `<button class="filter-btn${c===browseFilter?' active':''}" onclick="setBrowseFilter('${c}')">${c}</button>`
-  ).join('');
-  const vis = browseFilter==='All' ? CARDS : CARDS.filter(c=>c.cat===browseFilter);
-  document.getElementById('browse-count').textContent = `${vis.length} formulae`;
-  const groups={};
-  vis.forEach(c=>{ (groups[c.cat]??=[]).push(c); });
-  let html='';
-  for(const [cat,items] of Object.entries(groups)){
-    html+=`<div class="section-block"><div class="section-title">${cat}</div>`;
-    items.forEach(item=>{
-      html+=`<div class="formula-row">
-        <div class="formula-label">${item.q}</div>
-        <div class="formula-math">${renderMath(item.math)}
-          ${item.note?`<div class="answer-note">${item.note}</div>`:''}
-        </div></div>`;
-    });
-    html+=`</div>`;
+function K(expr) {
+  try {
+    return katex.renderToString(expr, { displayMode: true, throwOnError: false });
+  } catch(e) {
+    return '<code>' + expr + '</code>';
   }
-  document.getElementById('browse-list').innerHTML=html;
 }
 
-function setBrowseFilter(cat){ browseFilter=cat; buildBrowse(); }
+function renderMath(exprs) {
+  return exprs.map(K).join('');
+}
 
-/* QUIZ */
-function buildQuizFilters(){
-  document.getElementById('quiz-filters').innerHTML = CATS.map(c=>
-    `<button class="filter-btn${c===quizFilter?' active':''}" onclick="setQuizFilter('${c}')">${c}</button>`
+function showTab(tab) {
+  document.getElementById('browse-view').style.display = tab === 'browse' ? '' : 'none';
+  document.getElementById('quiz-view').style.display   = tab === 'quiz'   ? '' : 'none';
+  document.getElementById('tab-browse').classList.toggle('active', tab === 'browse');
+  document.getElementById('tab-quiz').classList.toggle('active', tab === 'quiz');
+  if (tab === 'quiz') startDeck();
+}
+
+/* ── BROWSE ── */
+function buildBrowse() {
+  document.getElementById('browse-filters').innerHTML = CATS.map(c =>
+    '<button class="filter-btn' + (c === browseFilter ? ' active' : '') +
+    '" onclick="setBrowseFilter(\'' + c + '\')">' + c + '</button>'
+  ).join('');
+
+  const vis = browseFilter === 'All' ? CARDS : CARDS.filter(c => c.cat === browseFilter);
+  document.getElementById('browse-count').textContent = vis.length + ' formulae';
+
+  const groups = {};
+  vis.forEach(c => { if (!groups[c.cat]) groups[c.cat] = []; groups[c.cat].push(c); });
+
+  let html = '';
+  for (const cat in groups) {
+    html += '<div class="section-block"><div class="section-title">' + cat + '</div>';
+    groups[cat].forEach(item => {
+      html += '<div class="formula-row">' +
+        '<div class="formula-label">' + item.q + '</div>' +
+        '<div class="formula-math">' + renderMath(item.math) +
+        (item.note ? '<div class="answer-note">' + item.note + '</div>' : '') +
+        '</div></div>';
+    });
+    html += '</div>';
+  }
+  document.getElementById('browse-list').innerHTML = html;
+}
+
+function setBrowseFilter(cat) { browseFilter = cat; buildBrowse(); }
+
+/* ── QUIZ ── */
+function buildQuizFilters() {
+  document.getElementById('quiz-filters').innerHTML = CATS.map(c =>
+    '<button class="filter-btn' + (c === quizFilter ? ' active' : '') +
+    '" onclick="setQuizFilter(\'' + c + '\')">' + c + '</button>'
   ).join('');
 }
 
-function setQuizFilter(cat){
-  quizFilter=cat; got=0; miss=0; missedCards=[];
-  document.getElementById('s-got').textContent=0;
-  document.getElementById('s-miss').textContent=0;
+function setQuizFilter(cat) {
+  quizFilter = cat; got = 0; miss = 0; missedCards = [];
+  document.getElementById('s-got').textContent = 0;
+  document.getElementById('s-miss').textContent = 0;
   buildQuizFilters(); startDeck();
 }
 
-function shuffle(a){ return [...a].sort(()=>Math.random()-0.5); }
+function shuffle(a) { return a.slice().sort(function() { return Math.random() - 0.5; }); }
 
-function startDeck(){
-  const pool=quizFilter==='All'?CARDS:CARDS.filter(c=>c.cat===quizFilter);
-  deck=shuffle(pool); cur=0; renderCard();
+function startDeck() {
+  var pool = quizFilter === 'All' ? CARDS : CARDS.filter(function(c) { return c.cat === quizFilter; });
+  deck = shuffle(pool); cur = 0; renderCard();
 }
 
-function renderCard(){
-  document.getElementById('s-left').textContent=deck.length-cur;
-  document.getElementById('prog').style.width=Math.round(cur/Math.max(deck.length,1)*100)+'%';
-  if(cur>=deck.length){ showDone(); return; }
-  flipped=false;
-  document.getElementById('hint').style.display='block';
+function renderCard() {
+  document.getElementById('s-left').textContent = deck.length - cur;
+  document.getElementById('prog').style.width = Math.round(cur / Math.max(deck.length, 1) * 100) + '%';
+
+  if (cur >= deck.length) { showDone(); return; }
+
+  flipped = false;
+  document.getElementById('hint').style.display = 'block';
   document.getElementById('actions').classList.remove('visible');
-  const c=deck[cur];
-  document.getElementById('card-wrap').innerHTML=`
-    <div class="card" id="fc" onclick="flipCard()">
-      <div class="card-tag">${c.cat}</div>
-      <div class="card-question">${c.q}</div>
-      <div class="card-num">${cur+1} / ${deck.length}</div>
-      <div class="card-answer" id="ans">
-        <div class="answer-math">${renderMath(c.math)}</div>
-        ${c.note?`<div class="answer-note">${c.note}</div>`:''}
-      </div>
-    </div>`;
+
+  var c = deck[cur];
+  var html = '<div class="card" id="fc" onclick="flipCard()">' +
+    '<div class="card-tag">' + c.cat + '</div>' +
+    '<div class="card-question">' + c.q + '</div>' +
+    '<div class="card-num">' + (cur + 1) + ' / ' + deck.length + '</div>' +
+    '<div class="card-answer" id="ans">' +
+    '<div class="answer-math">' + renderMath(c.math) + '</div>' +
+    (c.note ? '<div class="answer-note">' + c.note + '</div>' : '') +
+    '</div></div>';
+  document.getElementById('card-wrap').innerHTML = html;
 }
 
-function flipCard(){
-  if(flipped)return; flipped=true;
+function flipCard() {
+  if (flipped) return;
+  flipped = true;
   document.getElementById('ans').classList.add('visible');
   document.getElementById('fc').classList.add('flipped');
-  document.getElementById('hint').style.display='none';
+  document.getElementById('hint').style.display = 'none';
   document.getElementById('actions').classList.add('visible');
 }
 
-function rate(correct){
-  if(correct){ got++; document.getElementById('s-got').textContent=got; }
-  else{ miss++; document.getElementById('s-miss').textContent=miss; missedCards.push(deck[cur]); }
+function rate(correct) {
+  if (correct) { got++; document.getElementById('s-got').textContent = got; }
+  else { miss++; document.getElementById('s-miss').textContent = miss; missedCards.push(deck[cur]); }
   nextCard();
 }
 
-function nextCard(){ cur++; renderCard(); }
+function nextCard() { cur++; renderCard(); }
 
-function showDone(){
-  const total=deck.length, pct=Math.round(got/total*100);
-  document.getElementById('prog').style.width='100%';
-  document.getElementById('hint').style.display='none';
+function showDone() {
+  var total = deck.length, pct = Math.round(got / total * 100);
+  document.getElementById('prog').style.width = '100%';
+  document.getElementById('hint').style.display = 'none';
   document.getElementById('actions').classList.remove('visible');
-  const missedHtml=missedCards.length?`
-    <div class="missed-section">
-      <h3>Review these (${missedCards.length})</h3>
-      ${missedCards.map(c=>`<div class="missed-item">
-        <div class="missed-q">${c.q}</div>
-        <div class="missed-a">${renderMath(c.math)}</div>
-        ${c.note?`<div class="answer-note">${c.note}</div>`:''}
-      </div>`).join('')}
-    </div>`:'';
-  document.getElementById('card-wrap').innerHTML=`
-    <div class="done">
-      <div class="done-score">${pct}%</div>
-      <h2>${got} / ${total} correct</h2>
-      <p>${pct>=80?"Solid — you're exam ready.":pct>=60?"Good progress. Drill the missed ones below.":"Keep going — focus on the cards below."}</p>
-      <button class="btn-restart" onclick="startDeck()">Restart deck ↺</button>
-      ${missedHtml}
-    </div>`;
+
+  var missedHtml = '';
+  if (missedCards.length) {
+    missedHtml = '<div class="missed-section"><h3>Review these (' + missedCards.length + ')</h3>';
+    missedCards.forEach(function(c) {
+      missedHtml += '<div class="missed-item">' +
+        '<div class="missed-q">' + c.q + '</div>' +
+        '<div class="missed-a">' + renderMath(c.math) + '</div>' +
+        (c.note ? '<div class="answer-note">' + c.note + '</div>' : '') +
+        '</div>';
+    });
+    missedHtml += '</div>';
+  }
+
+  var msg = pct >= 80 ? "Solid — you're exam ready." : pct >= 60 ? "Good progress. Drill the missed ones." : "Keep going — focus on the cards below.";
+  document.getElementById('card-wrap').innerHTML =
+    '<div class="done">' +
+    '<div class="done-score">' + pct + '%</div>' +
+    '<h2>' + got + ' / ' + total + ' correct</h2>' +
+    '<p>' + msg + '</p>' +
+    '<button class="btn-restart" onclick="startDeck()">Restart deck</button>' +
+    missedHtml + '</div>';
 }
 
-function initApp(){
-  buildBrowse(); buildQuizFilters(); showTab('browse');
-}
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded', function() {
+  buildBrowse();
+  buildQuizFilters();
+  showTab('browse');
+});
 </script>
 </body>
 </html>
