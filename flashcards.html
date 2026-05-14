@@ -334,7 +334,7 @@ body {
 
 <div class="tabs">
   <button class="tab active" onclick="showTab('browse')">Browse all</button>
-  <button class="tab" onclick="showTab('quiz')">Flashcard quiz</button>
+  <button class="tab" onclick="showTab('quiz'); if(!deck.length) startDeck();">Flashcard quiz</button>
 </div>
 
 <!-- BROWSE -->
@@ -691,7 +691,7 @@ function showDone(){
 }
 
 function initApp(){
-  buildBrowse(); buildQuizFilters(); startDeck(); showTab('browse');
+  buildBrowse(); buildQuizFilters(); showTab('browse');
 }
 </script>
 </body>
