@@ -3,233 +3,520 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EM & Analogue — Final Push</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>DEEM — Exam Checklist</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0d0d0d; --surface2: #1e1e1e; --border: #2a2a2a;
-    --text: #e8e4dc; --muted: #666;
-    --em: #6ee7b7; --em-bg: rgba(110,231,183,0.08); --em-border: rgba(110,231,183,0.2);
-    --paper: #fbbf24; --paper-bg: rgba(251,191,36,0.08); --paper-border: rgba(251,191,36,0.2);
-    --admin: #9ca3af; --admin-bg: rgba(156,163,175,0.08); --admin-border: rgba(156,163,175,0.2);
-    --bonus: #f472b6; --bonus-bg: rgba(244,114,182,0.08); --bonus-border: rgba(244,114,182,0.2);
-    --exam: #f87171; --exam-bg: rgba(248,113,113,0.1); --exam-border: rgba(248,113,113,0.25);
+    --bg: #0c0c0c;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: #272727;
+    --border2: #333;
+    --text: #e4e0d8;
+    --muted: #5a5a5a;
+    --muted2: #7a7a7a;
+
+    --de: #a78bfa;
+    --de-bg: rgba(167,139,250,0.08);
+    --de-border: rgba(167,139,250,0.2);
+
+    --em: #34d399;
+    --em-bg: rgba(52,211,153,0.07);
+    --em-border: rgba(52,211,153,0.2);
+
+    --paper: #fbbf24;
+    --paper-bg: rgba(251,191,36,0.07);
+    --paper-border: rgba(251,191,36,0.2);
+
+    --both: #94a3b8;
+    --both-bg: rgba(148,163,184,0.07);
+    --both-border: rgba(148,163,184,0.2);
+
+    --exam: #f87171;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; padding: 2rem 1rem 4rem; }
-  .container { max-width: 720px; margin: 0 auto; }
-  header { margin-bottom: 3rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
-  .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
-  h1 { font-family: 'Space Mono', monospace; font-size: clamp(1.1rem, 3vw, 1.4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.3; }
-  h1 span { color: var(--muted); font-weight: 400; }
-  .progress-wrap { min-width: 160px; text-align: right; }
-  .progress-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase; }
-  .progress-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
-  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--em), var(--paper)); border-radius: 2px; transition: width 0.4s ease; width: 0%; }
-  .progress-count { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); margin-top: 5px; text-align: right; }
-  .legend { display: flex; flex-wrap: wrap; gap: 8px; }
-  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--muted); font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.04em; }
-  .legend-dot { width: 6px; height: 6px; border-radius: 50%; }
-  .day { margin-bottom: 2.5rem; }
-  .day-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; border-bottom: 0.5px solid var(--border); padding-bottom: 8px; flex-wrap: wrap; }
-  .day-name { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; }
-  .day-date { font-size: 0.75rem; color: var(--muted); font-family: 'Space Mono', monospace; }
-  .day-badge { font-size: 0.65rem; padding: 2px 8px; border-radius: 20px; font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.04em; margin-left: auto; }
-  .section-label { font-size: 0.65rem; font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 1rem 0 0.5rem; }
-  .tasks { display: flex; flex-direction: column; gap: 5px; }
-  .task { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; transition: all 0.15s ease; user-select: none; }
-  .task:hover { filter: brightness(1.15); }
-  .task.em     { background: var(--em-bg);    border-color: var(--em-border); }
-  .task.paper  { background: var(--paper-bg); border-color: var(--paper-border); }
-  .task.admin  { background: var(--admin-bg); border-color: var(--admin-border); }
-  .task.bonus  { background: var(--bonus-bg); border-color: var(--bonus-border); }
-  .task.done { opacity: 0.4; }
-  .task.done .task-text { text-decoration: line-through; }
-  .checkbox { width: 16px; height: 16px; border-radius: 3px; border: 1.5px solid; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; }
-  .task.em    .checkbox { border-color: var(--em); }
-  .task.paper .checkbox { border-color: var(--paper); }
-  .task.admin .checkbox { border-color: var(--admin); }
-  .task.bonus .checkbox { border-color: var(--bonus); }
-  .task.em.done    .checkbox { background: var(--em);    border-color: var(--em); }
-  .task.paper.done .checkbox { background: var(--paper); border-color: var(--paper); }
-  .task.admin.done .checkbox { background: var(--admin); border-color: var(--admin); }
-  .task.bonus.done .checkbox { background: var(--bonus); border-color: var(--bonus); }
-  .checkbox svg { display: none; }
-  .task.done .checkbox svg { display: block; }
-  .task-text { font-size: 0.85rem; font-weight: 400; line-height: 1.4; flex: 1; }
-  .task-sub { font-size: 0.75rem; color: var(--muted); display: block; margin-top: 2px; }
-  .task-tag { font-size: 0.6rem; font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 7px; border-radius: 20px; flex-shrink: 0; }
-  .tag-em    { color: var(--em);    background: var(--em-bg);    border: 1px solid var(--em-border); }
-  .tag-paper { color: var(--paper); background: var(--paper-bg); border: 1px solid var(--paper-border); }
-  .tag-admin { color: var(--admin); background: var(--admin-bg); border: 1px solid var(--admin-border); }
-  .tag-bonus { color: var(--bonus); background: var(--bonus-bg); border: 1px solid var(--bonus-border); }
-  .exam-card { background: var(--exam-bg); border: 1px solid var(--exam-border); border-radius: 8px; padding: 1rem 1.25rem; }
-  .exam-title { font-family: 'Space Mono', monospace; font-size: 0.85rem; font-weight: 700; color: var(--exam); margin-bottom: 4px; }
-  .exam-sub { font-size: 0.8rem; color: var(--muted); }
-  .divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
-  .note { background: var(--surface2); border-left: 3px solid var(--em); border-radius: 0 6px 6px 0; padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--muted); margin-bottom: 2rem; line-height: 1.6; }
-  @media (max-width: 500px) { .task-tag { display: none; } .day-badge { display: none; } }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    padding: 2.5rem 1rem 5rem;
+    line-height: 1.5;
+  }
+
+  .container { max-width: 700px; margin: 0 auto; }
+
+  /* Header */
+  header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .module-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted2);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  h1 {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(1rem, 3vw, 1.25rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    color: var(--text);
+  }
+
+  h1 em {
+    color: var(--muted2);
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .countdown-block { text-align: right; }
+  .countdown-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--exam);
+    line-height: 1;
+  }
+  .countdown-label {
+    font-size: 0.7rem;
+    color: var(--muted2);
+    font-family: 'Space Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* Progress */
+  .prog-wrap { margin-bottom: 1.5rem; }
+  .prog-top {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted2);
+    margin-bottom: 7px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .prog-bar {
+    height: 3px;
+    background: var(--border2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--de), var(--em));
+    border-radius: 2px;
+    transition: width 0.35s ease;
+    width: 0%;
+  }
+
+  /* Filters */
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 2rem;
+  }
+  .filter-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--muted2);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--muted); color: var(--text); }
+  .filter-btn.active.f-de  { background: var(--de-bg);    border-color: var(--de-border);    color: var(--de); }
+  .filter-btn.active.f-em  { background: var(--em-bg);    border-color: var(--em-border);    color: var(--em); }
+  .filter-btn.active.f-paper { background: var(--paper-bg); border-color: var(--paper-border); color: var(--paper); }
+  .filter-btn.active.f-todo { background: var(--both-bg);  border-color: var(--both-border);  color: var(--text); }
+  .filter-btn.active.f-all  { border-color: var(--muted); color: var(--text); }
+
+  /* Sections */
+  .section { margin-bottom: 2.5rem; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .section-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .s-de   .section-name { color: var(--de); }
+  .s-em   .section-name { color: var(--em); }
+  .s-paper .section-name { color: var(--paper); }
+  .s-both .section-name { color: var(--muted2); }
+
+  .section-tally {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-left: auto;
+  }
+
+  /* Tasks */
+  .tasks { display: flex; flex-direction: column; gap: 4px; }
+
+  .task {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 13px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    user-select: none;
+  }
+  .task:hover { filter: brightness(1.2); }
+
+  .s-de   .task { background: var(--de-bg);    border-color: var(--de-border); }
+  .s-em   .task { background: var(--em-bg);    border-color: var(--em-border); }
+  .s-paper .task { background: var(--paper-bg); border-color: var(--paper-border); }
+  .s-both .task { background: var(--both-bg);  border-color: var(--both-border); }
+
+  .task.done { opacity: 0.38; }
+  .task.done .task-label { text-decoration: line-through; }
+
+  .cb {
+    width: 16px; height: 16px;
+    border-radius: 3px;
+    border: 1.5px solid var(--border2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.12s;
+  }
+
+  .s-de    .task.done .cb { background: var(--de);    border-color: var(--de); }
+  .s-em    .task.done .cb { background: var(--em);    border-color: var(--em); }
+  .s-paper .task.done .cb { background: var(--paper); border-color: var(--paper); }
+  .s-both  .task.done .cb { background: var(--muted2); border-color: var(--muted2); }
+
+  .cb svg { display: none; }
+  .task.done .cb svg { display: block; }
+
+  .task-label {
+    font-size: 0.84rem;
+    font-weight: 400;
+    color: var(--text);
+    flex: 1;
+    line-height: 1.4;
+  }
+  .task-sub {
+    font-size: 0.73rem;
+    color: var(--muted2);
+    display: block;
+    margin-top: 2px;
+  }
+
+  .pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+  .s-de    .pill { color: var(--de);    background: var(--de-bg);    border: 1px solid var(--de-border); }
+  .s-em    .pill { color: var(--em);    background: var(--em-bg);    border: 1px solid var(--em-border); }
+  .s-paper .pill { color: var(--paper); background: var(--paper-bg); border: 1px solid var(--paper-border); }
+  .s-both  .pill { color: var(--muted2); background: var(--both-bg); border: 1px solid var(--both-border); }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 0.75rem;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted2);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .ldot { width: 6px; height: 6px; border-radius: 50%; }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 500px) {
+    .pill { display: none; }
+    .countdown-num { font-size: 1.5rem; }
+  }
 </style>
 </head>
 <body>
 <div class="container">
 
-<header>
-  <div class="header-top">
-    <h1>EM & Analogue<br><span>Exam: Thu 15 May</span></h1>
-    <div class="progress-wrap">
-      <div class="progress-label">Progress</div>
-      <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
-      <div class="progress-count" id="count">0 / 0 tasks</div>
+  <header>
+    <div class="header-row">
+      <div>
+        <div class="module-label">Summer 2026 Exams</div>
+        <h1>DEEM<br><em>Digital Electronics &amp; Electrical Machines</em></h1>
+      </div>
+      <div class="countdown-block">
+        <div class="countdown-num" id="days">—</div>
+        <div class="countdown-label">days to go</div>
+        <div class="countdown-label" style="margin-top:4px;color:var(--exam)">Exam: 3 Jun</div>
+      </div>
     </div>
-  </div>
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:var(--em)"></div>Tutorials</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--paper)"></div>Past papers</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--bonus)"></div>Bonus</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--admin)"></div>Admin</div>
-  </div>
-</header>
 
-<div class="note">
-  Priority: tutorials first → past papers → All Phase Test MCQs as final check. The MCQ bank covers every topic — use it to spot last-minute gaps. Answers available for all tutorials.
-</div>
+    <div class="prog-wrap">
+      <div class="prog-top">
+        <span>Progress</span>
+        <span id="prog-count">0 / 0 tasks</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="prog-fill"></div></div>
+    </div>
 
-<!-- ===== TONIGHT 12 MAY ===== -->
-<div class="day">
-  <div class="day-header">
-    <span class="day-name">Tonight</span>
-    <span class="day-date">Tue 12 May — easy start</span>
-    <span class="day-badge tag-em">Light</span>
-  </div>
-  <div class="section-label">Notes skim</div>
-  <div class="tasks">
-    <div class="task em" onclick="toggle(this)" data-id="t12a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Skim EM notes — flag forgotten topics</span><span class="task-tag tag-em">EM</span></div>
-    <div class="task em" onclick="toggle(this)" data-id="t12b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Skim Analogue notes — flag forgotten topics</span><span class="task-tag tag-em">Analogue</span></div>
-  </div>
-  <div class="section-label">First tutorials</div>
-  <div class="tasks">
-    <div class="task em" onclick="toggle(this)" data-id="t12c"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span class="task-text">Analogue Tutorial 1 — Op-amps<span class="task-sub">Attempt first, then check answers</span></span>
-      <span class="task-tag tag-em">Analogue</span>
+    <div class="legend">
+      <div class="legend-item"><div class="ldot" style="background:var(--de)"></div>Digital Electronics</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--em)"></div>Elec Machines</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--paper)"></div>Past Papers</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--muted2)"></div>General</div>
     </div>
-  </div>
-  <div class="section-label">Admin</div>
-  <div class="tasks">
-    <div class="task admin" onclick="toggle(this)" data-id="t12z"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Sleep — you just did an exam today</span><span class="task-tag tag-admin">Admin</span></div>
-  </div>
-</div>
+  </header>
 
-<!-- ===== 13 MAY ===== -->
-<div class="day">
-  <div class="day-header">
-    <span class="day-name">Wed 13 May</span>
-    <span class="day-date">Full day</span>
-    <span class="day-badge tag-em">Main push</span>
+  <div class="filter-row">
+    <button class="filter-btn active f-all"   onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn f-de"            onclick="setFilter('de',this)">Digital Elec</button>
+    <button class="filter-btn f-em"            onclick="setFilter('em',this)">Elec Machines</button>
+    <button class="filter-btn f-paper"         onclick="setFilter('paper',this)">Past Papers</button>
+    <button class="filter-btn f-todo"          onclick="setFilter('todo',this)">To-do only</button>
   </div>
-  <div class="section-label">Tutorials — core material</div>
-  <div class="tasks">
-    <div class="task em" onclick="toggle(this)" data-id="a13a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span class="task-text">Analogue Tutorial 2 — Transistors / BJTs<span class="task-sub">Attempt first, then check answers</span></span>
-      <span class="task-tag tag-em">Analogue</span>
-    </div>
-    <div class="task em" onclick="toggle(this)" data-id="em13a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span class="task-text">EM Tutorial 1 — Electrostatics<span class="task-sub">Answers included</span></span>
-      <span class="task-tag tag-em">EM</span>
-    </div>
-    <div class="task em" onclick="toggle(this)" data-id="em13b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span class="task-text">EM Tutorial 2 — Magnetics<span class="task-sub">Answers included</span></span>
-      <span class="task-tag tag-em">EM</span>
-    </div>
-  </div>
-  <div class="section-label">Bonus practice</div>
-  <div class="tasks">
-    <div class="task bonus" onclick="toggle(this)" data-id="a13bonus"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span class="task-text">Analogue — Practice questions on BJT circuits<span class="task-sub">Solutions available</span></span>
-      <span class="task-tag tag-bonus">Bonus</span>
-    </div>
-  </div>
-  <div class="section-label">Past papers — first 2</div>
-  <div class="tasks">
-    <div class="task paper" onclick="toggle(this)" data-id="p13a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 2022</span><span class="task-tag tag-paper">Past paper</span></div>
-    <div class="task paper" onclick="toggle(this)" data-id="p13b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 2023</span><span class="task-tag tag-paper">Past paper</span></div>
-  </div>
-</div>
 
-<!-- ===== 14 MAY ===== -->
-<div class="day">
-  <div class="day-header">
-    <span class="day-name">Thu 14 May</span>
-    <span class="day-date">Final day</span>
-    <span class="day-badge tag-paper">Past papers + MCQs</span>
-  </div>
-  <div class="section-label">Past papers — remaining 3</div>
-  <div class="tasks">
-    <div class="task paper" onclick="toggle(this)" data-id="p14a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 2024</span><span class="task-tag tag-paper">Past paper</span></div>
-    <div class="task paper" onclick="toggle(this)" data-id="p14b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 2025</span><span class="task-tag tag-paper">Past paper</span></div>
-    <div class="task paper" onclick="toggle(this)" data-id="p14c"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Past paper 2019</span><span class="task-tag tag-paper">Past paper</span></div>
-  </div>
-  <div class="section-label">All Phase Test — 69 MCQs (whole module)</div>
-  <div class="tasks">
-    <div class="task bonus" onclick="toggle(this)" data-id="mcq1"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span class="task-text">All Phase Test — questions 1–35<span class="task-sub">Flag any you're unsure about</span></span>
-      <span class="task-tag tag-bonus">MCQ</span>
-    </div>
-    <div class="task bonus" onclick="toggle(this)" data-id="mcq2"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <span class="task-text">All Phase Test — questions 36–69<span class="task-sub">Flag any you're unsure about</span></span>
-      <span class="task-tag tag-bonus">MCQ</span>
-    </div>
-  </div>
-  <div class="section-label">Weak spots</div>
-  <div class="tasks">
-    <div class="task em" onclick="toggle(this)" data-id="w14a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Revisit any flagged weak spots from tutorials or MCQs</span><span class="task-tag tag-em">EM/Analogue</span></div>
-  </div>
-  <div class="section-label">Night before exam</div>
-  <div class="tasks">
-    <div class="task admin" onclick="toggle(this)" data-id="ad14a"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Light skim of notes only — no new problems</span><span class="task-tag tag-admin">Admin</span></div>
-    <div class="task admin" onclick="toggle(this)" data-id="ad14b"><div class="checkbox"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="task-text">Sleep — you have the notes, you know this content</span><span class="task-tag tag-admin">Admin</span></div>
-  </div>
-</div>
-
-<hr class="divider">
-
-<div class="day">
-  <div class="day-header">
-    <span class="day-name">Exam</span>
-    <span class="day-date">Thu 15 May</span>
-  </div>
-  <div class="exam-card">
-    <div class="exam-title">Electromagnetics & Analogue Devices</div>
-    <div class="exam-sub">You have the notes. You've done this content. Trust the prep.</div>
-  </div>
-</div>
+  <div id="sections-container"></div>
 
 </div>
 
 <script>
-  const STORAGE_KEY = 'study-plan-em-may2026-v3';
-  function loadState() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } }
-  function saveState(s) { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); }
-  function toggle(el) {
-    el.classList.toggle('done');
-    const s = loadState();
-    s[el.dataset.id] = el.classList.contains('done');
-    saveState(s);
-    updateProgress();
+const STORAGE_KEY = 'deem-checklist-june2026-v1';
+
+const SECTIONS = [
+  {
+    id: 's-de-review',
+    type: 'de',
+    label: 'Digital Electronics — Review',
+    pill: 'DE',
+    tasks: [
+      { id:'de1', label:'Review Boolean minimisation', sub:'DE3 slides — K-maps, SOP/POS forms' },
+      { id:'de2', label:'Review flip flops', sub:'DE5 SR flip-flops, DE6 D/T/JK — excitation tables, timing diagrams' },
+      { id:'de3', label:'Review FSM fundamentals', sub:'DE7 intro + DE8 flip-flop examples' },
+      { id:'de4', label:'Review FSM examples', sub:'DE9 binary counter, DE10 stepper motor, DE11 unallocated states' },
+      { id:'de5', label:'Review AFSM', sub:'DE15 intro, DE16 code assignment, DE18/19/20 D/T/JK examples' },
+      { id:'de6', label:'Review Verilog', sub:'DE14 slides — structural & behavioural models' },
+      { id:'de7', label:'Review Programmable Logic Devices', sub:'DE13 slides — PLAs, PALs, FPGAs' },
+      { id:'de8', label:'Review Race Hazards', sub:'DE17 slides — static/dynamic hazards, hazard-free covers' },
+      { id:'de9', label:'Review Effective Communication topic', sub:'DE4 slides — check nothing examinable is missed' },
+    ]
+  },
+  {
+    id: 's-de-practice',
+    type: 'de',
+    label: 'Digital Electronics — Activities & Practice',
+    pill: 'DE',
+    tasks: [
+      { id:'dep1', label:'Work through FSM Activities', sub:'Activities — FSM Example, FSM Examples 2 & 3 (check solutions)' },
+      { id:'dep2', label:'Work through AFSM Activities', sub:'Activities — AFSM Example + Solution' },
+      { id:'dep3', label:'Work through Toolbox activity', sub:'Activities — Toolbox' },
+      { id:'dep4', label:'Do Week 12 revision questions 2025', sub:'All questions — check against Week 12 revision answers 2025' },
+      { id:'dep5', label:'Do All Quizzes', sub:'ALL QUIZZES — full MCQ sweep, flag anything wrong for targeted review' },
+    ]
+  },
+  {
+    id: 's-em-review',
+    type: 'em',
+    label: 'Electrical Machines — Review',
+    pill: 'EM',
+    tasks: [
+      { id:'em1', label:'Review Week 1–5 lecture notes', sub:'2023 notes — core theory foundations' },
+      { id:'em2', label:'Review Week 7–10 lecture notes', sub:'2023 notes — advanced topics' },
+      { id:'em3', label:'Review Transformers', sub:'DEEM Questions on Transformers + Answers on Transformers' },
+      { id:'em4', label:'Review Rectifiers', sub:'DEEM Questions on Rectifiers + DEEM Answers on Rectifiers (1) & base' },
+      { id:'em5', label:'Review Switched Rectifiers & Inverters', sub:'DEEM Questions on Switched Rectifiers and Inverters + Answers' },
+      { id:'em6', label:'Review Brushed DC Motors', sub:'DEEM Brushed DC Motor Questions + DEEM Brushed DC Motors Answers' },
+      { id:'em7', label:'Review Brushless Electric Motors', sub:'DEEM Brushless Electric Motors Questions + Answers' },
+      { id:'em8', label:'Review Tutorial 1', sub:'Tutorial 1 + Solutions 1' },
+      { id:'em9', label:'Review magnetic materials in motors', sub:'Self study sheet — magnetic materials in motors 2023' },
+      { id:'em10', label:'Review time constants', sub:'Self study sheet — time constants (both versions)' },
+    ]
+  },
+  {
+    id: 's-papers',
+    type: 'paper',
+    label: 'Past Papers & Exam Papers',
+    pill: 'Paper',
+    tasks: [
+      { id:'pp1', label:'Past Paper 1', sub:'Timed attempt — then self-mark' },
+      { id:'pp2', label:'Past Paper 2', sub:'Timed attempt — then self-mark' },
+      { id:'pp3', label:'Past Paper 3', sub:'Timed attempt — then self-mark' },
+      { id:'pp4', label:'Past Paper 4', sub:'Timed attempt — then self-mark' },
+      { id:'pp5', label:'Past Paper 5', sub:'Timed attempt — then self-mark' },
+      { id:'pp6', label:'Past Paper 6', sub:'Timed attempt — then self-mark' },
+      { id:'pp7', label:'Exam Paper DEEM 2023', sub:'Attempt then read Generic Exam Feedback 2023' },
+      { id:'pp8', label:'Exam Paper DEEM 2024', sub:'Attempt then read Generic Feedback 2024' },
+      { id:'pp9', label:'Exam Paper DEEM 2025', sub:'Attempt then read Generic Feedback DEEM 2025' },
+    ]
+  },
+  {
+    id: 's-gap',
+    type: 'both',
+    label: 'Gap-filling & Final Check',
+    pill: '—',
+    tasks: [
+      { id:'gp1', label:'Revisit all flagged weak spots', sub:'Any topic you got wrong or were unsure on during practice' },
+      { id:'gp2', label:'Light skim of all notes — no new problems', sub:'Night before the exam only' },
+    ]
   }
-  function updateProgress() {
-    const all = document.querySelectorAll('.task[data-id]');
-    const done = document.querySelectorAll('.task.done');
-    const pct = all.length ? Math.round((done.length / all.length) * 100) : 0;
-    document.getElementById('fill').style.width = pct + '%';
-    document.getElementById('count').textContent = done.length + ' / ' + all.length + ' tasks';
-  }
-  function init() {
-    const s = loadState();
-    document.querySelectorAll('.task[data-id]').forEach(t => { if (s[t.dataset.id]) t.classList.add('done'); });
-    updateProgress();
-  }
-  init();
+];
+
+function loadState() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; } }
+function saveState(s) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(s)); } catch {} }
+
+let state = loadState();
+let currentFilter = 'all';
+
+const CHECK_SVG = `<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+function sectionClass(type) {
+  return type === 'de' ? 's-de' : type === 'em' ? 's-em' : type === 'paper' ? 's-paper' : 's-both';
+}
+
+function buildDOM() {
+  const container = document.getElementById('sections-container');
+  container.innerHTML = '';
+  SECTIONS.forEach(sec => {
+    const secEl = document.createElement('div');
+    secEl.className = `section ${sectionClass(sec.type)}`;
+    secEl.dataset.sectype = sec.type;
+    secEl.dataset.secid = sec.id;
+
+    const doneCount = sec.tasks.filter(t => state[t.id]).length;
+    secEl.innerHTML = `
+      <div class="section-head">
+        <span class="section-name">${sec.label}</span>
+        <span class="section-tally" id="tally-${sec.id}">${doneCount} / ${sec.tasks.length}</span>
+      </div>
+      <div class="tasks" id="tasks-${sec.id}"></div>
+    `;
+    container.appendChild(secEl);
+
+    const tasksEl = secEl.querySelector(`#tasks-${sec.id}`);
+    sec.tasks.forEach(t => {
+      const div = document.createElement('div');
+      div.className = 'task' + (state[t.id] ? ' done' : '');
+      div.dataset.id = t.id;
+      div.innerHTML = `
+        <div class="cb">${CHECK_SVG}</div>
+        <span class="task-label">${t.label}${t.sub ? `<span class="task-sub">${t.sub}</span>` : ''}</span>
+        <span class="pill">${sec.pill}</span>
+      `;
+      div.addEventListener('click', () => toggle(t.id, sec.id, sec.tasks));
+      tasksEl.appendChild(div);
+    });
+  });
+}
+
+function toggle(taskId, secId, secTasks) {
+  state[taskId] = !state[taskId];
+  saveState(state);
+  const el = document.querySelector(`.task[data-id="${taskId}"]`);
+  if (el) el.classList.toggle('done', state[taskId]);
+  const done = secTasks.filter(t => state[t.id]).length;
+  const tally = document.getElementById(`tally-${secId}`);
+  if (tally) tally.textContent = `${done} / ${secTasks.length}`;
+  updateProgress();
+  if (currentFilter === 'todo') applyFilter();
+}
+
+function updateProgress() {
+  const all = SECTIONS.flatMap(s => s.tasks);
+  const done = all.filter(t => state[t.id]).length;
+  const pct = all.length ? Math.round(done / all.length * 100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-count').textContent = `${done} / ${all.length} tasks`;
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilter();
+}
+
+function applyFilter() {
+  document.querySelectorAll('.section').forEach(sec => {
+    const type = sec.dataset.sectype;
+    let sectionVisible = false;
+    sec.querySelectorAll('.task').forEach(task => {
+      const tid = task.dataset.id;
+      let show = false;
+      if      (currentFilter === 'all')   show = true;
+      else if (currentFilter === 'de')    show = (type === 'de' || type === 'both');
+      else if (currentFilter === 'em')    show = (type === 'em' || type === 'both');
+      else if (currentFilter === 'paper') show = (type === 'paper');
+      else if (currentFilter === 'todo')  show = !task.classList.contains('done');
+      task.classList.toggle('hidden', !show);
+      if (show) sectionVisible = true;
+    });
+    sec.classList.toggle('hidden', !sectionVisible);
+  });
+}
+
+function updateCountdown() {
+  const exam = new Date('2026-06-03T00:00:00');
+  const now = new Date();
+  const diff = Math.ceil((exam - now) / 86400000);
+  document.getElementById('days').textContent = diff > 0 ? diff : (diff === 0 ? 'Today' : 'Done');
+}
+
+updateCountdown();
+buildDOM();
+updateProgress();
 </script>
 </body>
 </html>
