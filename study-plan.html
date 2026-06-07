@@ -153,11 +153,11 @@
     transition: all 0.15s;
   }
   .filter-btn:hover { border-color: var(--muted); color: var(--text); }
-  .filter-btn.active.f-de  { background: var(--de-bg);    border-color: var(--de-border);    color: var(--de); }
-  .filter-btn.active.f-em  { background: var(--em-bg);    border-color: var(--em-border);    color: var(--em); }
+  .filter-btn.active.f-de    { background: var(--de-bg);    border-color: var(--de-border);    color: var(--de); }
+  .filter-btn.active.f-em    { background: var(--em-bg);    border-color: var(--em-border);    color: var(--em); }
   .filter-btn.active.f-paper { background: var(--paper-bg); border-color: var(--paper-border); color: var(--paper); }
-  .filter-btn.active.f-todo { background: var(--both-bg);  border-color: var(--both-border);  color: var(--text); }
-  .filter-btn.active.f-all  { border-color: var(--muted); color: var(--text); }
+  .filter-btn.active.f-both  { background: var(--both-bg);  border-color: var(--both-border);  color: var(--text); }
+  .filter-btn.active.f-all   { border-color: var(--muted);  color: var(--text); }
 
   /* Sections */
   .section { margin-bottom: 2.5rem; }
@@ -179,10 +179,10 @@
     text-transform: uppercase;
   }
 
-  .s-de   .section-name { color: var(--de); }
-  .s-em   .section-name { color: var(--em); }
+  .s-de    .section-name { color: var(--de); }
+  .s-em    .section-name { color: var(--em); }
   .s-paper .section-name { color: var(--paper); }
-  .s-both .section-name { color: var(--muted2); }
+  .s-both  .section-name { color: var(--muted2); }
 
   .section-tally {
     font-family: 'Space Mono', monospace;
@@ -207,10 +207,10 @@
   }
   .task:hover { filter: brightness(1.2); }
 
-  .s-de   .task { background: var(--de-bg);    border-color: var(--de-border); }
-  .s-em   .task { background: var(--em-bg);    border-color: var(--em-border); }
+  .s-de    .task { background: var(--de-bg);    border-color: var(--de-border); }
+  .s-em    .task { background: var(--em-bg);    border-color: var(--em-border); }
   .s-paper .task { background: var(--paper-bg); border-color: var(--paper-border); }
-  .s-both .task { background: var(--both-bg);  border-color: var(--both-border); }
+  .s-both  .task { background: var(--both-bg);  border-color: var(--both-border); }
 
   .task.done { opacity: 0.38; }
   .task.done .task-label { text-decoration: line-through; }
@@ -295,7 +295,7 @@
   <header>
     <div class="header-row">
       <div>
-        <div class="module-label">Summer 2026 </div>
+        <div class="module-label">Summer 2026</div>
         <h1>Tasks<br><em>Life &amp; Work</em></h1>
       </div>
       <div class="countdown-block">
@@ -322,11 +322,11 @@
   </header>
 
   <div class="filter-row">
-    <button class="filter-btn active f-all"   onclick="setFilter('all',this)">All</button>
-    <button class="filter-btn f-de"            onclick="setFilter('de',this)">Work</button>
-    <button class="filter-btn f-em"            onclick="setFilter('em',this)">Personal</button>
-    <button class="filter-btn f-paper"         onclick="setFilter('paper',this)">Health</button>
-    <button class="filter-btn f-todo"          onclick="setFilter('todo',this)">General</button>
+    <button class="filter-btn active f-all"  onclick="setFilter('all',this)">All</button>
+    <button class="filter-btn f-de"           onclick="setFilter('de',this)">Work</button>
+    <button class="filter-btn f-em"           onclick="setFilter('em',this)">Personal</button>
+    <button class="filter-btn f-paper"        onclick="setFilter('paper',this)">Health</button>
+    <button class="filter-btn f-both"         onclick="setFilter('both',this)">General</button>
   </div>
 
   <div id="sections-container"></div>
@@ -344,9 +344,8 @@ const SECTIONS = [
     pill: 'DE',
     tasks: [
       { id:'de1', label:'CV Completion', sub:'Insert IDP Project' },
-      { id:'de2', label:'Apply for Interhsips',sub:''},
-      { id:'de3', label:'Work on a Passion Project',sub:'' },
-      
+      { id:'de2', label:'Apply for Internships', sub:'' },
+      { id:'de3', label:'Work on a Passion Project', sub:'' },
     ]
   },
   {
@@ -377,11 +376,10 @@ const SECTIONS = [
     label: 'Health',
     pill: 'Paper',
     tasks: [
-      { id:'pp1', label:'Thromboctypenia Appointment, sub:'' },
+      { id:'pp1', label:'Thrombocytopenia Appointment', sub:'' },
       { id:'pp2', label:'Arm Appointment', sub:'' },
-      { id:'pp3', label:'Dentist Appointment', sub:' '},
+      { id:'pp3', label:'Dentist Appointment', sub:'' },
       { id:'pp4', label:'Dermatologist Appointment', sub:'' },
-
     ]
   },
   {
@@ -451,7 +449,7 @@ function toggle(taskId, secId, secTasks) {
   const tally = document.getElementById(`tally-${secId}`);
   if (tally) tally.textContent = `${done} / ${secTasks.length}`;
   updateProgress();
-  if (currentFilter === 'todo') applyFilter();
+  if (currentFilter === 'both') applyFilter();
 }
 
 function updateProgress() {
@@ -474,13 +472,12 @@ function applyFilter() {
     const type = sec.dataset.sectype;
     let sectionVisible = false;
     sec.querySelectorAll('.task').forEach(task => {
-      const tid = task.dataset.id;
       let show = false;
       if      (currentFilter === 'all')   show = true;
-      else if (currentFilter === 'de')    show = (type === 'de' || type === 'both');
-      else if (currentFilter === 'em')    show = (type === 'em' || type === 'both');
+      else if (currentFilter === 'de')    show = (type === 'de');
+      else if (currentFilter === 'em')    show = (type === 'em');
       else if (currentFilter === 'paper') show = (type === 'paper');
-      else if (currentFilter === 'todo')  show = !task.classList.contains('done');
+      else if (currentFilter === 'both')  show = (type === 'both');
       task.classList.toggle('hidden', !show);
       if (show) sectionVisible = true;
     });
@@ -489,9 +486,10 @@ function applyFilter() {
 }
 
 function updateCountdown() {
-  const exam = new Date('2026-30-09T00:00:00');
+  // FIX: correct ISO date format YYYY-MM-DD
+  const deadline = new Date('2026-09-30T00:00:00');
   const now = new Date();
-  const diff = Math.ceil((exam - now) / 86400000);
+  const diff = Math.ceil((deadline - now) / 86400000);
   document.getElementById('days').textContent = diff > 0 ? diff : (diff === 0 ? 'Today' : 'Done');
 }
 
