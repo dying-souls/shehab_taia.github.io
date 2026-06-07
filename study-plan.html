@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DEEM — Exam Checklist</title>
+<title>Life Checklist</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -295,8 +295,8 @@
   <header>
     <div class="header-row">
       <div>
-        <div class="module-label">Summer 2026 Exams</div>
-        <h1>DEEM<br><em>Digital Electronics &amp; Electrical Machines</em></h1>
+        <div class="module-label">Summer 2026 </div>
+        <h1>Tasks<br><em>Life &amp; Work</em></h1>
       </div>
       <div class="countdown-block">
         <div class="countdown-num" id="days">—</div>
@@ -314,19 +314,19 @@
     </div>
 
     <div class="legend">
-      <div class="legend-item"><div class="ldot" style="background:var(--de)"></div>Digital Electronics</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--em)"></div>Elec Machines</div>
-      <div class="legend-item"><div class="ldot" style="background:var(--paper)"></div>Past Papers</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--de)"></div>Work</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--em)"></div>Personal</div>
+      <div class="legend-item"><div class="ldot" style="background:var(--paper)"></div>Health</div>
       <div class="legend-item"><div class="ldot" style="background:var(--muted2)"></div>General</div>
     </div>
   </header>
 
   <div class="filter-row">
     <button class="filter-btn active f-all"   onclick="setFilter('all',this)">All</button>
-    <button class="filter-btn f-de"            onclick="setFilter('de',this)">Digital Elec</button>
-    <button class="filter-btn f-em"            onclick="setFilter('em',this)">Elec Machines</button>
-    <button class="filter-btn f-paper"         onclick="setFilter('paper',this)">Past Papers</button>
-    <button class="filter-btn f-todo"          onclick="setFilter('todo',this)">To-do only</button>
+    <button class="filter-btn f-de"            onclick="setFilter('de',this)">Work</button>
+    <button class="filter-btn f-em"            onclick="setFilter('em',this)">Personal</button>
+    <button class="filter-btn f-paper"         onclick="setFilter('paper',this)">Health</button>
+    <button class="filter-btn f-todo"          onclick="setFilter('todo',this)">General</button>
   </div>
 
   <div id="sections-container"></div>
@@ -340,18 +340,13 @@ const SECTIONS = [
   {
     id: 's-de-review',
     type: 'de',
-    label: 'Digital Electronics — Review',
+    label: 'Work',
     pill: 'DE',
     tasks: [
-      { id:'de1', label:'Review Boolean minimisation', sub:'DE3 slides — K-maps, SOP/POS forms' },
-      { id:'de2', label:'Review flip flops', sub:'DE5 SR flip-flops, DE6 D/T/JK — excitation tables, timing diagrams' },
-      { id:'de3', label:'Review FSM fundamentals', sub:'DE7 intro + DE8 flip-flop examples' },
-      { id:'de4', label:'Review FSM examples', sub:'DE9 binary counter, DE10 stepper motor, DE11 unallocated states' },
-      { id:'de5', label:'Review AFSM', sub:'DE15 intro, DE16 code assignment, DE18/19/20 D/T/JK examples' },
-      { id:'de6', label:'Review Verilog', sub:'DE14 slides — structural & behavioural models' },
-      { id:'de7', label:'Review Programmable Logic Devices', sub:'DE13 slides — PLAs, PALs, FPGAs' },
-      { id:'de8', label:'Review Race Hazards', sub:'DE17 slides — static/dynamic hazards, hazard-free covers' },
-      { id:'de9', label:'Review Effective Communication topic', sub:'DE4 slides — check nothing examinable is missed' },
+      { id:'de1', label:'CV Completion', sub:'Insert IDP Project' },
+      { id:'de2', label:'Apply for Interhsips'},
+      { id:'de3', label:'Work on a Passion Project' },
+      
     ]
   },
   {
@@ -370,46 +365,32 @@ const SECTIONS = [
   {
     id: 's-em-review',
     type: 'em',
-    label: 'Electrical Machines — Review',
+    label: 'Personal',
     pill: 'EM',
     tasks: [
-      { id:'em1', label:'Review Week 1–5 lecture notes', sub:'2023 notes — core theory foundations' },
-      { id:'em2', label:'Review Week 7–10 lecture notes', sub:'2023 notes — advanced topics' },
-      { id:'em3', label:'Review Transformers', sub:'DEEM Questions on Transformers + Answers on Transformers' },
-      { id:'em4', label:'Review Rectifiers', sub:'DEEM Questions on Rectifiers + DEEM Answers on Rectifiers (1) & base' },
-      { id:'em5', label:'Review Switched Rectifiers & Inverters', sub:'DEEM Questions on Switched Rectifiers and Inverters + Answers' },
-      { id:'em6', label:'Review Brushed DC Motors', sub:'DEEM Brushed DC Motor Questions + DEEM Brushed DC Motors Answers' },
-      { id:'em7', label:'Review Brushless Electric Motors', sub:'DEEM Brushless Electric Motors Questions + Answers' },
-      { id:'em8', label:'Review Tutorial 1', sub:'Tutorial 1 + Solutions 1' },
-      { id:'em9', label:'Review magnetic materials in motors', sub:'Self study sheet — magnetic materials in motors 2023' },
-      { id:'em10', label:'Review time constants', sub:'Self study sheet — time constants (both versions)' },
+      { id:'em1', label:'How do I spend the holidays', sub:'Plan Activities' },
     ]
   },
   {
     id: 's-papers',
     type: 'paper',
-    label: 'Past Papers & Exam Papers',
+    label: 'Health',
     pill: 'Paper',
     tasks: [
-      { id:'pp1', label:'Past Paper 1', sub:'Timed attempt — then self-mark' },
-      { id:'pp2', label:'Past Paper 2', sub:'Timed attempt — then self-mark' },
-      { id:'pp3', label:'Past Paper 3', sub:'Timed attempt — then self-mark' },
-      { id:'pp4', label:'Past Paper 4', sub:'Timed attempt — then self-mark' },
-      { id:'pp5', label:'Past Paper 5', sub:'Timed attempt — then self-mark' },
-      { id:'pp6', label:'Past Paper 6', sub:'Timed attempt — then self-mark' },
-      { id:'pp7', label:'Exam Paper DEEM 2023', sub:'Attempt then read Generic Exam Feedback 2023' },
-      { id:'pp8', label:'Exam Paper DEEM 2024', sub:'Attempt then read Generic Feedback 2024' },
-      { id:'pp9', label:'Exam Paper DEEM 2025', sub:'Attempt then read Generic Feedback DEEM 2025' },
+      { id:'pp1', label:'Thromboctypenia Appointment, sub:'' },
+      { id:'pp2', label:'Arm Appointment', sub:'' },
+      { id:'pp3', label:'Dentist Appointment', sub:' },
+      { id:'pp4', label:'Dermatologist Appointment', sub:'' },
+
     ]
   },
   {
     id: 's-gap',
     type: 'both',
-    label: 'Gap-filling & Final Check',
+    label: 'General',
     pill: '—',
     tasks: [
-      { id:'gp1', label:'Revisit all flagged weak spots', sub:'Any topic you got wrong or were unsure on during practice' },
-      { id:'gp2', label:'Light skim of all notes — no new problems', sub:'Night before the exam only' },
+      { id:'gp1', label:'Read Books', sub:'' },
     ]
   }
 ];
