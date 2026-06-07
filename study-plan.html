@@ -301,7 +301,7 @@
       <div class="countdown-block">
         <div class="countdown-num" id="days">—</div>
         <div class="countdown-label">days to go</div>
-        <div class="countdown-label" style="margin-top:4px;color:var(--exam)">Exam: 3 Jun</div>
+        <div class="countdown-label" style="margin-top:4px;color:var(--exam)">End: 30 Sep</div>
       </div>
     </div>
 
@@ -344,8 +344,8 @@ const SECTIONS = [
     pill: 'DE',
     tasks: [
       { id:'de1', label:'CV Completion', sub:'Insert IDP Project' },
-      { id:'de2', label:'Apply for Interhsips'},
-      { id:'de3', label:'Work on a Passion Project' },
+      { id:'de2', label:'Apply for Interhsips',sub:''},
+      { id:'de3', label:'Work on a Passion Project',sub:'' },
       
     ]
   },
@@ -379,7 +379,7 @@ const SECTIONS = [
     tasks: [
       { id:'pp1', label:'Thromboctypenia Appointment, sub:'' },
       { id:'pp2', label:'Arm Appointment', sub:'' },
-      { id:'pp3', label:'Dentist Appointment', sub:' },
+      { id:'pp3', label:'Dentist Appointment', sub:' '},
       { id:'pp4', label:'Dermatologist Appointment', sub:'' },
 
     ]
@@ -489,7 +489,7 @@ function applyFilter() {
 }
 
 function updateCountdown() {
-  const exam = new Date('2026-06-03T00:00:00');
+  const exam = new Date('2026-30-09T00:00:00');
   const now = new Date();
   const diff = Math.ceil((exam - now) / 86400000);
   document.getElementById('days').textContent = diff > 0 ? diff : (diff === 0 ? 'Today' : 'Done');
